@@ -7,11 +7,11 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PMCoreController : ControllerBase
+    public class PM_CoreController : ControllerBase
     {
         private readonly ICoreService _service;
 
-        public PMCoreController(ICoreService service)
+        public PM_CoreController(ICoreService service)
         {
             _service = service;
         }

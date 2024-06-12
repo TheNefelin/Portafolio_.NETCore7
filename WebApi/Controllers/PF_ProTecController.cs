@@ -11,11 +11,11 @@ namespace WebApi.Controllers
     [Authorize(Roles = UserRole.Admin)]
     [Route("api/ProTec")]
     [ApiController]
-    public class PFProTecController : ControllerBase
+    public class PF_ProTecController : ControllerBase
     {
         private readonly ISingleService<ProTecDTO> _service;
 
-        public PFProTecController(ISingleService<ProTecDTO> service)
+        public PF_ProTecController(ISingleService<ProTecDTO> service)
         {
             _service = service;
         }

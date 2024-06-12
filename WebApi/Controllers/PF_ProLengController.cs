@@ -11,11 +11,11 @@ namespace WebApi.Controllers
     [Authorize(Roles = UserRole.Admin)]
     [Route("api/ProLeng")]
     [ApiController]
-    public class PFProLengController : ControllerBase
+    public class PF_ProLengController : ControllerBase
     {
         private readonly ISingleService<ProLengDTO> _service;
 
-        public PFProLengController(ISingleService<ProLengDTO> service)
+        public PF_ProLengController(ISingleService<ProLengDTO> service)
         {
             _service = service;
         }
