@@ -1,0 +1,30 @@
+﻿@page "/login"
+@using BibliotecaAuth.DTOs
+
+<h3>Login</h3>
+
+<form>
+    <!-- Email input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input @bind="loginDto.Email" type="email" id="form2Example1" class="form-control" />
+        <label class="form-label" for="form2Example1">Email address</label>
+    </div>
+
+    <!-- Password input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input @bind="loginDto.Clave" type="password" id="form2Example2" class="form-control" />
+        <label class="form-label" for="form2Example2">Password</label>
+    </div>
+
+    <!-- Submit button -->
+    <button @onclick="LoginApp" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Sign in</button>
+</form>
+
+@code {
+    private LoginDTO loginDto = new();
+
+    private void LoginApp()
+    {
+        
+    }
+}
