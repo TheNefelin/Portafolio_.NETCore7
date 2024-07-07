@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibliotecaAuth", "Bibliotec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibliotecaPasswordManager", "BibliotecaPasswordManager\BibliotecaPasswordManager.csproj", "{490E6D78-F0CA-432B-81FA-FB6A5C089E30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiBlazor", "MauiBlazor\MauiBlazor.csproj", "{438DB2FA-5289-47AA-9A18-5BE3C58F1D87}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,12 +33,6 @@ Global
 		{490E6D78-F0CA-432B-81FA-FB6A5C089E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{490E6D78-F0CA-432B-81FA-FB6A5C089E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{490E6D78-F0CA-432B-81FA-FB6A5C089E30}.Release|Any CPU.Build.0 = Release|Any CPU
-		{438DB2FA-5289-47AA-9A18-5BE3C58F1D87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{438DB2FA-5289-47AA-9A18-5BE3C58F1D87}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{438DB2FA-5289-47AA-9A18-5BE3C58F1D87}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{438DB2FA-5289-47AA-9A18-5BE3C58F1D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{438DB2FA-5289-47AA-9A18-5BE3C58F1D87}.Release|Any CPU.Build.0 = Release|Any CPU
-		{438DB2FA-5289-47AA-9A18-5BE3C58F1D87}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
