@@ -7,10 +7,9 @@ using WebApi.Utils;
 
 namespace WebApi.Controllers
 {
-    //[Route("api/[controller]")]
-    [Authorize(Roles = UserRole.Admin)]
-    [Route("api/EnlaceGrp")]
+    [Route("api/enlace-grp")]
     [ApiController]
+    [Authorize(Roles = $"{UserRole.ADMIN}, {UserRole.USER}")]
     public class PF_EnlaceGrpController : ControllerBase
     {
         private readonly IBaseService<EnlaceGrpDTO_Get, EnlaceGrpDTO_PostPut> _service;
@@ -36,12 +35,12 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpGet("{Id}")]
-        public async Task<IActionResultApi<EnlaceGrpDTO_Get>> GetById(int Id, CancellationToken cancellationToken)
+        [HttpGet("{id}")]
+        public async Task<IActionResultApi<EnlaceGrpDTO_Get>> GetById(int id, CancellationToken cancellationToken)
         {
             try
             {
-                var respData = await _service.GetById(Id, cancellationToken);
+                var respData = await _service.GetById(id, cancellationToken);
 
                 if (respData == null)
                     return new ActionResultApi<EnlaceGrpDTO_Get>(400, "El Id No Existe");
@@ -54,6 +53,7 @@ namespace WebApi.Controllers
             }
         }
 
+        [Authorize(Roles = UserRole.ADMIN)]
         [HttpPost]
         public async Task<IActionResultApi<EnlaceGrpDTO_Get>> Insert(EnlaceGrpDTO_PostPut dto, CancellationToken cancellationToken)
         {
@@ -73,12 +73,13 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPut("{Id}")]
-        public async Task<IActionResultApi<EnlaceGrpDTO_Get>> Update(int Id, EnlaceGrpDTO_PostPut dto, CancellationToken cancellationToken)
+        [Authorize(Roles = UserRole.ADMIN)]
+        [HttpPut("{id}")]
+        public async Task<IActionResultApi<EnlaceGrpDTO_Get>> Update(int id, EnlaceGrpDTO_PostPut dto, CancellationToken cancellationToken)
         {
             try
             {
-                var respDB = await _service.Update(Id, dto, cancellationToken);
+                var respDB = await _service.Update(id, dto, cancellationToken);
 
                 if (respDB.StatusCode != 202)
                     return new ActionResultApi<EnlaceGrpDTO_Get>(respDB.StatusCode, respDB.Msge);
@@ -92,12 +93,13 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpDelete("{Id}")]
-        public async Task<IActionResultApi> Delete(int Id, CancellationToken cancellationToken)
+        [Authorize(Roles = UserRole.ADMIN)]
+        [HttpDelete("{id}")]
+        public async Task<IActionResultApi> Delete(int id, CancellationToken cancellationToken)
         {
             try
             {
-                var respDB = await _service.Delete(Id, cancellationToken);
+                var respDB = await _service.Delete(id, cancellationToken);
 
                 if (respDB.StatusCode != 202)
                     return new ActionResultApi(respDB.StatusCode, respDB.Msge);

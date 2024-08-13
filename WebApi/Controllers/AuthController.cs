@@ -11,7 +11,7 @@ using System.Text;
 
 namespace WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -29,7 +29,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("Registrarse")]
+        [Route("registrarse")]
         public async Task<IActionResultApi> Registrarse(RegisterDTO register, CancellationToken cancellationToken)
         {
             if (register.Clave1 != register.Clave2)
@@ -62,7 +62,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("IniciarSesion")]
+        [Route("iniciar-sesion")]
         public async Task<IActionResultApi<AuthToken>> IniciarSesion(LoginDTO login, CancellationToken cancellationToken)
         {
             var loginCredential = await _authService.Login(login.Email, cancellationToken);

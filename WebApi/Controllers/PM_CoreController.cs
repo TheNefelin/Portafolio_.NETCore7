@@ -5,7 +5,7 @@ using WebApi.Utils;
 
 namespace WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/core")]
     [ApiController]
     public class PM_CoreController : ControllerBase
     {
@@ -16,12 +16,12 @@ namespace WebApi.Controllers
             _service = service;
         }
          
-        [HttpGet("{Deco},{Id_usuario}")]
-        public async Task<IActionResultApi<IEnumerable<CoreDTO_Get>>> GetAll(string Deco, string Id_usuario, CancellationToken cancellationToken)
+        [HttpGet("{deco},{id_usuario}")]
+        public async Task<IActionResultApi<IEnumerable<CoreDTO_Get>>> GetAll(string deco, string id_usuario, CancellationToken cancellationToken)
         {
             try
             {
-                var respData = await _service.GetAll(Deco, Id_usuario, cancellationToken);
+                var respData = await _service.GetAll(deco, id_usuario, cancellationToken);
 
                 return new ActionResultApi<IEnumerable<CoreDTO_Get>>(200, "OK", respData);
             }
@@ -31,12 +31,12 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost("{Deco}")]
-        public async Task<IActionResultApi> Insert(string Deco, CoreDTO_PostPut dto, CancellationToken cancellationToken)
+        [HttpPost("{deco}")]
+        public async Task<IActionResultApi> Insert(string deco, CoreDTO_PostPut dto, CancellationToken cancellationToken)
         {
             try
             {
-                var respDB = await _service.Insert(Deco, dto, cancellationToken);
+                var respDB = await _service.Insert(deco, dto, cancellationToken);
 
                 if (respDB.StatusCode != 201)
                     return new ActionResultApi(respDB.StatusCode, respDB.Msge);
@@ -49,12 +49,12 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPut("{Id},{Deco}")]
-        public async Task<IActionResultApi> Update(int Id , string Deco, CoreDTO_PostPut dto, CancellationToken cancellationToken)
+        [HttpPut("{id},{deco}")]
+        public async Task<IActionResultApi> Update(int id, string deco, CoreDTO_PostPut dto, CancellationToken cancellationToken)
         {
             try
             {
-                var respDB = await _service.Update(Id, Deco, dto, cancellationToken);
+                var respDB = await _service.Update(id, deco, dto, cancellationToken);
 
                 if (respDB.StatusCode != 202)
                     return new ActionResultApi(respDB.StatusCode, respDB.Msge);
@@ -67,12 +67,12 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpDelete("{Id},{Id_usuario}")]
-        public async Task<IActionResultApi> Delete(int Id, string Id_usuario, CancellationToken cancellationToken)
+        [HttpDelete("{id},{id_usuario}")]
+        public async Task<IActionResultApi> Delete(int id, string id_usuario, CancellationToken cancellationToken)
         {
             try
             {
-                var respDB = await _service.Delete(Id, Id_usuario, cancellationToken);
+                var respDB = await _service.Delete(id, id_usuario, cancellationToken);
 
                 if (respDB.StatusCode != 202)
                     return new ActionResultApi(respDB.StatusCode, respDB.Msge);

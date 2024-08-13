@@ -3,7 +3,7 @@ using Dapper;
 using System.Data;
 using WebApi.Utils;
 
-namespace WebApi.Services
+namespace WebApi.Services.Imp
 {
     public class CoreService : ICoreService
     {

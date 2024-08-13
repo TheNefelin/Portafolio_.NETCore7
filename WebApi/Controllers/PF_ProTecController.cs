@@ -7,10 +7,9 @@ using WebApi.Utils;
 
 namespace WebApi.Controllers
 {
-    //[Route("api/[controller]")]
-    [Authorize(Roles = UserRole.Admin)]
-    [Route("api/ProTec")]
+    [Route("api/pro-tec")]
     [ApiController]
+    [Authorize(Roles = $"{UserRole.ADMIN}, {UserRole.USER}")]
     public class PF_ProTecController : ControllerBase
     {
         private readonly ISingleService<ProTecDTO> _service;
@@ -35,6 +34,7 @@ namespace WebApi.Controllers
             }
         }
 
+        [Authorize(Roles = UserRole.ADMIN)]
         [HttpPost]
         public async Task<IActionResultApi<ProTecDTO>> Insert(ProTecDTO dto, CancellationToken cancellationToken)
         {
@@ -53,6 +53,7 @@ namespace WebApi.Controllers
             }
         }
 
+        [Authorize(Roles = UserRole.ADMIN)]
         [HttpDelete]
         public async Task<IActionResultApi> Delete(ProTecDTO dto, CancellationToken cancellationToken)
         {

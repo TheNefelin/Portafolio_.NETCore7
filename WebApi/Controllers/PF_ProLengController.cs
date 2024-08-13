@@ -7,10 +7,9 @@ using WebApi.Utils;
 
 namespace WebApi.Controllers
 {
-    //[Route("api/[controller]")]
-    [Authorize(Roles = UserRole.Admin)]
-    [Route("api/ProLeng")]
+    [Route("api/pro-leng")]
     [ApiController]
+    [Authorize(Roles = $"{UserRole.ADMIN}, {UserRole.USER}")]
     public class PF_ProLengController : ControllerBase
     {
         private readonly ISingleService<ProLengDTO> _service;
@@ -35,6 +34,7 @@ namespace WebApi.Controllers
             }
         }
 
+        [Authorize(Roles = UserRole.ADMIN)]
         [HttpPost]
         public async Task<IActionResultApi<ProLengDTO>> Insert(ProLengDTO dto, CancellationToken cancellationToken)
         {
@@ -53,6 +53,7 @@ namespace WebApi.Controllers
             }
         }
 
+        [Authorize(Roles = UserRole.ADMIN)]
         [HttpDelete]
         public async Task<IActionResultApi> Delete(ProLengDTO dto, CancellationToken cancellationToken)
         {

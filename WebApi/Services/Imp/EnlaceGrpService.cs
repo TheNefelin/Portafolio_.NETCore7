@@ -3,7 +3,7 @@ using Dapper;
 using System.Data;
 using WebApi.Utils;
 
-namespace WebApi.Services
+namespace WebApi.Services.Imp
 {
     public class EnlaceGrpService : IBaseService<EnlaceGrpDTO_Get, EnlaceGrpDTO_PostPut>
     {
@@ -27,14 +27,14 @@ namespace WebApi.Services
 
         public async Task<EnlaceGrpDTO_Get?> GetById(int Id, CancellationToken cancellationToken)
         {
-           return await _connection.QueryFirstOrDefaultAsync<EnlaceGrpDTO_Get>(
-                new CommandDefinition(
-                    $"PF_EnlaceGrp_GetById",
-                    new { Id },
-                    commandType: CommandType.StoredProcedure,
-                    transaction: default,
-                    cancellationToken: cancellationToken
-            ));
+            return await _connection.QueryFirstOrDefaultAsync<EnlaceGrpDTO_Get>(
+                 new CommandDefinition(
+                     $"PF_EnlaceGrp_GetById",
+                     new { Id },
+                     commandType: CommandType.StoredProcedure,
+                     transaction: default,
+                     cancellationToken: cancellationToken
+             ));
         }
 
         public async Task<ResponseDB> Insert(EnlaceGrpDTO_PostPut dto, CancellationToken cancellationToken)

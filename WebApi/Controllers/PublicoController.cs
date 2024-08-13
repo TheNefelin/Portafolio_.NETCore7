@@ -5,7 +5,7 @@ using WebApi.Utils;
 
 namespace WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/publico")]
     [ApiController]
     public class PublicoController : ControllerBase
     {
@@ -42,7 +42,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("Enlace")]
+        [Route("enlaces")]
         public async Task<IActionResultApi<IEnumerable<EnlaceDTO>>> GetAllEnlaces(CancellationToken cancellationToken)
         {
             try
@@ -73,7 +73,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("Youtube")]
+        [Route("youtube")]
         public async Task<IActionResultApi<IEnumerable<YoutubeDTO_Get>>> GetAllYoutube(CancellationToken cancellationToken)
         {
             try
@@ -90,7 +90,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("Proyecto")]
+        [Route("proyecto")]
         public async Task<IActionResultApi<IEnumerable<ProyectoDTO>>> GetAllProyecto(CancellationToken cancellationToken)
         {
             try
