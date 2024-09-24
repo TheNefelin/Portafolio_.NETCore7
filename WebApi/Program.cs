@@ -1,3 +1,5 @@
+using ApplicationClassLibrary.Interfaces;
+using ApplicationClassLibrary.Services;
 using BibliotecaPortafolio.DTOs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;
@@ -12,12 +14,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+// Dependency injection ----------------------------------------------
+builder.Services.AddScoped<IAuthPassword, AuthPassword>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 // Servicio Conexion -------------------------------------------------
 builder.Services.AddTransient<IDbConnection>(options =>
     new SqlConnection(builder.Configuration.GetConnectionString("RutaWebSQL"))
 );
+// -------------------------------------------------------------------
 
-builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IBaseService<EnlaceGrpDTO_Get, EnlaceGrpDTO_PostPut>, EnlaceGrpService>();
 builder.Services.AddTransient<IBaseService<EnlaceDTO_Get, EnlaceDTO_PostPut>, EnlaceService>();
 builder.Services.AddTransient<IBaseService<YoutubeDTO_Get, YoutubeDTO_PostPut>, YoutubeService>();

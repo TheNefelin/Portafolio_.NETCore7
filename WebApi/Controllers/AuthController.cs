@@ -1,23 +1,19 @@
-﻿using BibliotecaAuth.DTOs;
-using Microsoft.AspNetCore.Mvc;
-using WebApi.Utils;
-using BibliotecaAuth.Utils;
-using BibliotecaAuth.Classes;
-using WebApi.Services;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using ApplicationClassLibrary.DTOs;
+using ApplicationClassLibrary.Interfaces;
 
 namespace WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _configuration;
         private readonly IAuthService _authService;
-        private readonly AuthPassword _authPassword;
 
         public AuthController(
             IConfiguration configuration,
@@ -25,86 +21,69 @@ namespace WebApi.Controllers
         {
             _configuration = configuration;
             _authService = authService;
-            _authPassword = new AuthPassword();
         }
 
         [HttpPost]
-        [Route("Registrarse")]
-        public async Task<IActionResultApi> Registrarse(RegisterDTO register, CancellationToken cancellationToken)
+        [Route("register")]
+        public async Task<IActionResult> Register(RegisterDTO registerDTO, CancellationToken cancellationToken)
         {
-            if (register.Clave1 != register.Clave2)
-                return new ActionResultApi(400, "Las Contraseñas no Coinciden");
+            var response = await _authService.RegisterAsync(registerDTO, cancellationToken);
 
-            (string hash, string salt) = _authPassword.HashPassword(register.Clave1);
+            if (response.StatusCode == 201)
+                return CreatedAtAction(nameof(Register), response);
 
-            var newRegister = new NewRegister
-            {
-                Id = Guid.NewGuid().ToString(),
-                Email = register.Email.ToLower(),
-                Usuario = register.Email.ToLower(),
-                AuthHash = hash,
-                AuthSalt = salt,
-            };
-
-            try
-            {
-                var respDB = await _authService.Register(newRegister, cancellationToken);
-
-                if (respDB.StatusCode != 201)
-                    return new ActionResultApi(respDB.StatusCode, respDB.Msge);
-
-                return new ActionResultApi(201, respDB.Msge);
-            }
-            catch (Exception ex)
-            {
-                return new ActionResultApi(500, $"Error: {ex.Message}");
-            }
+            return StatusCode(response.StatusCode, response);
         }
 
         [HttpPost]
-        [Route("IniciarSesion")]
-        public async Task<IActionResultApi<AuthToken>> IniciarSesion(LoginDTO login, CancellationToken cancellationToken)
+        [Route("login")]
+        public async Task<IActionResult> Login(LoginDTO loginDTO, CancellationToken cancellationToken)
         {
-            var loginCredential = await _authService.Login(login.Email, cancellationToken);
+            var response = await _authService.LoginAsync(loginDTO, cancellationToken);
 
-            if (loginCredential == null)
-                return new ActionResultApi<AuthToken>(401, "Usuario o Contraseña Incorrecta");
+            if (response.StatusCode != 200)
+                return StatusCode(response.StatusCode, response);
 
-            if (!_authPassword.VerifyPassword(login.Clave, loginCredential.AuthHash, loginCredential.AuthSalt))
-                return new ActionResultApi<AuthToken>(401, "Usuario o Contraseña Incorrecta");
+            if (response.Data is null)
+                return StatusCode(500, "Error al procesar los datos del usuario.");
 
-            var authJwt = _configuration.GetSection("JWT").Get<AuthJwt>()!;
+            var token = GenerateJwtToken(response.Data);
 
+            return Ok(new
+            {
+                StatusCode = response.StatusCode,
+                Message = response.Message,
+                UserID = response.Data.Id,
+                ExpireMin = _configuration["JWT:ExpireMin"],
+                Token = token
+            });
+        }
+
+        private string GenerateJwtToken(UserDTO user)
+        {
+            // Define los claims (información contenida en el token)
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
-                new Claim(JwtRegisteredClaimNames.Sub, authJwt.Subject),
-                new Claim(JwtRegisteredClaimNames.Name, login.Email),
-                new Claim(JwtRegisteredClaimNames.Email, login.Email),
-                new Claim(ClaimTypes.Role, loginCredential.Perfil)
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authJwt.Key));
-            var singIng = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            // Genera una clave simétrica a partir del secret en appsettings.json
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            // Configuración del token: audiencia, emisor, expiración y firma
             var token = new JwtSecurityToken(
-                    issuer: authJwt.Issuer,
-                    audience: authJwt.Audience,
-                    claims: claims,
-                    expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(authJwt.ExpireMin)),
-                    signingCredentials: singIng
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(Convert.ToInt32(_configuration["JWT:ExpireMin"])),
+                signingCredentials: creds
             );
 
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-
-            var prueba = new AuthToken
-            {
-                ExpireMin = authJwt.ExpireMin,
-                Token = tokenString
-            };
-
-            return new ActionResultApi<AuthToken>(200, "Usuario Ingresado Correctamente", prueba);
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

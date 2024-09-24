@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+﻿using ApplicationClassLibrary.Interfaces;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Security.Cryptography;
 
-namespace BibliotecaAuth.Utils
+namespace ApplicationClassLibrary.Services
 {
-    public class AuthPassword
+    public class AuthPassword : IAuthPassword
     {
         public (string Hash, string Salt) HashPassword(string password)
         {
@@ -33,3 +34,4 @@ namespace BibliotecaAuth.Utils
         }
     }
 }
+

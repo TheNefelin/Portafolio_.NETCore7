@@ -1,5 +1,4 @@
-﻿using BibliotecaAuth.Classes;
-using BibliotecaPortafolio.DTOs;
+﻿using BibliotecaPortafolio.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Services;
@@ -8,7 +7,6 @@ using WebApi.Utils;
 namespace WebApi.Controllers
 {
     //[Route("api/[controller]")]
-    [Authorize(Roles = UserRole.Admin)]
     [Route("api/Youtube")]
     [ApiController]
     public class PF_YoutubeController : ControllerBase
