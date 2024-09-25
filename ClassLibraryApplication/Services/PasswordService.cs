@@ -1,8 +1,8 @@
-﻿using ApplicationClassLibrary.Interfaces;
+﻿using ClassLibraryApplication.Interfaces;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Security.Cryptography;
 
-namespace ApplicationClassLibrary.Services
+namespace ClassLibraryApplication.Services
 {
     public class PasswordService : IPasswordService
     {

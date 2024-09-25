@@ -1,9 +1,9 @@
-﻿using ApplicationClassLibrary.DTOs;
-using ApplicationClassLibrary.Interfaces;
+﻿using ClassLibraryApplication.DTOs;
+using ClassLibraryApplication.Interfaces;
 using Dapper;
 using System.Data;
 
-namespace ApplicationClassLibrary.Services
+namespace ClassLibraryApplication.Services
 {
     public class SecretService : ISecretService
     {

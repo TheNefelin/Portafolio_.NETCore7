@@ -3,8 +3,8 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using ApplicationClassLibrary.DTOs;
-using ApplicationClassLibrary.Interfaces;
+using ClassLibraryApplication.Interfaces;
+using ClassLibraryApplication.DTOs;
 
 namespace WebApi.Controllers
 {

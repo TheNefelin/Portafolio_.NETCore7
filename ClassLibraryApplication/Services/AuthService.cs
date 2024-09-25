@@ -1,10 +1,10 @@
-﻿using ApplicationClassLibrary.DTOs;
-using ApplicationClassLibrary.Entities;
-using ApplicationClassLibrary.Interfaces;
+﻿using ClassLibraryApplication.DTOs;
+using ClassLibraryApplication.Entities;
+using ClassLibraryApplication.Interfaces;
 using Dapper;
 using System.Data;
 
-namespace ApplicationClassLibrary.Services
+namespace ClassLibraryApplication.Services
 {
     public class AuthService : IAuthService
     {

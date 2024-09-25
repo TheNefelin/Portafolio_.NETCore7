@@ -1,4 +1,4 @@
-﻿namespace ApplicationClassLibrary.DTOs
+﻿namespace ClassLibraryApplication.DTOs
 {
     public class ResponseApiDTO<T>
     {

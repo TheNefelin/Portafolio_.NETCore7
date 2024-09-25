@@ -1,4 +1,4 @@
-﻿namespace ApplicationClassLibrary.Entities
+﻿namespace ClassLibraryApplication.Entities
 {
     public class AuthUserEntity
     {

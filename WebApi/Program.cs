@@ -1,5 +1,5 @@
-using ApplicationClassLibrary.Interfaces;
-using ApplicationClassLibrary.Services;
+using ClassLibraryApplication.Interfaces;
+using ClassLibraryApplication.Services;
 using BibliotecaPortafolio.DTOs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;

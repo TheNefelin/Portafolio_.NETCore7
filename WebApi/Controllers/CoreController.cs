@@ -1,5 +1,5 @@
-﻿using ApplicationClassLibrary.DTOs;
-using ApplicationClassLibrary.Interfaces;
+﻿using ClassLibraryApplication.DTOs;
+using ClassLibraryApplication.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

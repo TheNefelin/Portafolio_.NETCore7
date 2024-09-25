@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ApplicationClassLibrary.DTOs
+namespace ClassLibraryApplication.DTOs
 {
     public class AuthLoginDTO
     {

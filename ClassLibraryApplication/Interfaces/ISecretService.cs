@@ -1,6 +1,6 @@
-﻿using ApplicationClassLibrary.DTOs;
+﻿using ClassLibraryApplication.DTOs;
 
-namespace ApplicationClassLibrary.Interfaces
+namespace ClassLibraryApplication.Interfaces
 {
     public interface ISecretService
     {

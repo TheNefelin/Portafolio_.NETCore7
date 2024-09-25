@@ -4,8 +4,9 @@
 > [Generate SHA256 Key](https://tools.keycdn.com/sha256-online-generator)
 
 ## Dependencies
-### ApplicationClassLibrary
+### ClassLibraryApplication
 ```
+Dapper
 Microsoft.AspNetCore.Cryptography.KeyDerivation
 ```
 ### WebApi

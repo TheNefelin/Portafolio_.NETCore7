@@ -14,9 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ApplicationClassLibrary\ApplicationClassLibrary.csproj" />
     <ProjectReference Include="..\BibliotecaPasswordManager\BibliotecaPasswordManager.csproj" />
     <ProjectReference Include="..\BibliotecaPF\BibliotecaPortafolio.csproj" />
+    <ProjectReference Include="..\ClassLibraryApplication\ClassLibraryApplication.csproj" />
   </ItemGroup>
 
 </Project>
