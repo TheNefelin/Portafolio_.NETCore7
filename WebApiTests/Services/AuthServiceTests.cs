@@ -14,7 +14,7 @@ namespace WebApiTests.Services
     public class AuthServiceTests
     {
         private Mock<IDbConnection> _dbConnectionMock;
-        private Mock<IAuthPassword> _authPasswordMock;
+        private Mock<IPasswordService> _authPasswordMock;
         private AuthService _authService;
 
         [SetUp]
@@ -22,7 +22,7 @@ namespace WebApiTests.Services
         {
             // Inicializa el mock de los servicios
             _dbConnectionMock = new Mock<IDbConnection>();
-            _authPasswordMock = new Mock<IAuthPassword>();
+            _authPasswordMock = new Mock<IPasswordService>();
 
             _authService = new AuthService(_dbConnectionMock.Object, _authPasswordMock.Object);
         }
@@ -31,15 +31,15 @@ namespace WebApiTests.Services
         public async Task LoginAsync_ReturnsUser_WhenCredentialsAreValid()
         {
             // Arrange
-            var loginDto = new LoginDTO { Email = "test@example.com", Password = "Password123" };
-            var userEntity = new UserEntity { Id = "user-id", Email = "test@example.com", Hash1 = "hashedPassword", Salt1 = "salt" };
+            var loginDto = new AuthLoginDTO { Email = "test@example.com", Password = "Password123" };
+            var userEntity = new AuthUserEntity { Id = "user-id", Email = "test@example.com", Hash1 = "hashedPassword", Salt1 = "salt" };
 
             // Simulamos que el password es correcto
             _authPasswordMock
                 .Setup(p => p.VerifyPassword(It.IsAny<string>(), userEntity.Hash1, userEntity.Salt1))
                 .Returns(true);
 
-            _dbConnectionMock.SetupDapperAsync(c => c.QueryFirstOrDefaultAsync<UserEntity>(
+            _dbConnectionMock.SetupDapperAsync(c => c.QueryFirstOrDefaultAsync<AuthUserEntity>(
                 It.IsAny<string>(),
                 It.IsAny<object>(),
                 null,
@@ -61,16 +61,16 @@ namespace WebApiTests.Services
         public async Task LoginAsync_Returns401_WhenUserNotFound()
         {
             // Arrange
-            var loginDto = new LoginDTO { Email = "test@example.com", Password = "Password123" };
+            var loginDto = new AuthLoginDTO { Email = "test@example.com", Password = "Password123" };
 
             // Simulamos que la consulta no encuentra el usuario
-            _dbConnectionMock.SetupDapperAsync(c => c.QueryFirstOrDefaultAsync<UserEntity>(
+            _dbConnectionMock.SetupDapperAsync(c => c.QueryFirstOrDefaultAsync<AuthUserEntity>(
                 It.IsAny<string>(),
                 It.IsAny<object>(),
                 null,
                 null,
                 CommandType.StoredProcedure))
-                .ReturnsAsync((UserEntity)null); // Retornamos null
+                .ReturnsAsync((AuthUserEntity)null); // Retornamos null
 
             // Act
             var result = await _authService.LoginAsync(loginDto, CancellationToken.None);

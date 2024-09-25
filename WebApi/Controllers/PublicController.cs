@@ -7,9 +7,9 @@ namespace WebApi.Controllers
 {
     [Route("api/publico")]
     [ApiController]
-    public class PublicoController : ControllerBase
+    public class PublicController : ControllerBase
     {
-        private readonly ILogger<PublicoController> _logger;
+        private readonly ILogger<PublicController> _logger;
         private readonly IBaseService<EnlaceGrpDTO_Get, EnlaceGrpDTO_PostPut> _enlaceGrpService;
         private readonly IBaseService<EnlaceDTO_Get, EnlaceDTO_PostPut> _enlaceService;
         private readonly IBaseService<YoutubeDTO_Get, YoutubeDTO_PostPut> _youtubeService;
@@ -19,8 +19,8 @@ namespace WebApi.Controllers
         private readonly ISingleService<ProLengDTO> _lpService;
         private readonly ISingleService<ProTecDTO> _tpService;
 
-        public PublicoController(
-            ILogger<PublicoController> logger,
+        public PublicController(
+            ILogger<PublicController> logger,
             IBaseService<EnlaceGrpDTO_Get, EnlaceGrpDTO_PostPut> enlaceGrpService,
             IBaseService<EnlaceDTO_Get, EnlaceDTO_PostPut> enlaceService,
             IBaseService<YoutubeDTO_Get, YoutubeDTO_PostPut> youtubeService,

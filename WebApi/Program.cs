@@ -16,8 +16,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 // Dependency injection ----------------------------------------------
-builder.Services.AddScoped<IAuthPassword, AuthPassword>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ISecretService, SecretService>();
 
 // Servicio Conexion -------------------------------------------------
 builder.Services.AddTransient<IDbConnection>(options =>
@@ -33,7 +34,7 @@ builder.Services.AddTransient<IBaseService<TecnologiaDTO_Get, TecnologiaDTO_Post
 builder.Services.AddTransient<IBaseService<LenguajeDTO_Get, LenguajeDTO_PostPut>, LenguajeService>();
 builder.Services.AddTransient<ISingleService<ProTecDTO>, ProTecService>();
 builder.Services.AddTransient<ISingleService<ProLengDTO>, ProLengService>();
-builder.Services.AddTransient<ICoreService, CoreService>();
+
 
 // Servicio JWT ------------------------------------------------------
 builder.Services
@@ -50,7 +51,6 @@ builder.Services
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]!)),
         };
     });
-
 // -------------------------------------------------------------------
 
 builder.Services.AddControllers();
@@ -77,7 +77,6 @@ builder.Services.AddSwaggerGen(options =>
 
     options.OperationFilter<SwaggerApiPadLockFilter>();
 });
-
 // -------------------------------------------------------------------
 
 var app = builder.Build();

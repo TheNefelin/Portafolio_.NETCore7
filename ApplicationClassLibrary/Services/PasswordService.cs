@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 namespace ApplicationClassLibrary.Services
 {
-    public class AuthPassword : IAuthPassword
+    public class PasswordService : IPasswordService
     {
         public (string Hash, string Salt) HashPassword(string password)
         {

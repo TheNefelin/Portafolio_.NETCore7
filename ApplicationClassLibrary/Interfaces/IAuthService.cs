@@ -4,7 +4,7 @@ namespace ApplicationClassLibrary.Interfaces
 {
     public interface IAuthService
     {
-        Task<ResponseApiDTO<object>> RegisterAsync(RegisterDTO registerDTO, CancellationToken cancellationToken);
-        Task<ResponseApiDTO<UserDTO>> LoginAsync(LoginDTO loginDTO, CancellationToken cancellationToken);
+        Task<ResponseApiDTO<object>> RegisterAsync(AuthRegisterDTO registerDTO, CancellationToken cancellationToken);
+        Task<ResponseApiDTO<AuthUserDTO>> LoginAsync(AuthLoginDTO loginDTO, CancellationToken cancellationToken);
     }
 }

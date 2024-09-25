@@ -25,7 +25,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register(RegisterDTO registerDTO, CancellationToken cancellationToken)
+        public async Task<IActionResult> Register(AuthRegisterDTO registerDTO, CancellationToken cancellationToken)
         {
             var response = await _authService.RegisterAsync(registerDTO, cancellationToken);
 
@@ -37,7 +37,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login(LoginDTO loginDTO, CancellationToken cancellationToken)
+        public async Task<IActionResult> Login(AuthLoginDTO loginDTO, CancellationToken cancellationToken)
         {
             var response = await _authService.LoginAsync(loginDTO, cancellationToken);
 
@@ -51,15 +51,13 @@ namespace WebApi.Controllers
 
             return Ok(new
             {
-                StatusCode = response.StatusCode,
-                Message = response.Message,
-                UserID = response.Data.Id,
+                response,
                 ExpireMin = _configuration["JWT:ExpireMin"],
                 Token = token
             });
         }
 
-        private string GenerateJwtToken(UserDTO user)
+        private string GenerateJwtToken(AuthUserDTO user)
         {
             // Define los claims (información contenida en el token)
             var claims = new[]

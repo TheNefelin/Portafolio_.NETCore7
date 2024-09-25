@@ -6,109 +6,109 @@ using WebApi.Utils;
 
 namespace WebApi.Controllers
 {
-    //[Route("api/[controller]")]
-    [Route("api/Youtube")]
-    [ApiController]
-    [Authorize(Roles = $"{UserRole.ADMIN}, {UserRole.USER}")]
-    public class PF_YoutubeController : ControllerBase
-    {
-        private readonly IBaseService<YoutubeDTO_Get, YoutubeDTO_PostPut> _service;
+    ////[Route("api/[controller]")]
+    //[Route("api/Youtube")]
+    //[ApiController]
+    ////[Authorize(Roles = $"{UserRole.ADMIN}, {UserRole.USER}")]
+    //public class PF_YoutubeController : ControllerBase
+    //{
+    //    private readonly IBaseService<YoutubeDTO_Get, YoutubeDTO_PostPut> _service;
 
-        public PF_YoutubeController(IBaseService<YoutubeDTO_Get, YoutubeDTO_PostPut> service)
-        {
-            _service = service;
-        }
+    //    public PF_YoutubeController(IBaseService<YoutubeDTO_Get, YoutubeDTO_PostPut> service)
+    //    {
+    //        _service = service;
+    //    }
 
-        [HttpGet]
-        public async Task<IActionResultApi<IEnumerable<YoutubeDTO_Get>>> GetAll(CancellationToken cancellationToken)
-        {
-            try
-            {
-                var respData = await _service.GetAll(cancellationToken);
+    //    [HttpGet]
+    //    public async Task<IActionResultApi<IEnumerable<YoutubeDTO_Get>>> GetAll(CancellationToken cancellationToken)
+    //    {
+    //        try
+    //        {
+    //            var respData = await _service.GetAll(cancellationToken);
 
-                return new ActionResultApi<IEnumerable<YoutubeDTO_Get>>(200, "OK", respData);
-            }
-            catch (Exception ex)
-            {
-                return new ActionResultApi<IEnumerable<YoutubeDTO_Get>>(500, $"Error: {ex.Message}");
-            }
-        }
+    //            return new ActionResultApi<IEnumerable<YoutubeDTO_Get>>(200, "OK", respData);
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            return new ActionResultApi<IEnumerable<YoutubeDTO_Get>>(500, $"Error: {ex.Message}");
+    //        }
+    //    }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResultApi<YoutubeDTO_Get>> GetById(int id, CancellationToken cancellationToken)
-        {
-            try
-            {
-                var respData = await _service.GetById(id, cancellationToken);
+    //    [HttpGet("{id}")]
+    //    public async Task<IActionResultApi<YoutubeDTO_Get>> GetById(int id, CancellationToken cancellationToken)
+    //    {
+    //        try
+    //        {
+    //            var respData = await _service.GetById(id, cancellationToken);
 
-                if (respData == null)
-                    return new ActionResultApi<YoutubeDTO_Get>(400, "El Id No Existe");
+    //            if (respData == null)
+    //                return new ActionResultApi<YoutubeDTO_Get>(400, "El Id No Existe");
 
-                return new ActionResultApi<YoutubeDTO_Get>(200, "OK", respData);
-            }
-            catch (Exception ex)
-            {
-                return new ActionResultApi<YoutubeDTO_Get>(500, $"Error: {ex.Message}");
-            }
-        }
+    //            return new ActionResultApi<YoutubeDTO_Get>(200, "OK", respData);
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            return new ActionResultApi<YoutubeDTO_Get>(500, $"Error: {ex.Message}");
+    //        }
+    //    }
 
-        [Authorize(Roles = UserRole.ADMIN)]
-        [HttpPost]
-        public async Task<IActionResultApi<YoutubeDTO_Get>> Insert(YoutubeDTO_PostPut dto, CancellationToken cancellationToken)
-        {
-            try
-            {
-                var respDB = await _service.Insert(dto, cancellationToken);
+    //    //[Authorize(Roles = UserRole.ADMIN)]
+    //    [HttpPost]
+    //    public async Task<IActionResultApi<YoutubeDTO_Get>> Insert(YoutubeDTO_PostPut dto, CancellationToken cancellationToken)
+    //    {
+    //        try
+    //        {
+    //            var respDB = await _service.Insert(dto, cancellationToken);
 
-                if (respDB.StatusCode != 201)
-                    return new ActionResultApi<YoutubeDTO_Get>(respDB.StatusCode, respDB.Msge);
+    //            if (respDB.StatusCode != 201)
+    //                return new ActionResultApi<YoutubeDTO_Get>(respDB.StatusCode, respDB.Msge);
 
-                var respData = await _service.GetById(respDB.Id, cancellationToken);
-                return new ActionResultApi<YoutubeDTO_Get>(201, respDB.Msge, respData);
-            }
-            catch (Exception ex)
-            {
-                return new ActionResultApi<YoutubeDTO_Get>(500, $"Error: {ex.Message}");
-            }
-        }
+    //            var respData = await _service.GetById(respDB.Id, cancellationToken);
+    //            return new ActionResultApi<YoutubeDTO_Get>(201, respDB.Msge, respData);
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            return new ActionResultApi<YoutubeDTO_Get>(500, $"Error: {ex.Message}");
+    //        }
+    //    }
 
-        [Authorize(Roles = UserRole.ADMIN)]
-        [HttpPut("{id}")]
-        public async Task<IActionResultApi<YoutubeDTO_Get>> Update(int id, YoutubeDTO_PostPut dto, CancellationToken cancellationToken)
-        {
-            try
-            {
-                var respDB = await _service.Update(id, dto, cancellationToken);
+    //    //[Authorize(Roles = UserRole.ADMIN)]
+    //    [HttpPut("{id}")]
+    //    public async Task<IActionResultApi<YoutubeDTO_Get>> Update(int id, YoutubeDTO_PostPut dto, CancellationToken cancellationToken)
+    //    {
+    //        try
+    //        {
+    //            var respDB = await _service.Update(id, dto, cancellationToken);
 
-                if (respDB.StatusCode != 202)
-                    return new ActionResultApi<YoutubeDTO_Get>(respDB.StatusCode, respDB.Msge);
+    //            if (respDB.StatusCode != 202)
+    //                return new ActionResultApi<YoutubeDTO_Get>(respDB.StatusCode, respDB.Msge);
 
-                var respData = await _service.GetById(respDB.Id, cancellationToken);
-                return new ActionResultApi<YoutubeDTO_Get>(202, respDB.Msge, respData);
-            }
-            catch (Exception ex)
-            {
-                return new ActionResultApi<YoutubeDTO_Get>(500, $"Error: {ex.Message}");
-            }
-        }
+    //            var respData = await _service.GetById(respDB.Id, cancellationToken);
+    //            return new ActionResultApi<YoutubeDTO_Get>(202, respDB.Msge, respData);
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            return new ActionResultApi<YoutubeDTO_Get>(500, $"Error: {ex.Message}");
+    //        }
+    //    }
 
-        [Authorize(Roles = UserRole.ADMIN)]
-        [HttpDelete("{id}")]
-        public async Task<IActionResultApi> Delete(int id, CancellationToken cancellationToken)
-        {
-            try
-            {
-                var respDB = await _service.Delete(id, cancellationToken);
+    //    //[Authorize(Roles = UserRole.ADMIN)]
+    //    [HttpDelete("{id}")]
+    //    public async Task<IActionResultApi> Delete(int id, CancellationToken cancellationToken)
+    //    {
+    //        try
+    //        {
+    //            var respDB = await _service.Delete(id, cancellationToken);
 
-                if (respDB.StatusCode != 202)
-                    return new ActionResultApi(respDB.StatusCode, respDB.Msge);
+    //            if (respDB.StatusCode != 202)
+    //                return new ActionResultApi(respDB.StatusCode, respDB.Msge);
 
-                return new ActionResultApi(202, respDB.Msge);
-            }
-            catch (Exception ex)
-            {
-                return new ActionResultApi(500, $"Error: {ex.Message}");
-            }
-        }
-    }
+    //            return new ActionResultApi(202, respDB.Msge);
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            return new ActionResultApi(500, $"Error: {ex.Message}");
+    //        }
+    //    }
+    //}
 }

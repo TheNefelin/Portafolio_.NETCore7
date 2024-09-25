@@ -2,7 +2,7 @@
 
 namespace ApplicationClassLibrary.DTOs
 {
-    public class RegisterDTO
+    public class AuthRegisterDTO
     {
         [Required]
         [MaxLength(100)]

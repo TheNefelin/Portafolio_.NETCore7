@@ -28,23 +28,23 @@ Moq.Dapper
 * **Infrastructure:** Interacts with databases and external services.
 ```
 MySolution.sln
-  ├── WebApi/                        (eb API)
-  │   ├── Controllers/
-  │   ├── Program.cs
-  │   └── appsettings.json
-  ├── Application/                   (ApplicationClassLibrary)
-  │   ├── DTOs/
-  │   ├── Entities/
-  │   ├── Filters/
-  │   ├── Interfaces/
-  │   └── Services/
-  ├── Domain/                        (Proyecto Class Library)
-  │   ├── Entities/
-  │   └── ValueObjects/
-  ├── Infrastructure/                (Proyecto Class Library)
-      ├── Data/
-      ├── Repositories/
-      └── ExternalServices/
+  ├── WebApi/                       (Web API)
+  │   ├── Controllers/              (Controladores de la API)
+  │   ├── Program.cs                (Configuración de la aplicación)
+  │   └── appsettings.json          (Configuraciones)
+  ├── Application/                  (Aplicación Class Library)
+  │   ├── DTOs/                     (Objetos de Transferencia de Datos)
+  │   ├── Entities/                 (Entidades de dominio)
+  │   ├── Filters/                  (Filtros para la lógica de aplicación)
+  │   ├── Interfaces/               (Interfaces de servicios)
+  │   └── Services/                 (Implementaciones de servicios)
+  ├── Domain/                       (Proyecto Class Library)
+  │   ├── Entities/                 (Entidades del dominio)
+  │   └── ValueObjects/             (Objetos de valor del dominio)
+  ├── Infrastructure/               (Proyecto Class Library)
+      ├── Data/                     (Manejo de datos)
+      ├── Repositories/             (Repositorios)
+      └── ExternalServices/         (Servicios externos)
 ```
 
 ## AuthPassword Class
@@ -180,6 +180,40 @@ WebApiTest/
 ```
 
 # Obs
+
+### Final Structure
+```
+Portafolio_.NETCore7.sln
+   ├── ApplicationClassLibrary/
+   │   ├── DTOs/
+   │   │   ├── LoginDTO.cs
+   │   │   ├── RegisterDTO.cs
+   │   │   ├── ResponseApiDTO.cs
+   │   │   ├── ResponseSqlDTO.cs
+   │   │   └── UserDTO.cs
+   │   ├── Entities/
+   │   │   ├── ProfileEntity.cs
+   │   │   └── UserEntity.cs
+   │   ├── Filters/
+   │   ├── Interfaces/
+   │   │   ├── IAuthPassword.cs
+   │   │   └── IAuthService.cs
+   │   └── Services/
+   │       ├── AuthPassword.cs
+   │       └── AuthService.cs
+   ├── WebApi/
+   │   ├── Controllers/
+   │   │   └── AuthController.cs
+   │   ├── appsettings.json
+   │   └── Program.cs
+   └── WebApiTests/
+       ├── Controllers/
+       │   └── AuthControllerTests.cs
+       ├── Services/
+       │   └── AuthServiceTests.cs
+       └── GlobalUsings.cs
+
+```
 
 ### Program.cl
 ```

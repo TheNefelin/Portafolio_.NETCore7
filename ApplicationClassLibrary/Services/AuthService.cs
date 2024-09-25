@@ -9,15 +9,15 @@ namespace ApplicationClassLibrary.Services
     public class AuthService : IAuthService
     {
         private readonly IDbConnection _connection;
-        private readonly IAuthPassword _authPassword;
+        private readonly IPasswordService _authPassword;
 
-        public AuthService(IDbConnection connection, IAuthPassword authPassword)
+        public AuthService(IDbConnection connection, IPasswordService authPassword)
         {
             _connection = connection;
             _authPassword = authPassword;
         }
 
-        public async Task<ResponseApiDTO<object>> RegisterAsync(RegisterDTO registerDTO, CancellationToken cancellationToken)
+        public async Task<ResponseApiDTO<object>> RegisterAsync(AuthRegisterDTO registerDTO, CancellationToken cancellationToken)
         {
             if (registerDTO.Password1 != registerDTO.Password2)
                 return new ResponseApiDTO<object>
@@ -28,7 +28,7 @@ namespace ApplicationClassLibrary.Services
 
             var (hash, salt) = _authPassword.HashPassword(registerDTO.Password1);
 
-            var newUser = new UserEntity
+            var newUser = new AuthUserEntity
             {
                 Id = Guid.NewGuid().ToString(),
                 Email = registerDTO.Email,
@@ -39,12 +39,12 @@ namespace ApplicationClassLibrary.Services
             try
             {
                 var result = await _connection.QueryFirstAsync<ResponseSqlDTO>(
-                   new CommandDefinition(
-                       $"Auth_Register",
-                       new { newUser.Id, newUser.Email, newUser.Hash1, newUser.Salt1 },
-                       commandType: CommandType.StoredProcedure,
-                       transaction: default,
-                       cancellationToken: cancellationToken
+                    new CommandDefinition(
+                         $"Auth_Register",
+                        new { newUser.Id, newUser.Email, newUser.Hash1, newUser.Salt1 },
+                        commandType: CommandType.StoredProcedure,
+                        transaction: default,
+                        cancellationToken: cancellationToken
                 ));
 
                 return new ResponseApiDTO<object>
@@ -64,21 +64,21 @@ namespace ApplicationClassLibrary.Services
             }
         }
 
-        public async Task<ResponseApiDTO<UserDTO>> LoginAsync(LoginDTO loginDTO, CancellationToken cancellationToken)
+        public async Task<ResponseApiDTO<AuthUserDTO>> LoginAsync(AuthLoginDTO loginDTO, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _connection.QueryFirstOrDefaultAsync<UserEntity>(
-                   new CommandDefinition(
-                       $"Auth_Login",
-                       new { loginDTO.Email },
-                       commandType: CommandType.StoredProcedure,
-                       transaction: default,
-                       cancellationToken: cancellationToken
+                var result = await _connection.QueryFirstOrDefaultAsync<AuthUserEntity>(
+                    new CommandDefinition(
+                        $"Auth_Login",
+                        new { loginDTO.Email },
+                        commandType: CommandType.StoredProcedure,
+                        transaction: default,
+                        cancellationToken: cancellationToken
                 ));
 
                 if (result == null)
-                    return new ResponseApiDTO<UserDTO>
+                    return new ResponseApiDTO<AuthUserDTO>
                     {
                         StatusCode = 401,
                         Message = "Usuario o Contraseña Icorrecta."
@@ -87,15 +87,15 @@ namespace ApplicationClassLibrary.Services
                 bool passwordCorrect = _authPassword.VerifyPassword(loginDTO.Password, result.Hash1, result.Salt1);
 
                 if (!passwordCorrect)
-                    return new ResponseApiDTO<UserDTO>
+                    return new ResponseApiDTO<AuthUserDTO>
                     {
                         StatusCode = 401,
                         Message = "Usuario o Contraseña Icorrecta."
                     };
 
-                UserDTO userDTO = MapToDTO(result);
+                AuthUserDTO userDTO = MapToDTO(result);
 
-                return new ResponseApiDTO<UserDTO>
+                return new ResponseApiDTO<AuthUserDTO>
                 {
                     StatusCode = 200,
                     Message = "Autenticación Exitosa.",
@@ -104,7 +104,7 @@ namespace ApplicationClassLibrary.Services
             }
             catch (Exception ex)
             {
-                return new ResponseApiDTO<UserDTO>
+                return new ResponseApiDTO<AuthUserDTO>
                 {
                     StatusCode = 500,
                     Message = "Error en la operación de base de datos: " + ex.Message
@@ -112,12 +112,13 @@ namespace ApplicationClassLibrary.Services
             }
         }
 
-        private UserDTO MapToDTO(UserEntity userEntity)
+        private AuthUserDTO MapToDTO(AuthUserEntity userEntity)
         {
-            return new UserDTO
+            return new AuthUserDTO
             {
                 Id = userEntity.Id,
                 Email = userEntity.Email,
+                SqlToken = userEntity.SqlToken,
                 Role = userEntity.Role,
             };
         } 
