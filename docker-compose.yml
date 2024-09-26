@@ -1,0 +1,25 @@
+services:
+  webapi:
+    image: webapi
+    build:
+      context: ./WebApi  # Asegúrate de que esta ruta sea correcta
+      dockerfile: Dockerfile  # Si está en la misma carpeta, este nombre debe ser correcto
+    ports:
+      - "8080:80"  # Mapea el puerto 80 del contenedor al puerto 8080 en tu máquina local
+    environment:
+      - ConnectionStrings__RutaWebSQL=Server=db;Database=db_testing;User Id=testing;Password=testing;TrustServerCertificate=True;  # Configura la cadena de conexión
+    depends_on:
+      - db  # Asegura que la base de datos esté levantada antes que la API
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest  # Imagen de SQL Server
+    ports:
+      - "1433:1433"  # Mapea el puerto 1433 del contenedor al puerto 1433 en tu máquina local
+    environment:
+      - SA_PASSWORD=testing  # Cambia la contraseña por la que prefieras
+      - ACCEPT_EULA=Y  # Acepta el EULA de SQL Server
+    volumes:
+      - dbdata:/var/opt/mssql  # Persistencia de datos
+
+volumes:
+  dbdata:  # Volume para almacenar datos de la base de datos

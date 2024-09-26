@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ApplicationClassLibrary\ApplicationClassLibrary.csproj" />
+    <ProjectReference Include="..\ClassLibraryApplication\ClassLibraryApplication.csproj" />
     <ProjectReference Include="..\WebApi\WebApi.csproj" />
   </ItemGroup>
 
