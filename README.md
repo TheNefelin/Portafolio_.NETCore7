@@ -1,7 +1,8 @@
 # Portafolio_.NETCore7
 
 ### Projects
-[BibliotecaAuth](https://github.com/TheNefelin/Portafolio_.NETCore7/tree/master/BibliotecaAuth) <br>
-[BibliotecaPF](https://github.com/TheNefelin/Portafolio_.NETCore7/tree/master/BibliotecaPF) <br>
-[BibliotecaPasswordManager](https://github.com/TheNefelin/Portafolio_.NETCore7/tree/master/BibliotecaPasswordManager) <br>
-[WebApi](https://github.com/TheNefelin/Portafolio_.NETCore7/tree/master/WebApi)
+
+* [ClassLibraryApplication]([https://github.com/TheNefelin/Portafolio_.NETCore7/tree/master/BibliotecaPasswordManager](https://github.com/TheNefelin/Portafolio_.NETCore7/tree/master/ClassLibraryApplication))
+* [WebApi](https://github.com/TheNefelin/Portafolio_.NETCore7/tree/master/WebApi)
+* [WebApiTest]([https://github.com/TheNefelin/Portafolio_.NETCore7/tree/master/BibliotecaAuth](https://github.com/TheNefelin/Portafolio_.NETCore7/tree/master/WebApiTests)
+
