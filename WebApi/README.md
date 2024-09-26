@@ -323,34 +323,28 @@ public class Service Name : InterfaceName
 ### Docker
 * Create Dockerfile
 ```
-# Imagen base para el entorno de ejecución de ASP.NET Core
+# Usa la imagen base de .NET
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
 
-# Imagen para la etapa de construcción
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-
-# Copiar los archivos de proyecto para la restauración de paquetes
 COPY ["WebApi/WebApi.csproj", "WebApi/"]
 COPY ["ClassLibraryApplication/ClassLibraryApplication.csproj", "ClassLibraryApplication/"]
-
-# Restaurar los paquetes NuGet
 RUN dotnet restore "WebApi/WebApi.csproj"
-
-# Copiar todo el código fuente al contenedor
 COPY . .
-
-# Establecer el directorio de trabajo para construir la aplicación
 WORKDIR "/src/WebApi"
-
-# Construir la aplicación
 RUN dotnet build "WebApi.csproj" -c Release -o /app/build
 
-# Publicar la aplicación
 FROM build AS publish
-RUN dotnet publish "WebApi.csproj" -c Releas
+RUN dotnet publish "WebApi.csproj" -c Release -o /app/publish
+
+# Genera la imagen final
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "WebApi.dll"]
 ```
 * Create .dockerignore
 ```
@@ -363,15 +357,66 @@ obj/
 ```
 docker build -t nombre-de-tu-imagen .
 ```
-* Run the container
-* [http://localhost:8080](http://localhost:8080)
-```
-docker run -d -p 8080:80 --name nombre-de-tu-contenedor nombre-de-tu-imagen
-```
 
 ### docker-compose
 ```
+version: '3.8'
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server
+    container_name: mssql_container    
+    environment:
+      - MSSQL_SA_PASSWORD=S!cretPa55
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+  webapi:
+    build: .
+    container_name: dotnet_webapi_container
+    ports:
+      - "8080:80"
+    environment:
+      ConnectionStrings__RutaWebSQL: "Server=mssql;Database=db_testing;User ID=testing;Password=testing;TrustServerCertificate=True;"
+    depends_on:
+      - mssql
+
+volumes:
+  mssql_data:
+```
+* [http://localhost:8080](http://localhost:8080)
+
+* Build Compose
+```
 docker-compose up --build
+```
+
+### SQL Server 
+* [SQL Server file](https://github.com/TheNefelin/Portafolio_.NETCore7/MSSQL.sql)
+```
+SELECT 
+	NAME AS LoginName, 
+	TYPE_DESC AS AccountType, 
+	create_date, 
+	modify_date,
+	TYPE
+FROM sys.server_principals
+WHERE TYPE IN ('S', 'U', 'G');
+GO
+
+CREATE LOGIN testing WITH PASSWORD = 'testing', CHECK_POLICY = OFF;
+GO
+CREATE DATABASE db_testing
+GO
+USE db_testing
+GO
+CREATE USER testing FOR LOGIN testing;
+GO
+EXEC sp_addrolemember 'db_owner', 'testing';
 ```
 
 ## Tests

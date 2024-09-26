@@ -9,6 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiTests", "WebApiTests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibraryApplication", "ClassLibraryApplication\ClassLibraryApplication.csproj", "{86193540-1F8B-4DFD-B7BF-B0C45FC5FF0E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLServer", "SQLServer", "{B55BBF39-951B-407D-B27A-9E0CB93C76C0}"
+	ProjectSection(SolutionItems) = preProject
+		MSSQL.sql = MSSQL.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
