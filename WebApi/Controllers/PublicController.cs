@@ -23,7 +23,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("proyecto")]
+        [Route("projects")]
         public async Task<ActionResult<IEnumerable<ProjectsDTO>>> GetAllProyecto(CancellationToken cancellationToken)
         {
             var response = await _publicService.GetAllProjectsAsync(cancellationToken);
