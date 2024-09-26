@@ -318,32 +318,60 @@ public class Service Name : InterfaceName
 Portafolio_.NETCore7.sln
    ├── ClassLibraryApplication/
    │   ├── DTOs/
+   │   │   ├── CoreDTO.cs
+   │   │   ├── LanguageDTO.cs
    │   │   ├── LoginDTO.cs
+   │   │   ├── ProjectDTO.cs
+   │   │   ├── ProjectLanguageDTO.cs
+   │   │   ├── ProjectsDTO.cs
+   │   │   ├── ProjectTechnologyDTO.cs
    │   │   ├── RegisterDTO.cs
    │   │   ├── ResponseApiDTO.cs
    │   │   ├── ResponseSqlDTO.cs
-   │   │   ├── SecretDTO.cs
+   │   │   ├── TechnologyDTO.cs
    │   │   ├── UrlDTO.cs
    │   │   ├── UrlGrpDTO.cs
-   │   │   └── UserDTO.cs
+   │   │   ├── UrlsGrpsDTO.cs
+   │   │   ├── UserDTO.cs
+   │   │   └── YoutubeDTO.cs
    │   ├── Entities/
-   │   │   ├── ProfileEntity.cs
    │   │   └── UserEntity.cs
    │   ├── Filters/
    │   ├── Interfaces/
    │   │   ├── IAuthService.cs
+   │   │   ├── IBaseCRUDService.cs
+   │   │   ├── ICoreService.cs
    │   │   ├── IPasswordService.cs
-   │   │   ├── ISecretService.cs
-   │   │   └── IUrlGrpService.cs
+   │   │   ├── IPublicService.cs
+   │   │   └── ISimpleCRUDService.cs
    │   └── Services/
    │       ├── AuthService.cs
+   │       ├── CoreService.cs
+   │       ├── LanguageService.cs
    │       ├── PasswordService.cs
-   │       ├── SecretService.cs
-   │       └── UrlGrpService.cs
+   │       ├── ProjectLanguageService.cs
+   │       ├── ProjectService.cs
+   │       ├── ProjectTechnologyService.cs
+   │       ├── PublicService.cs
+   │       ├── TechnologyService.cs
+   │       ├── UrlGrpService.cs
+   │       ├── UrlService.cs
+   │       └── YoutubeService.cs
    ├── WebApi/
    │   ├── Controllers/
-   │   │   ├── AuthController.cs
-   │   │   └── CoreController.cs
+   │   │   ├── AuthService.cs
+   │   │   ├── CoreController.cs
+   │   │   ├── LanguageController.cs
+   │   │   ├── ProjectController.cs
+   │   │   ├── ProjectLanguageController.cs
+   │   │   ├── ProjectTechnologyController.cs
+   │   │   ├── PublicController.cs
+   │   │   ├── TechnologyController.cs
+   │   │   ├── UrlController.cs
+   │   │   ├── UrlGrpController.cs
+   │   │   └── YoutubeController.cs
+   │   ├── Filters/
+   │   │   └── SwaggerApiPadLockFilter.cs
    │   ├── appsettings.json
    │   └── Program.cs
    └── WebApiTests/
