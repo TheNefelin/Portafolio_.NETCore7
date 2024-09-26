@@ -5,13 +5,9 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{265B80E7-F8FF-462E-A379-B29033078E2F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibliotecaPortafolio", "BibliotecaPF\BibliotecaPortafolio.csproj", "{A8BFFAC2-3B42-4A33-B15A-26EDD180B24E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibliotecaAuth", "BibliotecaAuth\BibliotecaAuth.csproj", "{D00B67F4-899C-4C93-87CE-C56530680A05}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiTests", "WebApiTests\WebApiTests.csproj", "{E1974997-B341-43D5-B34A-A11A5C783122}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibraryApplication", "ClassLibraryApplication\ClassLibraryApplication.csproj", "{86193540-1F8B-4DFD-B7BF-B0C45FC5FF0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibraryApplication", "ClassLibraryApplication\ClassLibraryApplication.csproj", "{86193540-1F8B-4DFD-B7BF-B0C45FC5FF0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,14 +19,6 @@ Global
 		{265B80E7-F8FF-462E-A379-B29033078E2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{265B80E7-F8FF-462E-A379-B29033078E2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{265B80E7-F8FF-462E-A379-B29033078E2F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8BFFAC2-3B42-4A33-B15A-26EDD180B24E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8BFFAC2-3B42-4A33-B15A-26EDD180B24E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8BFFAC2-3B42-4A33-B15A-26EDD180B24E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8BFFAC2-3B42-4A33-B15A-26EDD180B24E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D00B67F4-899C-4C93-87CE-C56530680A05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D00B67F4-899C-4C93-87CE-C56530680A05}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D00B67F4-899C-4C93-87CE-C56530680A05}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D00B67F4-899C-4C93-87CE-C56530680A05}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E1974997-B341-43D5-B34A-A11A5C783122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E1974997-B341-43D5-B34A-A11A5C783122}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1974997-B341-43D5-B34A-A11A5C783122}.Release|Any CPU.ActiveCfg = Release|Any CPU

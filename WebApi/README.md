@@ -8,6 +8,7 @@
 ```
 Dapper
 Microsoft.AspNetCore.Cryptography.KeyDerivation
+Microsoft.Extensions.Logging.Abstractions
 ```
 ### WebApi
 ```
@@ -46,6 +47,19 @@ MySolution.sln
       ├── Data/                     (Manejo de datos)
       ├── Repositories/             (Repositorios)
       └── ExternalServices/         (Servicios externos)
+```
+
+## Loggers
+* Use in Services and Controllers
+```
+private readonly ILogger<MyClass> _logger;
+
+_logger.LogInformation("Iniciando la recuperación de grupos de URLs.");
+_logger.LogWarning("Error al recuperar grupos de URLs: {StatusCode}", response.StatusCode);
+_logger.LogError(ex, "Ocurrió un error al procesar la solicitud.");
+
+_logger.LogCritical("Error crítico: La aplicación no puede continuar.");
+_logger.LogDebug("Este es un mensaje de depuración.");
 ```
 
 ## AuthPassword Class
@@ -161,50 +175,175 @@ app.UseAuthorization();
 
 ```
 
-# Tests
-
-## Structure
+## Interface and Services
+* Base Interface format
 ```
-WebApiTest/
-│
-├── GlobalUsings.cs
-│
-├── Controllers/
-│   ├── AuthControllerTests.cs
-│   └── AnotherControllerTests.cs
-│
-├── Services/
-│   ├── AuthServiceTests.cs
-│   └── AnotherServiceTests.cs
-│
-└── UnitTest1.cs
+public interface InterfaceName
+{
+    Task<ResponseApiDTO<IEnumerable<DTOClass>>> GetAllAsync(CancellationToken cancellationToken);
+    Task<ResponseApiDTO<DTOClass>> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<ResponseApiDTO<DTOClass>> InsertAsync(DTOClass dtoClass, CancellationToken cancellationToken);
+    Task<ResponseApiDTO<DTOClass>> UpdateAsync(DTOClass dtoClass, CancellationToken cancellationToken);
+    Task<ResponseApiDTO<DTOClass>> DeleteAsync(int id, CancellationToken cancellationToken);
+}
+```
+* Base Service format, Implementing Interface
+```
+public class Service Name : InterfaceName
+{
+    private readonly IDbConnection _connection;
+
+    public UrlGrpService(IDbConnection connection)
+    {
+        _connection = connection;
+    }
+
+    public async Task<ResponseApiDTO<IEnumerable<UrlGrpDTO>>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _connection.QueryAsync<DTOClass>(
+                new CommandDefinition(
+                    $"PA_Strored_Procedure",
+                    commandType: CommandType.StoredProcedure,
+                    transaction: default,
+                    cancellationToken: cancellationToken
+            ));
+
+            return new ResponseApiDTO<IEnumerable<DTOClass>>
+            {
+                StatusCode = 200,
+                Message = "",
+                Data = result
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseApiDTO<IEnumerable<DTOClass>>
+            {
+                StatusCode = 500,
+                Message = "Error en la operación de base de datos: " + ex.Message
+            };
+        }
+    }
+
+    public async Task<ResponseApiDTO<DTOClass>> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _connection.QueryFirstOrDefaultAsync<DTOClass>(
+                new CommandDefinition(
+                    $"PA_Strored_Procedure",
+                    new { Id = id  },
+                    commandType: CommandType.StoredProcedure,
+                    transaction: default,
+                    cancellationToken: cancellationToken
+            ));
+
+            if (result == null)
+                return new ResponseApiDTO<DTOClass>
+                {
+                    StatusCode = 404,
+                    Message = "Registro No Encontrado."
+                };
+
+            return new ResponseApiDTO<DTOClass>
+            {
+                StatusCode = 200,
+                Message = "",
+                Data = result
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseApiDTO<DTOClass>
+            {
+                StatusCode = 500,
+                Message = "Error en la operación de base de datos: " + ex.Message
+            };
+        }
+    }
+
+       public async Task<ResponseApiDTO<DTOClass>> InsertAsync(DTOClass dto, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _connection.QueryFirstAsync<ResponseSqlDTO>(
+                    new CommandDefinition(
+                        $"PF_EnlaceGrp_Insert",
+                        new { dto.Name, dto.Status },
+                        commandType: CommandType.StoredProcedure,
+                        transaction: default,
+                        cancellationToken: cancellationToken
+                ));
+
+                dto.Id = Convert.ToInt32(result.Id);
+
+                return new ResponseApiDTO<DTOClass>
+                {
+                    StatusCode = result.StatusCode,
+                    Message = result.Msge,
+                    Data = dto
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseApiDTO<DTOClass>
+                {
+                    StatusCode = 500,
+                    Message = "Error en la operación de base de datos: " + ex.Message
+                };
+            }
+        }
+
+    public Task<ResponseApiDTO<UrlGrpDTO>> UpdateAsync(UrlGrpDTO urlGrpDTO, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<ResponseApiDTO<UrlGrpDTO>> DeleteAsync(int id, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+}
 ```
 
-# Obs
+## Tests
+
+
+## Obs
 
 ### Final Structure
 ```
 Portafolio_.NETCore7.sln
-   ├── ApplicationClassLibrary/
+   ├── ClassLibraryApplication/
    │   ├── DTOs/
    │   │   ├── LoginDTO.cs
    │   │   ├── RegisterDTO.cs
    │   │   ├── ResponseApiDTO.cs
    │   │   ├── ResponseSqlDTO.cs
+   │   │   ├── SecretDTO.cs
+   │   │   ├── UrlDTO.cs
+   │   │   ├── UrlGrpDTO.cs
    │   │   └── UserDTO.cs
    │   ├── Entities/
    │   │   ├── ProfileEntity.cs
    │   │   └── UserEntity.cs
    │   ├── Filters/
    │   ├── Interfaces/
-   │   │   ├── IAuthPassword.cs
-   │   │   └── IAuthService.cs
+   │   │   ├── IAuthService.cs
+   │   │   ├── IPasswordService.cs
+   │   │   ├── ISecretService.cs
+   │   │   └── IUrlGrpService.cs
    │   └── Services/
-   │       ├── AuthPassword.cs
-   │       └── AuthService.cs
+   │       ├── AuthService.cs
+   │       ├── PasswordService.cs
+   │       ├── SecretService.cs
+   │       └── UrlGrpService.cs
    ├── WebApi/
    │   ├── Controllers/
-   │   │   └── AuthController.cs
+   │   │   ├── AuthController.cs
+   │   │   └── CoreController.cs
    │   ├── appsettings.json
    │   └── Program.cs
    └── WebApiTests/
