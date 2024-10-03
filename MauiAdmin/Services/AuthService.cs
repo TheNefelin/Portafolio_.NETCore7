@@ -14,6 +14,7 @@ namespace MauiAdmin.Services
 
         public async Task<LoginResponse> Login(string email, string password)
         {
+            //string apiUrl = "https://artema.bsite.net/api/auth/login";  // URL de la API
             string apiUrl = "https://artema.bsite.net/api/auth/login";  // URL de la API
 
             var loginData = new
