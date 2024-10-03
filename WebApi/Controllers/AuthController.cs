@@ -1,8 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using ClassLibraryApplication.Interfaces;
 using ClassLibraryApplication.DTOs;
 
@@ -37,51 +33,23 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login(LoginDTO loginDTO, CancellationToken cancellationToken)
+        public async Task<ActionResult<ResponseApiDTO<LoggedinDTO>>> Login(LoginDTO loginDTO, CancellationToken cancellationToken)
         {
-            var response = await _authService.LoginAsync(loginDTO, cancellationToken);
-
-            if (response.StatusCode != 200)
-                return StatusCode(response.StatusCode, response);
-
-            if (response.Data is null)
-                return StatusCode(500, "Error al procesar los datos del usuario.");
-
-            var token = GenerateJwtToken(response.Data);
-
-            return Ok(new
+            var jwtConfig = new JwtConfigDTO()
             {
-                response,
-                ExpireMin = _configuration["JWT:ExpireMin"],
-                Token = token
-            });
-        }
-
-        private string GenerateJwtToken(UserDTO user)
-        {
-            // Define los claims (información contenida en el token)
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
+                Key = _configuration["Jwt:Key"]!,
+                Issuer = _configuration["Jwt:Issuer"]!,
+                Audience = _configuration["Jwt:Audience"]!,
+                Subject = _configuration["JWT:Subject"]!,
+                ExpireMin = _configuration["JWT:ExpireMin"]!
             };
 
-            // Genera una clave simétrica a partir del secret en appsettings.json
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var response = await _authService.LoginAsync(loginDTO, jwtConfig, cancellationToken);
 
-            // Configuración del token: audiencia, emisor, expiración y firma
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(Convert.ToInt32(_configuration["JWT:ExpireMin"])),
-                signingCredentials: creds
-            );
+            if (response.StatusCode == 201)
+                return CreatedAtAction(nameof(Register), response);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return StatusCode(response.StatusCode, response);
         }
     }
 }

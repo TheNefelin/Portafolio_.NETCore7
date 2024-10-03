@@ -2,7 +2,11 @@
 using ClassLibraryApplication.Entities;
 using ClassLibraryApplication.Interfaces;
 using Dapper;
+using Microsoft.IdentityModel.Tokens;
 using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace ClassLibraryApplication.Services
 {
@@ -64,7 +68,7 @@ namespace ClassLibraryApplication.Services
             }
         }
 
-        public async Task<ResponseApiDTO<UserDTO>> LoginAsync(LoginDTO loginDTO, CancellationToken cancellationToken)
+        public async Task<ResponseApiDTO<LoggedinDTO>> LoginAsync(LoginDTO loginDTO, JwtConfigDTO jwtConfigDTO, CancellationToken cancellationToken)
         {
             try
             {
@@ -78,7 +82,7 @@ namespace ClassLibraryApplication.Services
                 ));
 
                 if (result == null)
-                    return new ResponseApiDTO<UserDTO>
+                    return new ResponseApiDTO<LoggedinDTO>
                     {
                         StatusCode = 401,
                         Message = "Usuario o Contraseña Icorrecta."
@@ -87,7 +91,7 @@ namespace ClassLibraryApplication.Services
                 bool passwordCorrect = _authPassword.VerifyPassword(loginDTO.Password, result.Hash1, result.Salt1);
 
                 if (!passwordCorrect)
-                    return new ResponseApiDTO<UserDTO>
+                    return new ResponseApiDTO<LoggedinDTO>
                     {
                         StatusCode = 401,
                         Message = "Usuario o Contraseña Icorrecta."
@@ -95,16 +99,27 @@ namespace ClassLibraryApplication.Services
 
                 UserDTO userDTO = MapToDTO(result);
 
-                return new ResponseApiDTO<UserDTO>
+                var token = GenerateJwtToken(userDTO, jwtConfigDTO);
+
+                LoggedinDTO loggedinDTO = new LoggedinDTO()
+                {
+                    Id = result.Id,
+                    SqlToken = result.SqlToken,
+                    Role = result.Role,
+                    ExpireMin = jwtConfigDTO.ExpireMin,
+                    ApiToken = token
+                };
+
+                return new ResponseApiDTO<LoggedinDTO>
                 {
                     StatusCode = 200,
                     Message = "Autenticación Exitosa.",
-                    Data = userDTO
+                    Data = loggedinDTO
                 };
             }
             catch (Exception ex)
             {
-                return new ResponseApiDTO<UserDTO>
+                return new ResponseApiDTO<LoggedinDTO>
                 {
                     StatusCode = 500,
                     Message = "Error en la operación de base de datos: " + ex.Message
@@ -121,6 +136,33 @@ namespace ClassLibraryApplication.Services
                 SqlToken = userEntity.SqlToken,
                 Role = userEntity.Role,
             };
-        } 
+        }
+
+        private string GenerateJwtToken(UserDTO user, JwtConfigDTO jwtConfig)
+        {
+            // Define los claims (información contenida en el token)
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role)
+            };
+
+            // Genera una clave simétrica a partir del secret en appsettings.json
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Key));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            // Configuración del token: audiencia, emisor, expiración y firma
+            var token = new JwtSecurityToken(
+                issuer: jwtConfig.Issuer,
+                audience: jwtConfig.Audience,
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(Convert.ToInt32(jwtConfig.ExpireMin)),
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
     }
 }
