@@ -7,13 +7,13 @@
 ### ClassLibraryApplication
 ```
 Dapper
+Microsoft.AspNetCore.Authentication.JwtBearer
 Microsoft.AspNetCore.Cryptography.KeyDerivation
 Microsoft.Extensions.Logging.Abstractions
 ```
 ### WebApi
 ```
 Dapper
-Microsoft.AspNetCore.Authentication.JwtBearer
 Microsoft.EntityFrameworkCore.SqlServer
 Swashbuckle.AspNetCore
 ```
