@@ -1,11 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MauiAdminApp.Pages;
 
 namespace MauiAdminApp
 {
     public partial class App : Application
     {
-        //public static IServiceProvider ServiceProvider;
-
         public App()
         {
             InitializeComponent();
@@ -20,9 +18,6 @@ namespace MauiAdminApp
             }
             else
             {
-                // Obtener LoginPage a través del contenedor de servicios
-                //MainPage = new NavigationPage(ServiceProvider.GetRequiredService<LoginPage>());
-                // Obtener la instancia de LoginPage del contenedor de servicios
                 MainPage = new NavigationPage(new LoginPage()); // Página de Login
             }
         }

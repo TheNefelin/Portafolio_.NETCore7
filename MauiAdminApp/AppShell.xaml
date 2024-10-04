@@ -3,19 +3,18 @@
     x:Class="MauiAdminApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:MauiAdminApp"
-    Shell.FlyoutBehavior="Disabled"
-    Title="MauiAdminApp">
+    xmlns:local="clr-namespace:MauiAdminApp.Pages"
+    Shell.FlyoutBehavior="Disabled">
 
     <!-- Menú inferior tipo tab -->
     <TabBar>
-        <Tab Title="Inicio" Icon="logo.png">
+        <Tab Title="Inicio" Icon="config.png">
             <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
         </Tab>
-        <Tab Title="Mensajes" Icon="batman.png">
+        <Tab Title="Mensajes" Icon="config.png">
             <ShellContent ContentTemplate="{DataTemplate local:MessagesPage}" />
         </Tab>
-        <Tab Title="Perfil" Icon="thundercats.png">
+        <Tab Title="Perfil" Icon="config.png">
             <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" />
         </Tab>
     </TabBar>

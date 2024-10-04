@@ -1,4 +1,4 @@
-﻿using ClassLibraryApplication.DTOs;
+﻿using ClassLibraryDTOs;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -8,15 +8,14 @@ namespace MauiAdminApp.Services
     {
         private readonly HttpClient _httpClient;
 
-        public AuthService()
+        public AuthService(HttpClient httpClient)
         {
-            //_httpClient = httpClient;
-            _httpClient = new HttpClient();
+            _httpClient = httpClient;
         }
 
         public async Task<ResponseApiDTO<LoggedinDTO>> Login(string email, string password)
         {
-            string endpoint = "api/auth/login";  // URL de la API
+            string endpoint = "/api/auth/login";  // Ruta relativa del endpoint
 
             LoginDTO loginDTO = new()
             {
@@ -29,7 +28,6 @@ namespace MauiAdminApp.Services
 
             try
             {
-                // Hacer la solicitud POST
                 var response = await _httpClient.PostAsync(endpoint, content);
 
                 if (response.IsSuccessStatusCode)
@@ -37,7 +35,7 @@ namespace MauiAdminApp.Services
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<ResponseApiDTO<LoggedinDTO>>(jsonResponse);
 
-                    // Almacenar el JWT y SessionCode de manera segura
+                    // Almacenar los tokens de manera segura
                     await SecureStorage.SetAsync("jwt_token", result.Data.ApiToken);
                     await SecureStorage.SetAsync("sql_token", result.Data.SqlToken);
 
@@ -52,7 +50,6 @@ namespace MauiAdminApp.Services
             }
             catch (Exception ex)
             {
-                // Manejo de errores
                 Console.WriteLine($"Error durante el inicio de sesión: {ex.Message}");
             }
 
@@ -60,4 +57,3 @@ namespace MauiAdminApp.Services
         }
     }
 }
-

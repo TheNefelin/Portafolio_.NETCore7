@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiAdminApp.LoginPage"
-             Title="LoginPage"
-             BackgroundColor="{StaticResource BackgroundColor}">
+             x:Class="MauiAdminApp.Pages.LoginPage"
+             Title="LoginPage">
 
-    <StackLayout Padding="30" VerticalOptions="Center">
+    <StackLayout Padding="30" VerticalOptions="Center" Background="{StaticResource BackgroundColor}">
         <Label Text="Iniciar Sesión" FontSize="24" HorizontalOptions="Center" TextColor="{StaticResource TextColor}"/>
         <Entry Placeholder="Usuario" x:Name="UsernameEntry"/>
         <Entry Placeholder="Contraseña" IsPassword="True" x:Name="PasswordEntry"/>
         <Button Text="Iniciar Sesión" Clicked="OnLoginButtonClicked"/>
         <Button Text="¿Olvidaste tu contraseña?" HorizontalOptions="Center" />
     </StackLayout>
-
+    
 </ContentPage>

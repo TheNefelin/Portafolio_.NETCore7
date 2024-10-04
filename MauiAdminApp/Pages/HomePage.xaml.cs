@@ -1,4 +1,4 @@
-namespace MauiAdminApp;
+namespace MauiAdminApp.Pages;
 
 public partial class HomePage : ContentPage
 {

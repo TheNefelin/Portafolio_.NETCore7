@@ -16,14 +16,9 @@ namespace MauiAdminApp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            // Inyectar HttpClient con una BaseAddress para la API
+            // Configurar HttpClient para inyectarlo en los servicios
             builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://artema.bsite.net/") });
-
-            // Inyectar el servicio de autenticación
-            //builder.Services.AddSingleton<AuthService>();
-
-            // Inyectar LoginPage como un singleton
-            //builder.Services.AddSingleton<LoginPage>();
+            builder.Services.AddSingleton<AuthService>();
 
 #if DEBUG
             builder.Logging.AddDebug();

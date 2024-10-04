@@ -1,16 +1,15 @@
 using MauiAdminApp.Services;
 
-namespace MauiAdminApp;
+namespace MauiAdminApp.Pages;
 
 public partial class LoginPage : ContentPage
 {
-    private AuthService _authService;
+    private readonly AuthService _authService;
 
     public LoginPage()
 	{
 		InitializeComponent();
-        _authService = new AuthService();
-    }
+	}
 
     private async void OnLoginButtonClicked(object sender, EventArgs e)
     {
@@ -23,12 +22,13 @@ public partial class LoginPage : ContentPage
             return;
         }
 
-        var loginResponse = await _authService.Login(email, password);
+        // Lógica para autenticación aquí (ejemplo: llamada a un servicio de API)
+        //bool isAuthenticated = await Authenticate(UsernameEntry.Text, PasswordEntry.Text);
+        bool isAuthenticated = UsernameEntry.Text.Equals("") || PasswordEntry.Text.Equals("") ? false : true;
 
-        if (loginResponse != null)
+        if (isAuthenticated)
         {
-            // Redirigir a la pantalla principal de la aplicación
-            //Application.Current.MainPage = new NavigationPage(new AppShell());
+            // Cambiar la página principal a AppShell después de la autenticación exitosa
             Application.Current.MainPage = new AppShell();
         }
         else
@@ -36,5 +36,4 @@ public partial class LoginPage : ContentPage
             await DisplayAlert("Error", "Usuario o contraseña incorrectos", "OK");
         }
     }
-
 }
