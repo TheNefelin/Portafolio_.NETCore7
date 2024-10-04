@@ -1,4 +1,5 @@
-﻿using MauiAdminApp.Services;
+﻿using MauiAdminApp.Pages;
+using MauiAdminApp.Services;
 using Microsoft.Extensions.Logging;
 
 namespace MauiAdminApp
@@ -16,9 +17,12 @@ namespace MauiAdminApp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            // Configurar HttpClient para inyectarlo en los servicios
+            // Inyección de dependencias de HttpClient y AuthService
             builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://artema.bsite.net/") });
             builder.Services.AddSingleton<AuthService>();
+
+            // Registrar LoginPage para que reciba el AuthService inyectado
+            builder.Services.AddTransient<LoginPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

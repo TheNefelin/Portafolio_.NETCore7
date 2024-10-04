@@ -1,5 +1,6 @@
 ﻿using ClassLibraryDTOs;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace MauiAdminApp.Services
@@ -34,7 +35,7 @@ namespace MauiAdminApp.Services
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<ResponseApiDTO<LoggedinDTO>>(jsonResponse);
-
+                   
                     // Almacenar los tokens de manera segura
                     await SecureStorage.SetAsync("jwt_token", result.Data.ApiToken);
                     await SecureStorage.SetAsync("sql_token", result.Data.SqlToken);
@@ -54,6 +55,36 @@ namespace MauiAdminApp.Services
             }
 
             return null;
+        }
+
+        public async Task<bool> ValidateToken(string jwtToken)
+        {
+            //string endpoint = "/api/auth/validate";  // Ruta relativa del endpoint de validación de token
+            string endpoint = "/api/youtube";
+
+            // Agregar el token en el encabezado de la petición
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+
+            try
+            {
+                var response = await _httpClient.GetAsync(endpoint);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Si el token es válido, la API responderá con éxito
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine($"Error: Token inválido o expirado. {response.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error validando el token: {ex.Message}");
+            }
+
+            return false;
         }
     }
 }
