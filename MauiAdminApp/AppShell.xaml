@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MauiAdminApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MauiAdminApp"
+    Shell.FlyoutBehavior="Disabled"
+    Title="MauiAdminApp">
+
+    <!-- Menú inferior tipo tab -->
+    <TabBar>
+        <Tab Title="Inicio" Icon="logo.png">
+            <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
+        </Tab>
+        <Tab Title="Mensajes" Icon="batman.png">
+            <ShellContent ContentTemplate="{DataTemplate local:MessagesPage}" />
+        </Tab>
+        <Tab Title="Perfil" Icon="thundercats.png">
+            <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" />
+        </Tab>
+    </TabBar>
+
+    <!-- Menú lateral (hamburger menu) -->
+    <FlyoutItem Title="Configuraciones" Icon="config.png">
+        <ShellContent ContentTemplate="{DataTemplate local:SettingsPage}" />
+    </FlyoutItem>
+
+</Shell>
