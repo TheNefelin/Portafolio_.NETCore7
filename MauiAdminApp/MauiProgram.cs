@@ -20,6 +20,7 @@ namespace MauiAdminApp
             // Inyección de dependencias de HttpClient y AuthService
             builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://artema.bsite.net/") });
             builder.Services.AddSingleton<AuthService>();
+            builder.Services.AddSingleton<ApiUrlGrpService>();
 
             // Registrar LoginPage para que reciba el AuthService inyectado
             builder.Services.AddTransient<LoginPage>();

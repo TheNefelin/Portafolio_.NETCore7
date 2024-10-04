@@ -26,7 +26,6 @@ public partial class LoginPage : ContentPage
 
         // Lógica para autenticación aquí (ejemplo: llamada a un servicio de API)
         ResponseApiDTO<LoggedinDTO> responseApi = await _authService.Login(UsernameEntry.Text, PasswordEntry.Text);
-        //bool isAuthenticated = UsernameEntry.Text.Equals("") || PasswordEntry.Text.Equals("") ? false : true;
 
         if (responseApi != null)
         {

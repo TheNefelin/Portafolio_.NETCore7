@@ -8,12 +8,18 @@
 
     <!-- Menú inferior tipo tab -->
     <TabBar>
-        <Tab Title="Inicio" Icon="config.png">
+        <Tab Title="Secreto" Icon="shield.png">
             <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
         </Tab>
-        <Tab Title="Mensajes" Icon="config.png">
+        <Tab Title="Mensajes" Icon="dragon.png">
             <ShellContent ContentTemplate="{DataTemplate local:MessagesPage}" />
         </Tab>
+        <Tab Title="Chat" Icon="chat.png">
+            <ShellContent ContentTemplate="{DataTemplate local:ChatPage}" />
+        </Tab>
+        <Tab Title="Maestro" Icon="skull.png">
+            <ShellContent ContentTemplate="{DataTemplate local:MasterMenuPage}" />
+        </Tab>        
         <Tab Title="Perfil" Icon="config.png">
             <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" />
         </Tab>
