@@ -4,10 +4,10 @@
              x:Class="MauiAdminApp.Pages.LoginPage"
              Title="Inicia Sesión">
 
-    <StackLayout Padding="30" Background="{StaticResource BackgroundColor}">
-        <Label Text="Iniciar Sesión" FontSize="24" HorizontalOptions="Center" TextColor="{StaticResource TextColor}"/>
-        <Entry Placeholder="Usuario" x:Name="UsernameEntry" TextColor="{StaticResource TextColor}"/>
-        <Entry Placeholder="Contraseña" IsPassword="True" x:Name="PasswordEntry" TextColor="{StaticResource TextColor}"/>
+    <StackLayout Padding="30">
+        <Label Text="Iniciar Sesión" FontSize="24" HorizontalOptions="Center"/>
+        <Entry Placeholder="Usuario" x:Name="UsernameEntry"/>
+        <Entry Placeholder="Contraseña" IsPassword="True" x:Name="PasswordEntry"/>
         <Button Text="Iniciar Sesión" Margin="0, 30, 0, 0" Clicked="OnLoginButtonClicked"/>
         <Button Text="¿Olvidaste tu contraseña?" Margin="0, 30, 0, 0" HorizontalOptions="Center" />
     </StackLayout>

@@ -12,7 +12,7 @@ public partial class LoadingPage : ContentPage
             Children =
             {
                 new ActivityIndicator { IsRunning = true },
-                new Label { Text = "Cargando..." }
+                //new Label { Text = "Cargando..." }
             }
         };
     }
