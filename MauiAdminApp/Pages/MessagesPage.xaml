@@ -3,10 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAdminApp.Pages.MessagesPage"
              Title="MessagesPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <StackLayout Padding="10">
+        <Label Text="Lista de URL Groups" FontSize="Large" />
+
+        <!-- ListView para mostrar los datos -->
+        <ListView x:Name="UrlGrpListView" ItemsSource="{Binding UrlGroups}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <!-- Template para mostrar los datos -->
+                    <ViewCell>
+                        <StackLayout Orientation="Vertical" Padding="5">
+                            <Label Text="{Binding Id}" FontSize="Medium" TextColor="Gray"/>
+                            <Label Text="{Binding Name}" FontSize="Large" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+    
 </ContentPage>

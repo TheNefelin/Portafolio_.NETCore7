@@ -23,10 +23,6 @@ public partial class HomePage : ContentPage
 
         BindingContext = this;
     }
-
-	private async void LoadUrlGrps()
-	{
-	}
 }
 
 public class Game
