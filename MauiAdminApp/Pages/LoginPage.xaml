@@ -4,12 +4,14 @@
              x:Class="MauiAdminApp.Pages.LoginPage"
              Title="Inicia Sesión">
 
-    <StackLayout Padding="30">
-        <Label Text="Iniciar Sesión" FontSize="24" HorizontalOptions="Center"/>
-        <Entry Placeholder="Usuario" x:Name="UsernameEntry" Text="user@example.com"/>
-        <Entry Placeholder="Contraseña" IsPassword="True" x:Name="PasswordEntry" Text="string"/>
-        <Button Text="Iniciar Sesión" Margin="0, 30, 0, 0" Clicked="OnLoginButtonClicked"/>
-        <Button Text="¿Olvidaste tu contraseña?" Margin="0, 30, 0, 0" HorizontalOptions="Center" />
-    </StackLayout>
+    <Grid>
+        <StackLayout Padding="30">
+            <Label Text="Iniciar Sesión" FontSize="24" HorizontalOptions="Center"/>
+            <Entry Placeholder="Usuario" x:Name="UsernameEntry" Text="user@example.com"/>
+            <Entry Placeholder="Contraseña" IsPassword="True" x:Name="PasswordEntry" Text="string"/>
+            <Button Text="Iniciar Sesión" Margin="0, 30, 0, 0" Clicked="OnLoginButtonClicked"/>
+            <Button Text="¿Olvidaste tu contraseña?" Margin="0, 30, 0, 0" HorizontalOptions="Center" />
+        </StackLayout>
+    </Grid>
 
 </ContentPage>

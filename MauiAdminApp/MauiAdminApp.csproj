@@ -58,10 +58,15 @@
 	  <None Remove="Resources\Images\edit.png" />
 	  <None Remove="Resources\Images\shield.png" />
 	  <None Remove="Resources\Images\skull.png" />
+	  <None Remove="Resources\Images\video01.mp4" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiFont Include="Resources\AppIcon\appicon.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Raw\video01.mp4" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -6,7 +6,12 @@
 ## Dependencies
 ```
 Newtonsoft.Json
+CommunityToolkit.Maui
 ClassLibraryDTOs
+```
+
+* MauiProgram.cs
+```
 ```
 
 ## Structure

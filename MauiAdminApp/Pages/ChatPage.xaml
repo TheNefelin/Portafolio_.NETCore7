@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAdminApp.Pages.ChatPage"
-             Title="ChatPage">
+             Title="Chat">
 
     <StackLayout Padding="10">
         <Button Text="Nuevo Grupo de URL" Clicked="OnAddUrlGrpClicked" />
@@ -18,20 +18,20 @@
                             <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
                                 <Frame BackgroundColor="LightGray" Padding="5" CornerRadius="20" Margin="0,0,10,0">
                                     <ImageButton 
-                                Source="edit.png" 
-                                WidthRequest="24" 
-                                HeightRequest="24" 
-                                Clicked="OnEditUrlGrpClicked"
-                                CommandParameter="{Binding .}" />
+                                        Source="edit.png" 
+                                        WidthRequest="24" 
+                                        HeightRequest="24" 
+                                        Clicked="OnEditUrlGrpClicked"
+                                        CommandParameter="{Binding .}" />
                                 </Frame>
 
                                 <Frame BackgroundColor="LightCoral" Padding="5" CornerRadius="20">
                                     <ImageButton 
-                                Source="delete.png" 
-                                WidthRequest="24" 
-                                HeightRequest="24"
-                                Clicked="OnDeleteUrlGrpClicked"
-                                CommandParameter="{Binding .}" />
+                                        Source="delete.png" 
+                                        WidthRequest="24" 
+                                        HeightRequest="24"
+                                        Clicked="OnDeleteUrlGrpClicked"
+                                        CommandParameter="{Binding .}" />
                                 </Frame>
                             </StackLayout>
                         </StackLayout>
