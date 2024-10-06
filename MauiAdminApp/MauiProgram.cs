@@ -26,6 +26,7 @@ namespace MauiAdminApp
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<MessagesPage>();
             builder.Services.AddTransient<MasterMenuPage>();
+            builder.Services.AddTransient<ChatPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

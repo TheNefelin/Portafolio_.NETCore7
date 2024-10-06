@@ -3,10 +3,43 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAdminApp.Pages.ChatPage"
              Title="ChatPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <StackLayout Padding="10">
+        <Button Text="Nuevo Grupo de URL" Clicked="OnAddUrlGrpClicked" />
+
+        <ListView x:Name="UrlGrpListView" SeparatorVisibility="Default" HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="10" Orientation="Horizontal">
+                            <Label Text="{Binding Name}" FontSize="Medium" VerticalOptions="Center" LineBreakMode="TailTruncation" />
+
+                            <!-- Botones alineados en la misma línea -->
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                                <Frame BackgroundColor="LightGray" Padding="5" CornerRadius="20" Margin="0,0,10,0">
+                                    <ImageButton 
+                                Source="edit.png" 
+                                WidthRequest="24" 
+                                HeightRequest="24" 
+                                Clicked="OnEditUrlGrpClicked"
+                                CommandParameter="{Binding .}" />
+                                </Frame>
+
+                                <Frame BackgroundColor="LightCoral" Padding="5" CornerRadius="20">
+                                    <ImageButton 
+                                Source="delete.png" 
+                                WidthRequest="24" 
+                                HeightRequest="24"
+                                Clicked="OnDeleteUrlGrpClicked"
+                                CommandParameter="{Binding .}" />
+                                </Frame>
+                            </StackLayout>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackLayout>
+
 </ContentPage>

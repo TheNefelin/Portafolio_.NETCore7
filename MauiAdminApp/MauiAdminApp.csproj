@@ -53,7 +53,9 @@
 	  <None Remove="Resources\Images\biblioteca.webp" />
 	  <None Remove="Resources\Images\chat.png" />
 	  <None Remove="Resources\Images\config.png" />
+	  <None Remove="Resources\Images\delete.png" />
 	  <None Remove="Resources\Images\dragon.png" />
+	  <None Remove="Resources\Images\edit.png" />
 	  <None Remove="Resources\Images\shield.png" />
 	  <None Remove="Resources\Images\skull.png" />
 	</ItemGroup>
