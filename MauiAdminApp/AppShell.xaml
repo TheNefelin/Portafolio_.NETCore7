@@ -7,7 +7,13 @@
     Shell.FlyoutBehavior="Disabled">
 
     <!-- Menú inferior tipo tab -->
-    <TabBar>
+    <TabBar
+        Shell.TabBarBackgroundColor="Transparent"
+        Shell.TabBarForegroundColor="black"
+        Shell.TabBarTitleColor="Black"
+        Shell.TabBarUnselectedColor="gray"
+        >
+        
         <Tab Title="Secreto" Icon="shield.png">
             <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
         </Tab>

@@ -59,6 +59,10 @@
 	  <None Remove="Resources\Images\shield.png" />
 	  <None Remove="Resources\Images\skull.png" />
 	  <None Remove="Resources\Images\video01.mp4" />
+	  <None Remove="Resources\Raw\fondo01.mp4" />
+	  <None Remove="Resources\Raw\fondo02.mp4" />
+	  <None Remove="Resources\Raw\fondo03.mp4" />
+	  <None Remove="Resources\Raw\video01.mp4" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -66,10 +70,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Include="Resources\Raw\video01.mp4" />
-	</ItemGroup>
-
-	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="2.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>

@@ -6,12 +6,33 @@
 ## Dependencies
 ```
 Newtonsoft.Json
-CommunityToolkit.Maui
+CommunityToolkit.Maui.MediaElement
 ClassLibraryDTOs
 ```
 
 * MauiProgram.cs
 ```
+using CommunityToolkit.Maui;
+...
+var builder = MauiApp.CreateBuilder();
+builder
+    .UseMauiApp<App>()
+```
+* Namespace on Page xaml and Code
+```
+xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+
+<toolkit:MediaElement
+    x:Name="MediaElement"
+    Aspect="AspectFill"
+    ShouldAutoPlay="True"
+    ShouldLoopPlayback="True"
+    ShouldShowPlaybackControls="False"
+    VerticalOptions="FillAndExpand"
+    HorizontalOptions="FillAndExpand"
+    BackgroundColor="Transparent"
+    Source="embed://video01.mp4">
+</toolkit:MediaElement>
 ```
 
 ## Structure

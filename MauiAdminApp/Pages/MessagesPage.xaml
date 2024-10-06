@@ -2,25 +2,27 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAdminApp.Pages.MessagesPage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"             
              Title="MessagesPage">
 
-    <StackLayout Padding="10">
-        <Label Text="Lista de URL Groups" FontSize="Large" />
+    <AbsoluteLayout>
+        <toolkit:MediaElement
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            x:Name="MediaElement"
+            Aspect="AspectFill"
+            ShouldAutoPlay="True"
+            ShouldLoopPlayback="True"
+            ShouldShowPlaybackControls="False"
+            
+            BackgroundColor="Transparent"
+            Source="embed://fondo03.mp4">
+        </toolkit:MediaElement>
 
-        <!-- ListView para mostrar los datos -->
-        <ListView x:Name="UrlGrpListView" ItemsSource="{Binding UrlGroups}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <!-- Template para mostrar los datos -->
-                    <ViewCell>
-                        <StackLayout Orientation="Vertical" Padding="5">
-                            <Label Text="{Binding Id}" FontSize="Medium" TextColor="Gray"/>
-                            <Label Text="{Binding Name}" FontSize="Large" />
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackLayout>
-    
+        <!-- Aquí puedes colocar el contenido sobre el video -->
+        <StackLayout AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0, 0, 1, 1">
+            <!-- Agrega tu contenido encima del video -->
+        </StackLayout>
+    </AbsoluteLayout>
+
 </ContentPage>
