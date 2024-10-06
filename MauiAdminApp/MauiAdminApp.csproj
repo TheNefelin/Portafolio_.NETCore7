@@ -49,7 +49,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\appicon.svg" />
 	  <None Remove="Resources\Images\bat.png" />
 	  <None Remove="Resources\Images\biblioteca.webp" />
 	  <None Remove="Resources\Images\chat.png" />
@@ -57,6 +56,10 @@
 	  <None Remove="Resources\Images\dragon.png" />
 	  <None Remove="Resources\Images\shield.png" />
 	  <None Remove="Resources\Images\skull.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiFont Include="Resources\AppIcon\appicon.svg" />
 	</ItemGroup>
 
 	<ItemGroup>

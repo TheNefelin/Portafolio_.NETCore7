@@ -1,9 +1,11 @@
 ﻿# Maui Admin App
 
+## Edit SVG Icons
+* [photopea](https://www.photopea.com/)
+
 ## Dependencies
 ```
 Newtonsoft.Json
-
 ClassLibraryDTOs
 ```
 
