@@ -197,6 +197,9 @@ public class AuthenticationService
 }
 ```
 
+## Layout
+* 
+
 ## Navegation
 ### Simple navigation
 ```
@@ -236,6 +239,8 @@ await Task.Delay(3000); // Simulando una tarea larga
 // Cerrar la página de Loading después de completar la tarea
 await Navigation.PopModalAsync();
 ```
+
+<hr>
 
 ## CSS
 ```

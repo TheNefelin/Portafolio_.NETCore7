@@ -18,13 +18,27 @@
             Source="embed://video01.mp4">
         </toolkit:MediaElement>
 
-        <StackLayout Padding="30">
-            <Label Text="Iniciar Sesión" FontSize="24" HorizontalOptions="Center"/>
-            <Entry Placeholder="Usuario" x:Name="UsernameEntry" Text="user@example.com"/>
-            <Entry Placeholder="Contraseña" IsPassword="True" x:Name="PasswordEntry" Text="string"/>
-            <Button Text="Iniciar Sesión" Margin="0, 30, 0, 0" Clicked="OnLoginButtonClicked"/>
-            <Button Text="¿Olvidaste tu contraseña?" Margin="0, 30, 0, 0" HorizontalOptions="Center" />
-        </StackLayout>
+        <!-- Contenedor del formulario de login en un Frame -->
+        <Frame
+            BackgroundColor="#CC000000"
+            BorderColor="White"
+            CornerRadius="20"
+            Padding="20"
+            Margin="20"
+            HasShadow="True"
+            HorizontalOptions="Center"
+            VerticalOptions="Start"
+            WidthRequest="300"
+            HeightRequest="350">
+
+            <StackLayout Padding="30,20,30,20">
+                <Label Text="Iniciar Sesión" FontSize="24" HorizontalOptions="Center" TextColor="White"/>
+                <Entry Placeholder="Usuario" x:Name="UsernameEntry" Text="user@example.com" TextColor="White"/>
+                <Entry Placeholder="Contraseña" IsPassword="True" x:Name="PasswordEntry" Text="string" TextColor="White"/>
+                <Button Text="Iniciar Sesión" Margin="0,20,0,0" Clicked="OnLoginButtonClicked"/>
+                <Button Text="¿Olvidaste tu contraseña?" Margin="0,20,0,0" HorizontalOptions="Center" />
+            </StackLayout>
+        </Frame>
     </Grid>
 
 </ContentPage>

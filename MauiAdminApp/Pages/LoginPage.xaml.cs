@@ -29,7 +29,6 @@ public partial class LoginPage : ContentPage
 
         if (responseApi != null)
         {
-            await DisplayAlert("Token", responseApi.Data.ApiToken, "OK");
 
             // Cambiar la página principal a AppShell después de la autenticación exitosa
             Application.Current.MainPage = new AppShell();
