@@ -5,7 +5,7 @@ namespace MauiAdminApp
 {
     public partial class App : Application
     {
-        private readonly IServiceProvider _serviceProvider;
+        public static IServiceProvider _serviceProvider;
 
         public App(IServiceProvider serviceProvider)
         {
@@ -32,7 +32,9 @@ namespace MauiAdminApp
             else
             {
                 // Usamos el `serviceProvider` para obtener la instancia de LoginPage directamente
-                MainPage = new NavigationPage(_serviceProvider.GetRequiredService<LoginPage>());
+                MainPage = new NavigationPage(_serviceProvider.GetService<LoginPage>());
+                //MainPage = new NavigationPage(_serviceProvider.GetRequiredService<LoginPage>());
+                //MainPage = new NavigationPage(App._serviceProvider.GetService<LoginPage>());
             }
         }
 

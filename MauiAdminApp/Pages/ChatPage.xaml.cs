@@ -12,14 +12,25 @@ public partial class ChatPage : ContentPage
 		InitializeComponent();
         _apiUrlGrpService = apiUrlGrpService;
 
+        ShowLoading(true);
         LoadUrlGrps();
     }
 
-
     private async void LoadUrlGrps()
     {
-        var urlGrps = await _apiUrlGrpService.GetAll();
-        UrlGrpListView.ItemsSource = urlGrps;
+        // Mostrar modal de carga
+
+        try
+        {
+            // Aquí realizas la operación asíncrona, como cargar datos desde una API
+            var urlGrps = await _apiUrlGrpService.GetAll();
+            UrlGrpListView.ItemsSource = urlGrps;
+        }
+        finally
+        {
+            // Cerrar el modal una vez que la operación ha terminado
+            ShowLoading(false);
+        }
     }
 
     private async void OnAddUrlGrpClicked(object sender, EventArgs e)
@@ -49,4 +60,13 @@ public partial class ChatPage : ContentPage
         }
     }
 
+    // Método para mostrar/ocultar el indicador de carga
+    private void ShowLoading(bool isBusy)
+    {
+        LoadingIndicator.IsVisible = isBusy;
+        LoadingIndicator.IsRunning = isBusy;
+
+        // Opcional: deshabilitar la lista si está cargando
+        UrlGrpListView.IsEnabled = !isBusy;
+    }
 }

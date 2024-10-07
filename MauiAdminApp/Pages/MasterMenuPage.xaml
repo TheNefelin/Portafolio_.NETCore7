@@ -5,10 +5,10 @@
              Title="Datos Maestros">
 
     <ContentPage.Content>
-        <CollectionView ItemsSource="{Binding MenuItems}">
+        <CollectionView ItemsSource="{Binding MenuItems}" SelectionMode="Single" SelectionChanged="OnSelectionChanged">
             <CollectionView.ItemsLayout>
                 <!-- Grid con 2 columnas -->
-                <GridItemsLayout Orientation="Vertical" Span="2" />
+                <GridItemsLayout Orientation="Vertical" Span="2"/>
             </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>

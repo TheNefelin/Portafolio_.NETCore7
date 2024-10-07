@@ -27,8 +27,9 @@ namespace MauiAdminApp
             // Registrar LoginPage para que reciba el AuthService inyectado
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<MessagesPage>();
-            builder.Services.AddTransient<MasterMenuPage>();
             builder.Services.AddTransient<ChatPage>();
+
+            builder.Services.AddTransient<UrlGrpListPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

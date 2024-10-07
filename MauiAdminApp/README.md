@@ -197,8 +197,9 @@ public class AuthenticationService
 }
 ```
 
-## Layout
-* 
+## ContentPage
+* Solo un hijo raiz
+* StackLayout: contenerdor de elementos
 
 ## Navegation
 ### Simple navigation

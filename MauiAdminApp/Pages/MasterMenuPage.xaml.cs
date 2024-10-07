@@ -23,6 +23,20 @@ public partial class MasterMenuPage : ContentPage
         BindingContext = this;
     }
 
+    private async void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.CurrentSelection.Count > 0)
+        {
+            var selectedMenu = e.CurrentSelection[0] as MasterMenu;
+
+            var urlGrpsPage = App._serviceProvider.GetService<UrlGrpListPage>();
+            await Navigation.PushAsync(urlGrpsPage);
+
+            // Limpiar la selección
+            ((CollectionView)sender).SelectedItem = null;
+        }
+    }
+
     public class MasterMenu
     {
         public string Title { get; set; }

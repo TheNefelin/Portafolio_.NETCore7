@@ -1,5 +1,4 @@
-﻿using MauiAdminApp.Pages;
-using MauiAdminApp.Services;
+﻿using MauiAdminApp.Services;
 
 namespace MauiAdminApp
 {

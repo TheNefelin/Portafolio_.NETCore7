@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:MauiAdminApp.Components"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"      
+             x:Class="MauiAdminApp.Pages.UrlGrpListPage"
+             Title="UrlGrpListPage">
+
+    <Grid>
+        <toolkit:MediaElement
+            x:Name="MediaElement"
+            Aspect="AspectFill"
+            ShouldAutoPlay="True"
+            ShouldLoopPlayback="True"
+            ShouldShowPlaybackControls="False"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            BackgroundColor="Transparent"
+            Source="embed://fondo02.mp4">
+        </toolkit:MediaElement>
+
+        <!-- Uso del componente LoadingIndicator -->
+        <controls:LoadingIndicator x:Name="loadingIndicator" />
+        
+        <StackLayout Padding="10">
+            <Button Text="Nuevo Grupo de URL" Clicked="OnAddClicked" />
+
+            <ListView x:Name="UrlGrpListView" SeparatorVisibility="Default" HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10" Orientation="Horizontal">
+                                <Label Text="{Binding Name}" FontSize="Medium" VerticalOptions="Center" LineBreakMode="TailTruncation" />
+
+                                <!-- Botones alineados en la misma línea -->
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                                    <Frame BackgroundColor="LightGreen" Padding="5" CornerRadius="20" Margin="0,0,10,0">
+                                        <ImageButton 
+                                            Source="edit.png" 
+                                            WidthRequest="24" 
+                                            HeightRequest="24" 
+                                            Clicked="OnEditClicked"
+                                            CommandParameter="{Binding .}" />
+                                    </Frame>
+
+                                    <Frame BackgroundColor="LightCoral" Padding="5" CornerRadius="20">
+                                        <ImageButton 
+                                            Source="delete.png" 
+                                            WidthRequest="24" 
+                                            HeightRequest="24"
+                                            Clicked="OnDeleteClicked"
+                                            CommandParameter="{Binding .}" />
+                                    </Frame>
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </Grid>
+</ContentPage>

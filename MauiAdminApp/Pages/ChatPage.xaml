@@ -7,6 +7,13 @@
     <StackLayout Padding="10">
         <Button Text="Nuevo Grupo de URL" Clicked="OnAddUrlGrpClicked" />
 
+        <ActivityIndicator 
+            x:Name="LoadingIndicator"
+            IsVisible="False" 
+            IsRunning="False" 
+            VerticalOptions="CenterAndExpand" 
+            HorizontalOptions="CenterAndExpand"/>
+
         <ListView x:Name="UrlGrpListView" SeparatorVisibility="Default" HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -16,7 +23,7 @@
 
                             <!-- Botones alineados en la misma línea -->
                             <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
-                                <Frame BackgroundColor="LightGray" Padding="5" CornerRadius="20" Margin="0,0,10,0">
+                                <Frame BackgroundColor="LightGreen" Padding="5" CornerRadius="20" Margin="0,0,10,0">
                                     <ImageButton 
                                         Source="edit.png" 
                                         WidthRequest="24" 
@@ -39,7 +46,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
     </StackLayout>
 
 </ContentPage>
