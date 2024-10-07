@@ -197,7 +197,47 @@ public class AuthenticationService
 }
 ```
 
-### CSS
+## Navegation
+### Simple navigation
+```
+Application.Current.MainPage = new NewPage();
+```
+
+### Navigation by NavigationPage
+```
+MainPage = new NavigationPage(new HomePage());
+await Navigation.PushAsync(new DetailPage());
+await Navigation.PopAsync();
+```
+
+### Navigation by NavigationPage
+```
+await Shell.Current.GoToAsync("//LoginPage");
+
+<ShellContent
+    Title="Login"
+    ContentTemplate="{DataTemplate local:LoginPage}"
+    Route="LoginPage" />
+```
+
+### Navigation by Modal
+```
+await Navigation.PushModalAsync(new ModalPage());
+await Navigation.PopModalAsync();
+```
+*  Example
+```
+// Antes de comenzar la tarea asíncrona
+await Navigation.PushModalAsync(new LoadingPage());
+
+// Realiza la tarea asíncrona (ejemplo: cargar datos, autenticación, etc.)
+await Task.Delay(3000); // Simulando una tarea larga
+
+// Cerrar la página de Loading después de completar la tarea
+await Navigation.PopModalAsync();
+```
+
+## CSS
 ```
 <Color x:Key="PrimaryColor">#003087</Color>
 <Color x:Key="BackgroundColor">#1A1A1A</Color>
