@@ -1,6 +1,5 @@
 ﻿using MauiAdminApp.Pages;
 using MauiAdminApp.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MauiAdminApp
 {

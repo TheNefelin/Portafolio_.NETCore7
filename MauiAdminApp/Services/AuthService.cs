@@ -86,5 +86,11 @@ namespace MauiAdminApp.Services
 
             return false;
         }
+
+        public static async Task RemoveToken()
+        {
+            await SecureStorage.SetAsync("jwt_token", string.Empty); // O puedes usar SecureStorage.RemoveAsync("jwt_token");
+            await SecureStorage.SetAsync("sql_token", string.Empty); // Si deseas limpiar también este token
+        }
     }
 }
