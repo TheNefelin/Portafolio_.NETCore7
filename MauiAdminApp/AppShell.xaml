@@ -13,12 +13,7 @@
     </Shell.ToolbarItems>
     
     <!-- Menú inferior tipo tab -->
-    <TabBar
-        Shell.TabBarBackgroundColor="Transparent"
-        Shell.TabBarForegroundColor="black"
-        Shell.TabBarTitleColor="Black"
-        Shell.TabBarUnselectedColor="gray"
-        >
+    <TabBar>
         
         <Tab Title="Secreto" Icon="shield.png">
             <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
