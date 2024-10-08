@@ -3,18 +3,6 @@
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-
-    <Color x:Key="PageBackgroundColor">#1A1A1A</Color>
-    <!-- Fondo oscuro -->
-    <Color x:Key="DarkBackgroundColor">#121212</Color>
-    <!-- Fondo más oscuro para secciones -->
-    <Color x:Key="PrimaryTextColor">#FFFFFF</Color>
-    <!-- Texto principal en blanco -->
-    <Color x:Key="SecondaryTextColor">#BBBBBB</Color>
-    <!-- Texto secundario gris claro -->
-    <Color x:Key="AccentColor">#007AFF</Color>
-    <!-- Color de acento en azul estilo PS -->
-
     
     <Color x:Key="Primary">#512BD4</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
