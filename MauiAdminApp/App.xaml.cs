@@ -33,8 +33,6 @@ namespace MauiAdminApp
             {
                 // Usamos el `serviceProvider` para obtener la instancia de LoginPage directamente
                 MainPage = new NavigationPage(_serviceProvider.GetService<LoginPage>());
-                //MainPage = new NavigationPage(_serviceProvider.GetRequiredService<LoginPage>());
-                //MainPage = new NavigationPage(App._serviceProvider.GetService<LoginPage>());
             }
         }
 

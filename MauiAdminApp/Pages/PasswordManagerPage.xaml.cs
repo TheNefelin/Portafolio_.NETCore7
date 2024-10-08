@@ -1,11 +1,9 @@
-using System.Collections.ObjectModel;
+using MauiAdminApp.Services;
 
 namespace MauiAdminApp.Pages;
 
 public partial class PasswordManagerPage : ContentPage
 {
-    //public ObservableCollection<Password> Passwords { get; set; }
-
     public PasswordManagerPage()
 	{
 		InitializeComponent();
@@ -13,6 +11,6 @@ public partial class PasswordManagerPage : ContentPage
 
 	private async void OnCreateSecret(object sender, EventArgs e)
     {
-		await Navigation.PushAsync(new PasswordManagerFormPage());
+		await Navigation.PushAsync(App._serviceProvider.GetService<PasswordManagerFormPage>());
 	}
 }

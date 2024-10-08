@@ -4,7 +4,7 @@ namespace MauiAdminApp.Pages;
 
 public partial class MessagesPage : ContentPage
 {
-    public MessagesPage(ApiUrlGrpService apiUrlGrpService)
+    public MessagesPage()
     {
 		InitializeComponent();
     }

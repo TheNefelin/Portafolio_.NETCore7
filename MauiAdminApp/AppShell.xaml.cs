@@ -13,8 +13,16 @@ namespace MauiAdminApp
         {
             AuthService.RemoveToken(); // Asegúrate de usar await
 
+            // Remover el botón de Logout
+            var toolbarItem = this.ToolbarItems.FirstOrDefault(item => item.Text == "Logout");
+            if (toolbarItem != null)
+            {
+                this.ToolbarItems.Remove(toolbarItem);
+            }
+
             // Navegar a la página de inicio de sesión
             await Shell.Current.GoToAsync("//LoginPage"); // Usa la ruta definida
         }
+
     }
 }

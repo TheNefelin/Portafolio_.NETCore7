@@ -5,9 +5,13 @@ namespace MauiAdminApp.Pages;
 
 public partial class PasswordManagerFormPage : ContentPage
 {
-	public PasswordManagerFormPage()
+    private readonly PasswordManagerService _passwordManagerService;
+
+    public PasswordManagerFormPage(PasswordManagerService passwordManagerService)
 	{
 		InitializeComponent();
+
+		_passwordManagerService = passwordManagerService;
 		LoadPage();
 	}
 

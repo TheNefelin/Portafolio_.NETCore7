@@ -6,12 +6,11 @@
     xmlns:local="clr-namespace:MauiAdminApp.Pages"
     Shell.FlyoutBehavior="Disabled">
 
-    <!--<ToolbarItem Text="Ajustes" IconImageSource="config.png" Command="{Binding GoToSettingsCommand}" />-->
     <!-- Barra de herramientas superior -->
     <Shell.ToolbarItems>
-        <ToolbarItem Text="Logout" Clicked="OnLogoutClicked" />
+        <ToolbarItem x:Name="Logout" Text="Logout" Clicked="OnLogoutClicked" />
     </Shell.ToolbarItems>
-    
+
     <!-- Menú inferior tipo tab -->
     <TabBar>
         <Tab Title="Secreto" Icon="shield.png">
@@ -25,21 +24,15 @@
         </Tab>
         <Tab Title="Maestro" Icon="skull.png">
             <ShellContent ContentTemplate="{DataTemplate local:MasterMenuPage}" />
-        </Tab>        
+        </Tab>
         <Tab Title="Perfil" Icon="config.png">
             <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" />
         </Tab>
     </TabBar>
 
-    <!-- Menú lateral (hamburger menu) -->
-    <FlyoutItem Title="Configuraciones" Icon="config.png">
-        <ShellContent ContentTemplate="{DataTemplate local:SettingsPage}" />
-    </FlyoutItem>
-
-    <!-- Definir rutas -->
+    <!-- Definir ruta para Logout -->
     <ShellContent
         Title="Login"
         ContentTemplate="{DataTemplate local:LoginPage}"
-        Route="LoginPage" />
-
+        Route="LoginPage" />    
 </Shell>

@@ -91,6 +91,9 @@ public PasswordManagerService(HttpClient httpClient)
 builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://base.api.url/") });
 builder.Services.AddSingleton<PasswordManagerService>();
 ```
+* Dependency injection on Pages
+```
+```
 * Create Pages folder
 ```
 ```
