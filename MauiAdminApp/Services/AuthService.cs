@@ -35,10 +35,14 @@ namespace MauiAdminApp.Services
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<ResponseApiDTO<LoggedinDTO>>(jsonResponse);
-                   
+
                     // Almacenar los tokens de manera segura
+                    await SecureStorage.SetAsync("id", result.Data.Id);
+                    await SecureStorage.SetAsync("role", result.Data.Role);
+                    await SecureStorage.SetAsync("expire_min", result.Data.ExpireMin);
                     await SecureStorage.SetAsync("jwt_token", result.Data.ApiToken);
                     await SecureStorage.SetAsync("sql_token", result.Data.SqlToken);
+                    await SecureStorage.SetAsync("date_login", DateTime.Now.ToString("O"));
 
                     return result;
                 }

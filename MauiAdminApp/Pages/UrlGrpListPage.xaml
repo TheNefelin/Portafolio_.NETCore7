@@ -7,7 +7,7 @@
              Title="UrlGrpListPage">
 
     <Grid>
-        <toolkit:MediaElement
+        <!--<toolkit:MediaElement
             x:Name="MediaElement"
             Aspect="AspectFill"
             ShouldAutoPlay="True"
@@ -17,7 +17,7 @@
             HorizontalOptions="FillAndExpand"
             BackgroundColor="Transparent"
             Source="embed://fondo02.mp4">
-        </toolkit:MediaElement>
+        </toolkit:MediaElement>-->
 
         <!-- Uso del componente LoadingIndicator -->
         <controls:LoadingIndicator x:Name="loadingIndicator" />

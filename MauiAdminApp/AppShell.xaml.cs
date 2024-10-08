@@ -15,6 +15,7 @@ namespace MauiAdminApp
 
             // Navegar a la página de inicio de sesión
             await Shell.Current.GoToAsync("//LoginPage"); // Usa la ruta definida
+
         }
     }
 }

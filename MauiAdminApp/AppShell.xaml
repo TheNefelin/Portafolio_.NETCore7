@@ -14,9 +14,8 @@
     
     <!-- Menú inferior tipo tab -->
     <TabBar>
-        
         <Tab Title="Secreto" Icon="shield.png">
-            <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
+            <ShellContent ContentTemplate="{DataTemplate local:PasswordManagerPage}" />
         </Tab>
         <Tab Title="Mensajes" Icon="dragon.png">
             <ShellContent ContentTemplate="{DataTemplate local:MessagesPage}" />

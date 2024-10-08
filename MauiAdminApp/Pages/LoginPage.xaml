@@ -20,7 +20,7 @@
 
         <!-- Contenedor del formulario de login en un Frame -->
         <Frame
-            BackgroundColor="#CC000000"
+            BackgroundColor="Transparent"
             CornerRadius="20"
             Padding="20"
             Margin="20"
