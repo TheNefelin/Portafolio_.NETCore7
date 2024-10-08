@@ -35,8 +35,9 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
-
+		<MauiSplashScreen Include="Resources\Splash\thundercats.png" Color="#000000"/>
+		<!--<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#000000" BaseSize="128,128" />-->
+		
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
@@ -63,10 +64,18 @@
 	  <None Remove="Resources\Raw\fondo02.mp4" />
 	  <None Remove="Resources\Raw\fondo03.mp4" />
 	  <None Remove="Resources\Raw\video01.mp4" />
+	  <None Remove="Resources\Splash\logosplash.png" />
+	  <None Remove="Resources\Splash\splash.svg" />
+	  <None Remove="Resources\Splash\thundercats.png" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiFont Include="Resources\AppIcon\appicon.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiSplashScreen Include="Resources\Splash\splash.svg" />
+	  <MauiSplashScreen Include="Resources\Splash\thundercats.png" />
 	</ItemGroup>
 
 	<ItemGroup>
