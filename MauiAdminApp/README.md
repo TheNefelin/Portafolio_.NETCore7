@@ -1,7 +1,8 @@
 ﻿# Maui Admin App
 
 ## Edit SVG Icons
-* [photopea](https://www.photopea.com/)
+* [Photopea](https://www.photopea.com/)
+* [Maui Controls](https://learn.microsoft.com/en-us/dotnet/maui/user-interface/controls/?view=net-maui-8.0)
 
 ## Dependencies
 ```
@@ -76,7 +77,19 @@ MauiAdminApp/
 
 ## App
 * Create Services folder
+* Create a Service
 ```
+private readonly HttpClient _httpClient;
+
+public PasswordManagerService(HttpClient httpClient)
+{
+    _httpClient = httpClient;
+}
+```
+* Add Dependency Injection in MauiProgram.cs
+```
+builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://base.api.url/") });
+builder.Services.AddSingleton<PasswordManagerService>();
 ```
 * Create Pages folder
 ```
@@ -85,6 +98,21 @@ MauiAdminApp/
 ## ContentPage
 * Solo un hijo raiz
 * StackLayout: contenerdor de elementos
+
+## Messages
+```
+await DisplayAlert("Título", "Este es el mensaje de alerta", "OK");
+
+bool answer = await DisplayAlert("Confirmación", "¿Estás seguro?", "Sí", "No");
+if (answer)
+{
+    // Acción a realizar si el usuario selecciona "Sí"
+}
+else
+{
+    // Acción a realizar si el usuario selecciona "No"
+}
+```
 
 ## Navegation
 ### Simple navigation

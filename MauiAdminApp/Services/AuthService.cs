@@ -91,10 +91,23 @@ namespace MauiAdminApp.Services
             return false;
         }
 
-        public static async Task RemoveToken()
+        public static void RemoveToken()
         {
-            await SecureStorage.SetAsync("jwt_token", string.Empty); // O puedes usar SecureStorage.RemoveAsync("jwt_token");
-            await SecureStorage.SetAsync("sql_token", string.Empty); // Si deseas limpiar también este token
+            SecureStorage.RemoveAll();
+            //await SecureStorage.SetAsync("jwt_token", string.Empty); // O puedes usar SecureStorage.RemoveAsync("jwt_token");
+            //await SecureStorage.SetAsync("sql_token", string.Empty); // Si deseas limpiar también este token
+        }
+
+        public async static Task<LoggedinDTO> GetUser()
+        {
+            return new LoggedinDTO
+            {
+                Id = await SecureStorage.GetAsync("id"),
+                Role = await SecureStorage.GetAsync("role"),
+                ExpireMin = await SecureStorage.GetAsync("expire_min"),
+                ApiToken = await SecureStorage.GetAsync("jwt_token"),
+                SqlToken = await SecureStorage.GetAsync("sql_token"),
+            };
         }
     }
 }

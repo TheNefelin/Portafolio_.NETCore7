@@ -23,14 +23,13 @@
             BackgroundColor="Transparent"
             CornerRadius="20"
             Padding="20"
-            Margin="20"
+            Margin="0,50"
             HasShadow="True"
             HorizontalOptions="Center"
             VerticalOptions="Start"
-            WidthRequest="300"
-            HeightRequest="350">
+            WidthRequest="300">
 
-            <StackLayout Padding="30,20,30,20">
+            <StackLayout>
                 <Label Text="Iniciar Sesión" FontSize="24" HorizontalOptions="Center"/>
                 <Entry Placeholder="Usuario" x:Name="UsernameEntry" Text="user@example.com"/>
                 <Entry Placeholder="Contraseña" IsPassword="True" x:Name="PasswordEntry" Text="string"/>

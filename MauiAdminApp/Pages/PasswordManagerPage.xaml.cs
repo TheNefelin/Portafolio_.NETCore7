@@ -10,4 +10,9 @@ public partial class PasswordManagerPage : ContentPage
 	{
 		InitializeComponent();
 	}
+
+	private async void OnCreateSecret(object sender, EventArgs e)
+    {
+		await Navigation.PushAsync(new PasswordManagerFormPage());
+	}
 }
