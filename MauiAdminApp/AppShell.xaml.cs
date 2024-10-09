@@ -1,4 +1,5 @@
-﻿using MauiAdminApp.Services;
+﻿using MauiAdminApp.Pages;
+using MauiAdminApp.Services;
 
 namespace MauiAdminApp
 {
@@ -11,6 +12,8 @@ namespace MauiAdminApp
 
         private async void OnLogoutClicked(object sender, EventArgs e)
         {
+            await Shell.Current.GoToAsync("//LoadingPage");
+
             AuthService.RemoveToken(); // Asegúrate de usar await
 
             // Remover el botón de Logout

@@ -77,7 +77,7 @@ MauiAdminApp/
 
 ## App
 * Create Services folder
-* Create a Service
+### Create a Service
 ```
 private readonly HttpClient _httpClient;
 
@@ -86,23 +86,36 @@ public PasswordManagerService(HttpClient httpClient)
     _httpClient = httpClient;
 }
 ```
-* Add Dependency Injection in MauiProgram.cs
+### Add Dependency Injection in MauiProgram.cs
 ```
 builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://base.api.url/") });
 builder.Services.AddSingleton<PasswordManagerService>();
 ```
-* Dependency injection on Pages
+### Dependency injection on Children Page
 ```
+builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://base.api.url/") });
+builder.Services.AddSingleton<PasswordManagerService>();
+builder.Services.AddSingleton<PasswordManagerFormPage>();
 ```
-* Create Pages folder
+### Inject IServiceProvider as public static on App.cs
 ```
+public partial class App : Application
+{
+    public static IServiceProvider _serviceProvider;
+
+    public App(IServiceProvider serviceProvider)
+    {
+        InitializeComponent();
+        _serviceProvider = serviceProvider;
+    }
+}
+```
+### Navigate from Page To Cildren Page
+```
+await Navigation.PushAsync(App._serviceProvider.GetService<PasswordManagerFormPage>());
 ```
 
-## ContentPage
-* Solo un hijo raiz
-* StackLayout: contenerdor de elementos
-
-## Messages
+## Promp
 ```
 await DisplayAlert("Título", "Este es el mensaje de alerta", "OK");
 
@@ -115,6 +128,11 @@ else
 {
     // Acción a realizar si el usuario selecciona "No"
 }
+
+// Mostrar un cuadro de diálogo solicitando la contraseña
+string password = await DisplayPromptAsync("Descargar Datos", "Por favor, ingrese la contraseña para continuar:",
+                                            maxLength: 16, keyboard: Keyboard.Text,
+                                            placeholder: "Contraseña", accept: "Aceptar", cancel: "Cancelar");
 ```
 
 ## Navegation

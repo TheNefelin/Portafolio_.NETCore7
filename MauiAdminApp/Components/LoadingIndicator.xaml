@@ -4,9 +4,8 @@
              x:Class="MauiAdminApp.Components.LoadingIndicator">
 
     <ActivityIndicator 
-        IsVisible="True"
-        IsRunning="True"
-        Color="Red"
+        IsVisible="False"
+        IsRunning="False"
         VerticalOptions="CenterAndExpand" 
         HorizontalOptions="CenterAndExpand"/>
     

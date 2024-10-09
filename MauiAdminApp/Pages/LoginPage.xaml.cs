@@ -15,6 +15,8 @@ public partial class LoginPage : ContentPage
 
     private async void OnLoginButtonClicked(object sender, EventArgs e)
     {
+        Application.Current.MainPage = new LoadingPage();
+
         string email = UsernameEntry.Text;
         string password = PasswordEntry.Text;
 

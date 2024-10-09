@@ -1,16 +1,11 @@
-using ClassLibraryDTOs;
-using MauiAdminApp.Services;
-
 namespace MauiAdminApp.Pages;
 
-public partial class ChatPage : ContentPage
+public partial class PasswordPromptPage : ContentPage
 {
-    private readonly ApiUrlGrpService _apiUrlGrpService;
-
-    public ChatPage()
+	public PasswordPromptPage()
 	{
 		InitializeComponent();
-    }
+	}
 
     // Evento cuando se hace clic en el botón "Aceptar"
     private async void OnSubmitClicked(object sender, EventArgs e)
@@ -40,6 +35,7 @@ public partial class ChatPage : ContentPage
     private async void OnCancelClicked(object sender, EventArgs e)
     {
         // Simplemente regresa a la página anterior sin realizar acción
-        await Navigation.PopAsync();
+        //await Navigation.PopAsync();
+        await Navigation.PopModalAsync();
     }
 }

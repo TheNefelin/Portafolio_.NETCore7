@@ -26,10 +26,10 @@ namespace MauiAdminApp
             builder.Services.AddSingleton<ApiUrlGrpService>();
 
             // Registrar Pages para que reciba el Services inyectado
+            builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<PasswordManagerPage>();
             builder.Services.AddTransient<PasswordManagerFormPage>();
 
-            builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<MessagesPage>();
             builder.Services.AddTransient<ChatPage>();
 

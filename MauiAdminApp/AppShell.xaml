@@ -34,5 +34,10 @@
     <ShellContent
         Title="Login"
         ContentTemplate="{DataTemplate local:LoginPage}"
-        Route="LoginPage" />    
+        Route="LoginPage" />
+
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate local:LoadingPage}"
+        Route="LoadingPage" />
 </Shell>
