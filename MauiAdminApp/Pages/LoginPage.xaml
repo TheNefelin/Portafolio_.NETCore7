@@ -24,13 +24,14 @@
 
             <!-- Contenedor del formulario de login en un Frame -->
             <Frame
-                 CornerRadius="20"
-                 Padding="20"
-                 Margin="0,50"
-                 HasShadow="True"
-                 HorizontalOptions="Center"
-                 VerticalOptions="Start"
-                 WidthRequest="300">
+                BackgroundColor="Transparent"
+                CornerRadius="20"
+                Padding="20"
+                Margin="0,50"
+                HasShadow="True"
+                HorizontalOptions="Center"
+                VerticalOptions="Start"
+                WidthRequest="300">
 
                 <StackLayout>
                     <Label Text="Iniciar Sesión" FontSize="24" HorizontalOptions="Center"/>

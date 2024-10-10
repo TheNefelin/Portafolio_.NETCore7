@@ -29,8 +29,6 @@ namespace MauiAdminApp
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<PasswordManagerPage>();
             builder.Services.AddTransient<PasswordManagerFormPage>();
-
-            builder.Services.AddTransient<MessagesPage>();
             builder.Services.AddTransient<ChatPage>();
 
             builder.Services.AddTransient<UrlGrpListPage>();

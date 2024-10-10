@@ -130,9 +130,14 @@ else
 }
 
 // Mostrar un cuadro de diálogo solicitando la contraseña
-string password = await DisplayPromptAsync("Descargar Datos", "Por favor, ingrese la contraseña para continuar:",
-                                            maxLength: 16, keyboard: Keyboard.Text,
-                                            placeholder: "Contraseña", accept: "Aceptar", cancel: "Cancelar");
+string password = await DisplayPromptAsync(
+    title: "Descargar Datos",
+    message: "Por favor, ingrese la contraseña para continuar:",
+    maxLength: 16, 
+    keyboard: Keyboard.Text,
+    placeholder: "Contraseña", 
+    accept: "Aceptar", 
+    cancel: "Cancelar");
 ```
 
 ## Navegation

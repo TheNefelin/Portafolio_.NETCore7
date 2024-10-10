@@ -13,28 +13,19 @@ public partial class PasswordManagerPage : ContentPage
 
 	private async void OnDownloadData(object sender, EventArgs e)
     {
-        //await Navigation.PushAsync(new PasswordPromptPage());
-        await Navigation.PushModalAsync(new PasswordPromptPage());
+      
+    }
 
-        // Mostrar un cuadro de diálogo solicitando la contraseña
-        string password = await DisplayPromptAsync("Descargar Datos", "Por favor, ingrese la contraseña para continuar:",
-                                                   maxLength: 16, keyboard: Keyboard.Text,
-                                                   placeholder: "Contraseña", accept: "Aceptar", cancel: "Cancelar");
+    private async void OnDecryptData(object sender, EventArgs e)
+    {
+        // Mostrar la página modal y esperar el resultado
+        var passwordPrompt = new PasswordPromptPage();
+        await Navigation.PushModalAsync(passwordPrompt);
+        var passwordResult = await passwordPrompt.GetPasswordAsync();
 
-        if (!string.IsNullOrEmpty(password))
+        if (!string.IsNullOrEmpty(passwordResult))
         {
-            // Aquí puedes agregar lógica para validar la contraseña ingresada
-            bool isPasswordValid = true;
-
-            if (isPasswordValid)
-            {
-                await DisplayAlert("Éxito", "Descarga de datos completada.", "OK");
-                // Lógica para descargar los datos
-            }
-            else
-            {
-                await DisplayAlert("Error", "Contraseña incorrecta.", "OK");
-            }
+            await DisplayAlert("OK", passwordResult, "OK");
         }
     }
 
