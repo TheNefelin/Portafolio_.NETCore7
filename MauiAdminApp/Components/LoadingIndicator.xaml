@@ -5,8 +5,9 @@
 
     <ActivityIndicator 
         IsVisible="False"
-        IsRunning="False"
+        IsRunning="True"
+        Color="Red"
+        BackgroundColor="Blue"
         VerticalOptions="CenterAndExpand" 
         HorizontalOptions="CenterAndExpand"/>
-    
 </ContentView>
