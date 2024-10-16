@@ -11,7 +11,7 @@ public partial class UrlGrpListPage : ContentPage
 		InitializeComponent();
 		_apiUrlGrpService = apiUrlGrpService;
 
-        loadingIndicator.IsVisible = true;
+        loading.IsVisible = true;
         // habilita el loading
         LoadData();
     }
@@ -27,7 +27,7 @@ public partial class UrlGrpListPage : ContentPage
         finally
         {
             // deshabilita el loading
-            loadingIndicator.IsVisible = false;
+            loading.IsVisible = false;
         }
     }
 

@@ -16,14 +16,53 @@ public partial class PasswordManagerPage : ContentPage
 		InitializeComponent();
 
 		_passwordManagerService = passwordManagerService;
+
         CoreData = new ObservableCollection<CoreDTO>();
         EditCommand = new Command<CoreDTO>(OnEdit);
         DeleteCommand = new Command<CoreDTO>(OnDelete);
+        BindingContext = this; // Asegurar que el BindingContext esté asignado a la página
     }
 
-	private async void OnDownloadData(object sender, EventArgs e)
+    private async void OnGetAll(object sender, EventArgs e)
     {
+        await OnDownloadData();
+    }
+
+    private async void OnCreate(object sender, EventArgs e)
+    {
+        loading.IsVisible = true;
+
+        await Navigation.PushAsync(new PasswordManagerFormPage(_passwordManagerService, null));
+        await OnDownloadData();
+
+        loading.IsVisible = false;
+    }
+
+    private async void OnEdit(CoreDTO secret)
+    {
+        loading.IsVisible = true;
+
+        await Navigation.PushAsync(new PasswordManagerFormPage(_passwordManagerService, secret));
+        await OnDownloadData();
+
+        loading.IsVisible = false;
+    }
+
+    private async void OnDelete(CoreDTO secret)
+    {
+        loading.IsVisible = true;
+
+        var result = await _passwordManagerService.Delete(secret.Id);
+        CoreData.Remove(secret);
+
+        loading.IsVisible = false;
+    }
+
+    private async Task OnDownloadData()
+    {
+        loading.IsVisible = true;
         SecretsCollectionView.ItemsSource = null;
+        CoreData.Clear();
 
         var result = await _passwordManagerService.GetAll();
         var sortData = result.Data.OrderBy(dt => dt.Data01).ToList();
@@ -34,6 +73,7 @@ public partial class PasswordManagerPage : ContentPage
         }
 
         SecretsCollectionView.ItemsSource = CoreData;
+        loading.IsVisible = false;
     }
 
     private async void OnDecryptData(object sender, EventArgs e)
@@ -47,21 +87,5 @@ public partial class PasswordManagerPage : ContentPage
         {
             await DisplayAlert("OK", passwordResult, "OK");
         }
-    }
-
-    private async void OnCreate(object sender, EventArgs e)
-    {
-		await Navigation.PushAsync(App._serviceProvider.GetService<PasswordManagerFormPage>());
-	}
-    private void OnEdit(CoreDTO secret)
-    {
-        // Lógica para editar el secreto
-        DisplayAlert("Edit", "Modificando", "Ok");
-    }
-
-    private void OnDelete(CoreDTO secret)
-    {
-        // Lógica para eliminar el secreto
-        DisplayAlert("Delete", "Eliminando", "Ok");
     }
 }

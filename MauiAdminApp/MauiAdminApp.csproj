@@ -90,9 +90,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Components\LoadingIndicator.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Pages\ChatPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
