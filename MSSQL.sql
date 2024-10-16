@@ -489,7 +489,7 @@ BEGIN
 				Data01,
 				Data02,
 				Data03,
-				Id_Usuario
+				Id_Usuario AS Id_User
 			FROM PM_Core
 			WHERE
 				Id_Usuario = @Id_Usuario
@@ -502,7 +502,7 @@ BEGIN
 				Data01,
 				Data02,
 				Data03,
-				Id_Usuario
+				Id_Usuario AS Id_User
 			FROM PM_Core
 			WHERE
 				Id_Usuario = @Id_Usuario
@@ -1525,6 +1525,7 @@ SELECT * FROM Auth_Usuario
 SELECT * FROM PM_Core
 SELECT * FROM PM_Plataformas
 
+EXECUTE '120650D5-88E8-4573-8AAD-309E386738BC', '618e5674-cc2e-4be0-a68a-39ed66bd1c85'
 -- --------------------------------------------------------------
 -- --------------------------------------------------------------
 

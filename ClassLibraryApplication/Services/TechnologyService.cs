@@ -1,5 +1,5 @@
-﻿using ClassLibraryApplication.DTOs;
-using ClassLibraryApplication.Interfaces;
+﻿using ClassLibraryApplication.Interfaces;
+using ClassLibraryDTOs;
 using Dapper;
 using System.Data;
 

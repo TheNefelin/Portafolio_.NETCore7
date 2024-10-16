@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ClassLibraryApplication.Interfaces;
-using ClassLibraryApplication.DTOs;
+using ClassLibraryDTOs;
 
 namespace WebApi.Controllers
 {

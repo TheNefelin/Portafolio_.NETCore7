@@ -1,5 +1,6 @@
 using ClassLibraryApplication.Interfaces;
 using ClassLibraryApplication.Services;
+using ClassLibraryDTOs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
@@ -7,7 +8,6 @@ using Microsoft.OpenApi.Models;
 using System.Data;
 using System.Text;
 using WebApi.Utils;
-using ClassLibraryApplication.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 

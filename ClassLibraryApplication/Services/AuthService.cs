@@ -1,6 +1,5 @@
-﻿using ClassLibraryApplication.DTOs;
-using ClassLibraryApplication.Entities;
-using ClassLibraryApplication.Interfaces;
+﻿using ClassLibraryApplication.Interfaces;
+using ClassLibraryDTOs;
 using Dapper;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
@@ -32,7 +31,7 @@ namespace ClassLibraryApplication.Services
 
             var (hash, salt) = _authPassword.HashPassword(registerDTO.Password1);
 
-            var newUser = new UserEntity
+            var newUser = new UserDTO
             {
                 Id = Guid.NewGuid().ToString(),
                 Email = registerDTO.Email,
@@ -72,7 +71,7 @@ namespace ClassLibraryApplication.Services
         {
             try
             {
-                var result = await _connection.QueryFirstOrDefaultAsync<UserEntity>(
+                var result = await _connection.QueryFirstOrDefaultAsync<UserDTO>(
                     new CommandDefinition(
                         $"Auth_Login",
                         new { loginDTO.Email },
@@ -127,14 +126,14 @@ namespace ClassLibraryApplication.Services
             }
         }
 
-        private UserDTO MapToDTO(UserEntity userEntity)
+        private UserDTO MapToDTO(UserDTO userDTO)
         {
             return new UserDTO
             {
-                Id = userEntity.Id,
-                Email = userEntity.Email,
-                SqlToken = userEntity.SqlToken,
-                Role = userEntity.Role,
+                Id = userDTO.Id,
+                Email = userDTO.Email,
+                SqlToken = userDTO.SqlToken,
+                Role = userDTO.Role,
             };
         }
 

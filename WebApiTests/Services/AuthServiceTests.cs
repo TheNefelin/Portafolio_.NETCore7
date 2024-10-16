@@ -1,7 +1,6 @@
-﻿using ClassLibraryApplication.DTOs;
-using ClassLibraryApplication.Entities;
-using ClassLibraryApplication.Interfaces;
+﻿using ClassLibraryApplication.Interfaces;
 using ClassLibraryApplication.Services;
+using ClassLibraryDTOs;
 using Dapper;
 using Moq;
 using Moq.Dapper;
@@ -32,20 +31,20 @@ namespace WebApiTests.Services
         {
             // Arrange
             var loginDto = new LoginDTO { Email = "test@example.com", Password = "Password123" };
-            var userEntity = new UserEntity { Id = "user-id", Email = "test@example.com", Hash1 = "hashedPassword", Salt1 = "salt" };
+            var userDTO = new UserDTO { Id = "user-id", Email = "test@example.com", Hash1 = "hashedPassword", Salt1 = "salt" };
 
             // Simulamos que el password es correcto
             _authPasswordMock
-                .Setup(p => p.VerifyPassword(It.IsAny<string>(), userEntity.Hash1, userEntity.Salt1))
+                .Setup(p => p.VerifyPassword(It.IsAny<string>(), userDTO.Hash1, userDTO.Salt1))
                 .Returns(true);
 
-            _dbConnectionMock.SetupDapperAsync(c => c.QueryFirstOrDefaultAsync<UserEntity>(
+            _dbConnectionMock.SetupDapperAsync(c => c.QueryFirstOrDefaultAsync<UserDTO>(
                 It.IsAny<string>(),
                 It.IsAny<object>(),
                 null,
                 null,
                 CommandType.StoredProcedure))
-                .ReturnsAsync(userEntity);
+                .ReturnsAsync(userDTO);
 
             //// Act
             //var result = await _authService.LoginAsync(loginDto, CancellationToken.None);
@@ -64,13 +63,13 @@ namespace WebApiTests.Services
             var loginDto = new LoginDTO { Email = "test@example.com", Password = "Password123" };
 
             // Simulamos que la consulta no encuentra el usuario
-            _dbConnectionMock.SetupDapperAsync(c => c.QueryFirstOrDefaultAsync<UserEntity>(
+            _dbConnectionMock.SetupDapperAsync(c => c.QueryFirstOrDefaultAsync<UserDTO>(
                 It.IsAny<string>(),
                 It.IsAny<object>(),
                 null,
                 null,
                 CommandType.StoredProcedure))
-                .ReturnsAsync((UserEntity)null); // Retornamos null
+                .ReturnsAsync((UserDTO)null); // Retornamos null
 
             //// Act
             //var result = await _authService.LoginAsync(loginDto, CancellationToken.None);

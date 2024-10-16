@@ -1,5 +1,5 @@
-﻿using ClassLibraryApplication.DTOs;
-using ClassLibraryApplication.Interfaces;
+﻿using ClassLibraryApplication.Interfaces;
+using ClassLibraryDTOs;
 using Dapper;
 using System.Data;
 
@@ -97,13 +97,13 @@ namespace ClassLibraryApplication.Services
                 var result = await _connection.QueryFirstOrDefaultAsync<ResponseSqlDTO>(
                     new CommandDefinition(
                         $"PM_Core_Insert",
-                        new { SqlToken = sqlToken, secretDTO.Id_User,  secretDTO.Data01, secretDTO.Data02, secretDTO.Data03 },
+                        new { SqlToken = sqlToken,  secretDTO.Data01, secretDTO.Data02, secretDTO.Data03, Id_Usuario = secretDTO.Id_User },
                         commandType: CommandType.StoredProcedure,
                         transaction: default,
                         cancellationToken: cancellationToken
                 ));
 
-                secretDTO.Id_User = result.Id;
+                secretDTO.Id = Int32.Parse(result.Id);
 
                 return new ResponseApiDTO<CoreDTO>
                 {
@@ -129,7 +129,7 @@ namespace ClassLibraryApplication.Services
                 var result = await _connection.QueryFirstOrDefaultAsync<ResponseSqlDTO>(
                     new CommandDefinition(
                         $"PM_Core_Update",
-                        new { SqlToken = sqlToken, secretDTO.Id_User, secretDTO.Id, secretDTO.Data01, secretDTO.Data02, secretDTO.Data03 },
+                        new { SqlToken = sqlToken, secretDTO.Id, secretDTO.Data01, secretDTO.Data02, secretDTO.Data03, Id_Usuario = secretDTO.Id_User },
                         commandType: CommandType.StoredProcedure,
                         transaction: default,
                         cancellationToken: cancellationToken

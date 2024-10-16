@@ -1,6 +1,5 @@
-﻿using ClassLibraryApplication.DTOs;
-using ClassLibraryApplication.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using ClassLibraryApplication.Interfaces;
+using ClassLibraryDTOs;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using WebApi.Controllers;
@@ -32,15 +31,15 @@ namespace WebApiTests.Controllers
         [Test]
         public async Task Login_ReturnsOk_WhenCredentialsAreValid()
         {
-            // Arrange
-            var loginDTO = new LoginDTO { Email = "testuser", Password = "testpassword" };
-            var expectedUser = new UserDTO { Id = "123", Email = "testuser@example.com", Role = "User" };
-            var expectedResponse = new ResponseApiDTO<UserDTO>
-            {
-                StatusCode = 200,
-                Message = "Login successful",
-                Data = expectedUser
-            };
+            //// Arrange
+            //var loginDTO = new LoginDTO { Email = "testuser", Password = "testpassword" };
+            //var expectedUser = new UserDTO { Id = "123", Email = "testuser@example.com", Role = "User" };
+            //var expectedResponse = new ResponseApiDTO<UserDTO>
+            //{
+            //    StatusCode = 200,
+            //    Message = "Login successful",
+            //    Data = expectedUser
+            //};
 
             //_authServiceMock.Setup(x => x.LoginAsync(loginDTO, It.IsAny<CancellationToken>()))
             //    .ReturnsAsync(expectedResponse);
@@ -69,12 +68,12 @@ namespace WebApiTests.Controllers
                 Password = "Password123"
             };
 
-            var expectedResponse = new ResponseApiDTO<UserDTO>
-            {
-                StatusCode = 200,
-                Message = "Login successful",
-                Data = null
-            };
+            //var expectedResponse = new ResponseApiDTO<UserDTO>
+            //{
+            //    StatusCode = 200,
+            //    Message = "Login successful",
+            //    Data = null
+            //};
 
             //_authServiceMock
             //    .Setup(service => service.LoginAsync(It.IsAny<LoginDTO>(), It.IsAny<CancellationToken>()))
@@ -99,12 +98,12 @@ namespace WebApiTests.Controllers
                 Password = "WrongPassword123"
             };
 
-            var expectedResponse = new ResponseApiDTO<UserDTO>
-            {
-                StatusCode = 401,
-                Message = "Invalid credentials",
-                Data = null
-            };
+            //var expectedResponse = new ResponseApiDTO<UserDTO>
+            //{
+            //    StatusCode = 401,
+            //    Message = "Invalid credentials",
+            //    Data = null
+            //};
 
             //_authServiceMock
             //    .Setup(service => service.LoginAsync(It.IsAny<LoginDTO>(), It.IsAny<CancellationToken>()))

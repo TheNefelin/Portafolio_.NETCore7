@@ -13,4 +13,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ClassLibraryDTOs\ClassLibraryDTOs.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-﻿using ClassLibraryApplication.DTOs;
+﻿using ClassLibraryDTOs;
 
 namespace ClassLibraryApplication.Interfaces
 {
