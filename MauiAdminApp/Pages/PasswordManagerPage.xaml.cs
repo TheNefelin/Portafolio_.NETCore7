@@ -30,20 +30,33 @@ public partial class PasswordManagerPage : ContentPage
 
     private async void OnCreate(object sender, EventArgs e)
     {
+
+        var page = new PasswordManagerFormPage(_passwordManagerService, null);
+        await Navigation.PushAsync(page);
+        var result = await page.GetCompletionTask();
+
         loading.IsVisible = true;
 
-        await Navigation.PushAsync(new PasswordManagerFormPage(_passwordManagerService, null));
-        await OnDownloadData();
+        if (result)
+        {
+            await OnDownloadData(); // Solo ejecutar si la operación fue completada (por ejemplo, después de guardar)
+        }
 
         loading.IsVisible = false;
     }
 
     private async void OnEdit(CoreDTO secret)
     {
+        var page = new PasswordManagerFormPage(_passwordManagerService, secret);
+        await Navigation.PushAsync(page);
+        var result = await page.GetCompletionTask();
+
         loading.IsVisible = true;
 
-        await Navigation.PushAsync(new PasswordManagerFormPage(_passwordManagerService, secret));
-        await OnDownloadData();
+        if (result)
+        {
+            await OnDownloadData(); // Solo ejecutar si la operación fue completada (por ejemplo, después de guardar)
+        }
 
         loading.IsVisible = false;
     }

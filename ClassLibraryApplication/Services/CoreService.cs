@@ -16,6 +16,89 @@ namespace ClassLibraryApplication.Services
             _authPassword = authPassword;   
         }
 
+        public async Task<ResponseApiDTO<object>> RegisterAsync(CoreRequestDTO<object> request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var (hash, salt) = _authPassword.HashPassword(request.Password);
+
+                var editUser = new UserDTO
+                {
+                    Id = request.Id_Usuario,
+                    SqlToken = request.Sql_Token,
+                    Hash2 = hash,
+                    Salt2 = salt,
+                };
+
+                var result = await _connection.QueryFirstOrDefaultAsync<ResponseSqlDTO>(
+                    new CommandDefinition(
+                        $"PM_Core_Register",
+                        new { editUser.SqlToken, editUser.Id, editUser.Hash2, editUser.Salt2 },
+                        commandType: CommandType.StoredProcedure,
+                        transaction: default,
+                        cancellationToken: cancellationToken
+                ));
+
+                return new ResponseApiDTO<object>
+                {
+                    StatusCode = result.StatusCode,
+                    Message = result.Msge,
+                    Data = new CoreIVDTO() { IV = result.Id }
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseApiDTO<object>
+                {
+                    StatusCode = 500,
+                    Message = "Error en la operación de base de datos: " + ex.Message
+                };
+            }
+        }
+
+        public async Task<ResponseApiDTO<object>> LoginAsync(CoreRequestDTO<object> request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var editUser = new UserDTO
+                {
+                    Id = request.Id_Usuario,
+                    SqlToken = request.Sql_Token,
+                };
+
+                var result = await _connection.QueryFirstOrDefaultAsync<UserDTO>(
+                    new CommandDefinition(
+                        $"PM_Core_Login",
+                        new { editUser.SqlToken, editUser.Id },
+                        commandType: CommandType.StoredProcedure,
+                        transaction: default,
+                        cancellationToken: cancellationToken
+                ));
+
+                if (result == null)
+                    return new ResponseApiDTO<object>
+                    {
+                        StatusCode = 404,
+                        Message = "Registro No Encontrado."
+                    };
+
+                return new ResponseApiDTO<object>
+                {
+                    StatusCode = 200,
+                    Message = "Autenticación Exitosa.",
+                    Data = new CoreIVDTO() { IV = result.Salt2 }
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseApiDTO<object>
+                {
+                    StatusCode = 500,
+                    Message = "Error en la operación de base de datos: " + ex.Message
+                };
+            }
+        }
+
         public async Task<ResponseApiDTO<IEnumerable<CoreDTO>>> GetAllAsync(string sqlToken, string idUsuario, CancellationToken cancellationToken)
         {
             try
@@ -60,7 +143,7 @@ namespace ClassLibraryApplication.Services
                 var result = await _connection.QueryFirstOrDefaultAsync<CoreDTO>(
                     new CommandDefinition(
                         $"PM_Core_Get",
-                        new { SqlToken = sqlToken, Id_Usuario = idUsuario, Id = id  },
+                        new { SqlToken = sqlToken, Id_Usuario = idUsuario, Id = id },
                         commandType: CommandType.StoredProcedure,
                         transaction: default,
                         cancellationToken: cancellationToken
@@ -97,7 +180,7 @@ namespace ClassLibraryApplication.Services
                 var result = await _connection.QueryFirstOrDefaultAsync<ResponseSqlDTO>(
                     new CommandDefinition(
                         $"PM_Core_Insert",
-                        new { SqlToken = sqlToken,  secretDTO.Data01, secretDTO.Data02, secretDTO.Data03, Id_Usuario = secretDTO.Id_User },
+                        new { SqlToken = sqlToken, secretDTO.Data01, secretDTO.Data02, secretDTO.Data03, Id_Usuario = secretDTO.Id_User },
                         commandType: CommandType.StoredProcedure,
                         transaction: default,
                         cancellationToken: cancellationToken

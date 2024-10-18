@@ -14,9 +14,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLServer", "SQLServer", "{
 		MSSQL.sql = MSSQL.sql
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiAdminApp", "MauiAdminApp\MauiAdminApp.csproj", "{32E4B691-C3CB-4A17-916A-87FA28B96F47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiAdminApp", "MauiAdminApp\MauiAdminApp.csproj", "{32E4B691-C3CB-4A17-916A-87FA28B96F47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibraryDTOs", "ClassLibraryDTOs\ClassLibraryDTOs.csproj", "{28737BA7-6F9F-4E0D-AE97-C5C4AA600501}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibraryDTOs", "ClassLibraryDTOs\ClassLibraryDTOs.csproj", "{28737BA7-6F9F-4E0D-AE97-C5C4AA600501}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

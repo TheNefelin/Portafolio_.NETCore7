@@ -7,6 +7,7 @@ public partial class PasswordManagerFormPage : ContentPage
 {
     private readonly PasswordManagerService _passwordManagerService;
 	private readonly CoreDTO _coreDTO;
+    private TaskCompletionSource<bool> _tcs; // Para manejar la tarea asíncrona
 
     public PasswordManagerFormPage(PasswordManagerService passwordManagerService, CoreDTO coreDTO)
 	{
@@ -14,8 +15,9 @@ public partial class PasswordManagerFormPage : ContentPage
 
 		_passwordManagerService = passwordManagerService;
 		_coreDTO = coreDTO;
+        _tcs?.SetResult(false);
 
-		LoadPage();
+        LoadPage();
 	}
 
 	private async void LoadPage()
@@ -41,19 +43,33 @@ public partial class PasswordManagerFormPage : ContentPage
 		if (string.IsNullOrEmpty(IdEntry.Text) || string.IsNullOrEmpty(Data01Entry.Text) || string.IsNullOrEmpty(Data02Entry.Text) || string.IsNullOrEmpty(Data03Entry.Text)) {
             ErrorLabel.Text = "Debes Rellenar Todos los Campos.";
             ErrorFrame.IsVisible = true;
+            return;
         }
-		else
-		{
-			CoreDTO coreDTO = new()
-			{
-				Id = 0,
-				Data01 = Data01Entry.Text,
-                Data02 = Data02Entry.Text,
-                Data03 = Data03Entry.Text,
-            };
 
+        CoreDTO coreDTO = new()
+        {
+            Id = Int32.Parse(IdEntry.Text),
+            Data01 = Data01Entry.Text,
+            Data02 = Data02Entry.Text,
+            Data03 = Data03Entry.Text,
+        };
+
+        if (coreDTO.Id == 0)
+        {
             var result = await _passwordManagerService.Create(coreDTO);
-            await Navigation.PopAsync();
         }
-	}
+        else
+        {
+            var result = await _passwordManagerService.Edit(coreDTO);
+        }
+         
+        _tcs?.SetResult(true);
+        await Navigation.PopAsync();
+    }
+
+    public Task<bool> GetCompletionTask()
+    {
+        _tcs = new TaskCompletionSource<bool>();
+        return _tcs.Task;
+    }
 }

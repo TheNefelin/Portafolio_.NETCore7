@@ -469,6 +469,70 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE PM_Core_Register
+	@SqlToken VARCHAR(256),
+	@Id VARCHAR(256),
+	@Hash2 VARCHAR(256),
+	@Salt2 VARCHAR(256)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+    IF NOT EXISTS (SELECT Id FROM Auth_Usuario WHERE Id = @Id AND SqlToken = @SqlToken)
+		BEGIN
+			SELECT 401 AS StatusCode, 'No Estas Autorizado' AS Msge, 0 AS Id
+			RETURN
+		END
+
+    IF NOT EXISTS (SELECT Id FROM Auth_Usuario WHERE Hash2 IS NULL AND Salt2 IS NULL)
+		BEGIN
+			SELECT 400 AS StatusCode, 'Ya Tienes una Clave Creada' AS Msge, 0 AS Id
+			RETURN
+		END
+
+	BEGIN TRY
+		UPDATE Auth_Usuario SET
+			Hash2 = @Hash2, 
+			Salt2 = @Salt2
+		WHERE
+			Id = @Id
+			AND SqlToken = @SqlToken
+
+		SELECT 201 AS StatusCode, 'Clave Registrada Correctamente' AS Msge, @Salt2 AS Id
+    END TRY
+    BEGIN CATCH
+		SELECT 500 AS StatusCode, 'Error al Guardado los Datos (PM_Core_Register)' AS Msge, 0 AS Id
+    END CATCH
+END
+GO
+
+CREATE PROCEDURE PM_Core_Login
+	@SqlToken VARCHAR(256),
+	@Id VARCHAR(256)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT 
+		a.Id,
+		a.Email,
+		a.Hash1,
+		a.Salt1,
+		a.Hash2,
+		a.Salt2,
+		a.SqlToken,
+		--a.Id_Perfil,
+		b.Nombre AS Role
+	FROM Auth_Usuario a 
+		INNER JOIN Auth_Perfil b ON a.Id_Perfil = b.Id
+	WHERE
+		a.Id = @Id
+		AND a.SqlToken = @SqlToken
+		AND a.Hash2 IS NOT NULL
+		AND a.Salt2 IS NOT NULL
+END
+GO
+
 CREATE PROCEDURE PM_Core_Get 
 	@SqlToken VARCHAR(256),
 	@Id_Usuario VARCHAR(256),
@@ -1525,7 +1589,10 @@ SELECT * FROM Auth_Usuario
 SELECT * FROM PM_Core
 SELECT * FROM PM_Plataformas
 
-EXECUTE '120650D5-88E8-4573-8AAD-309E386738BC', '618e5674-cc2e-4be0-a68a-39ed66bd1c85'
+UPDATE Auth_Usuario SET Hash2 = NULL, Salt2 = NULL WHERE Id = '618e5674-cc2e-4be0-a68a-39ed66bd1c85'
+
+EXECUTE PM_Core_Register 'CEC72ADB-E886-4B42-94C6-B114EBCFF065', '618e5674-cc2e-4be0-a68a-39ed66bd1c85', 'test', 'test'
+
 -- --------------------------------------------------------------
 -- --------------------------------------------------------------
 

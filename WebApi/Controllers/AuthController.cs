@@ -21,7 +21,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register(RegisterDTO registerDTO, CancellationToken cancellationToken)
+        public async Task<ActionResult<ResponseApiDTO<object>>> Register(RegisterDTO registerDTO, CancellationToken cancellationToken)
         {
             var response = await _authService.RegisterAsync(registerDTO, cancellationToken);
 
