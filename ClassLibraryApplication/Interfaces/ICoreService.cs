@@ -4,12 +4,12 @@ namespace ClassLibraryApplication.Interfaces
 {
     public interface ICoreService
     {
-        Task<ResponseApiDTO<object>> RegisterAsync(CoreRequestDTO<object> request, CancellationToken cancellationToken);
-        Task<ResponseApiDTO<object>> LoginAsync(CoreRequestDTO<object> request, CancellationToken cancellationToken);
-        Task<ResponseApiDTO<IEnumerable<CoreDTO>>> GetAllAsync(string sqlToken, string idUsuario, CancellationToken cancellationToken);
-        Task<ResponseApiDTO<CoreDTO>> GetByIdAsync(string sqlToken, string idUsuario, int id, CancellationToken cancellationToken);
-        Task<ResponseApiDTO<CoreDTO>> InsertAsync(string sqlToken, CoreDTO coreDTO, CancellationToken cancellationToken);
-        Task<ResponseApiDTO<CoreDTO>> UpdateAsync(string sqlToken, CoreDTO coreDTO, CancellationToken cancellationToken);
-        Task<ResponseApiDTO<CoreDTO>> DeleteAsync(string sqlToken, string idUsuario, int id, CancellationToken cancellationToken);
+        Task<ResponseApiDTO<CoreIVDTO>> RegisterAsync(CoreRequestDTO<object> request, CancellationToken cancellationToken);
+        Task<ResponseApiDTO<CoreIVDTO>> LoginAsync(CoreRequestDTO<object> request, CancellationToken cancellationToken);
+        Task<ResponseApiDTO<IEnumerable<CoreDTO>>> GetAllAsync(CoreRequestDTO<object> request, CancellationToken cancellationToken);
+        Task<ResponseApiDTO<CoreDTO>> GetByIdAsync(CoreRequestDTO<CoreDTO> request, CancellationToken cancellationToken);
+        Task<ResponseApiDTO<CoreDTO>> InsertAsync(CoreRequestDTO<CoreDTO> request, CancellationToken cancellationToken);
+        Task<ResponseApiDTO<CoreDTO>> UpdateAsync(CoreRequestDTO<CoreDTO> request, CancellationToken cancellationToken);
+        Task<ResponseApiDTO<object>> DeleteAsync(CoreRequestDTO<CoreDTO> request, CancellationToken cancellationToken);
     }
 }

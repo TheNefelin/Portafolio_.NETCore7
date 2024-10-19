@@ -7,7 +7,7 @@ namespace WebApi.Controllers
 {
     [Route("api/core")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class CoreController : ControllerBase
     {
         private readonly ICoreService _coreService;
@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPatch("register")]
-        public async Task<ActionResult<ResponseApiDTO<object>>> Register(CoreRequestDTO<object> request, CancellationToken cancellationToken)
+        public async Task<ActionResult<ResponseApiDTO<CoreIVDTO>>> Register(CoreRequestDTO<object> request, CancellationToken cancellationToken)
         {
             var response = await _coreService.RegisterAsync(request, cancellationToken);
             return StatusCode(response.StatusCode, response);
@@ -34,17 +34,17 @@ namespace WebApi.Controllers
         [HttpPatch("get-all")]
         public async Task<ActionResult<ResponseApiDTO<IEnumerable<CoreDTO>>>> GetAll(CoreRequestDTO<object> request, CancellationToken cancellationToken)
         {
-            var response = await _coreService.GetAllAsync(request.Sql_Token, request.Id_Usuario, cancellationToken);
+            var response = await _coreService.GetAllAsync(request, cancellationToken);
             return StatusCode(response.StatusCode, response);
         }
 
         [HttpPatch("get-byid")]
-        public async Task<ActionResult<ResponseApiDTO<CoreDTO>>> GetById(CoreRequestDTO<object> request, CancellationToken cancellationToken)
+        public async Task<ActionResult<ResponseApiDTO<CoreDTO>>> GetById(CoreRequestDTO<CoreDTO> request, CancellationToken cancellationToken)
         {
             if (request.Id.HasValue)
                 return BadRequest("Id is required");
 
-            var response = await _coreService.GetByIdAsync(request.Sql_Token, request.Id_Usuario, request.Id.Value, cancellationToken);
+            var response = await _coreService.GetByIdAsync(request, cancellationToken);
             return StatusCode(response.StatusCode, response);
         }
 
@@ -54,7 +54,7 @@ namespace WebApi.Controllers
             if (request.CoreData == null)
                 return BadRequest("Core data is required");
 
-            var response = await _coreService.InsertAsync(request.Sql_Token, request.CoreData, cancellationToken);
+            var response = await _coreService.InsertAsync(request, cancellationToken);
             return StatusCode(response.StatusCode, response);
         }
 
@@ -64,17 +64,17 @@ namespace WebApi.Controllers
             if (request.CoreData == null)
                 return BadRequest("Core data is required");
 
-            var response = await _coreService.UpdateAsync(request.Sql_Token, request.CoreData, cancellationToken);
+            var response = await _coreService.UpdateAsync(request, cancellationToken);
             return StatusCode(response.StatusCode, response);
         }
 
         [HttpPatch("delete")]
-        public async Task<ActionResult<ResponseApiDTO<object>>> Delete(CoreRequestDTO<object> request, CancellationToken cancellationToken)
+        public async Task<ActionResult<ResponseApiDTO<object>>> Delete(CoreRequestDTO<CoreDTO> request, CancellationToken cancellationToken)
         {
             if (request.Id.HasValue)
                 return BadRequest("Id is required");
 
-            var response = await _coreService.DeleteAsync(request.Sql_Token, request.Id_Usuario, request.Id.Value, cancellationToken);
+            var response = await _coreService.DeleteAsync(request, cancellationToken);
             return StatusCode(response.StatusCode, response);
         }
     }

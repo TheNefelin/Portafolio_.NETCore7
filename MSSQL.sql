@@ -471,14 +471,14 @@ GO
 
 CREATE PROCEDURE PM_Core_Register
 	@SqlToken VARCHAR(256),
-	@Id VARCHAR(256),
+	@Id_Usuario VARCHAR(256),
 	@Hash2 VARCHAR(256),
 	@Salt2 VARCHAR(256)
 AS
 BEGIN
 	SET NOCOUNT ON;
 
-    IF NOT EXISTS (SELECT Id FROM Auth_Usuario WHERE Id = @Id AND SqlToken = @SqlToken)
+    IF NOT EXISTS (SELECT Id FROM Auth_Usuario WHERE Id = @Id_Usuario AND SqlToken = @SqlToken)
 		BEGIN
 			SELECT 401 AS StatusCode, 'No Estas Autorizado' AS Msge, 0 AS Id
 			RETURN
@@ -495,7 +495,7 @@ BEGIN
 			Hash2 = @Hash2, 
 			Salt2 = @Salt2
 		WHERE
-			Id = @Id
+			Id = @Id_Usuario
 			AND SqlToken = @SqlToken
 
 		SELECT 201 AS StatusCode, 'Clave Registrada Correctamente' AS Msge, @Salt2 AS Id
@@ -508,7 +508,7 @@ GO
 
 CREATE PROCEDURE PM_Core_Login
 	@SqlToken VARCHAR(256),
-	@Id VARCHAR(256)
+	@Id_Usuario VARCHAR(256)
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -526,7 +526,7 @@ BEGIN
 	FROM Auth_Usuario a 
 		INNER JOIN Auth_Perfil b ON a.Id_Perfil = b.Id
 	WHERE
-		a.Id = @Id
+		a.Id = @Id_Usuario
 		AND a.SqlToken = @SqlToken
 		AND a.Hash2 IS NOT NULL
 		AND a.Salt2 IS NOT NULL
@@ -576,10 +576,10 @@ GO
 
 CREATE PROCEDURE PM_Core_Insert
 	@SqlToken VARCHAR(256),
+	@Id_Usuario VARCHAR(256),
 	@Data01 VARCHAR(256),
 	@Data02 VARCHAR(256),
-	@Data03 VARCHAR(256),
-	@Id_Usuario VARCHAR(256)
+	@Data03 VARCHAR(256)
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -1547,6 +1547,8 @@ GO
 
 DROP PROCEDURE Auth_Register
 DROP PROCEDURE Auth_Login
+DROP PROCEDURE PM_Core_Login
+DROP PROCEDURE PM_Core_Register
 DROP PROCEDURE PM_Core_Get
 DROP PROCEDURE PM_Core_Insert
 DROP PROCEDURE PM_Core_Update

@@ -1,5 +1,4 @@
-﻿using Android.Media.TV;
-using ClassLibraryDTOs;
+﻿using ClassLibraryDTOs;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;

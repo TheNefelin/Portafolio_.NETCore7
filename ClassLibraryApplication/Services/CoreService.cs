@@ -16,30 +16,29 @@ namespace ClassLibraryApplication.Services
             _authPassword = authPassword;   
         }
 
-        public async Task<ResponseApiDTO<object>> RegisterAsync(CoreRequestDTO<object> request, CancellationToken cancellationToken)
+        public async Task<ResponseApiDTO<CoreIVDTO>> RegisterAsync(CoreRequestDTO<object> request, CancellationToken cancellationToken)
         {
             try
             {
                 var (hash, salt) = _authPassword.HashPassword(request.Password);
 
-                var editUser = new UserDTO
-                {
-                    Id = request.Id_Usuario,
-                    SqlToken = request.Sql_Token,
-                    Hash2 = hash,
-                    Salt2 = salt,
-                };
-
                 var result = await _connection.QueryFirstOrDefaultAsync<ResponseSqlDTO>(
                     new CommandDefinition(
                         $"PM_Core_Register",
-                        new { editUser.SqlToken, editUser.Id, editUser.Hash2, editUser.Salt2 },
+                        new { SqlToken = request.Sql_Token, Id_Usuario = request.Id_Usuario, hash2 = hash, salt2 = salt },
                         commandType: CommandType.StoredProcedure,
                         transaction: default,
                         cancellationToken: cancellationToken
                 ));
 
-                return new ResponseApiDTO<object>
+                if (result == null)
+                    return new ResponseApiDTO<CoreIVDTO>
+                    {
+                        StatusCode = 404,
+                        Message = "Registro No Encontrado."
+                    };
+
+                return new ResponseApiDTO<CoreIVDTO>
                 {
                     StatusCode = result.StatusCode,
                     Message = result.Msge,
@@ -48,7 +47,7 @@ namespace ClassLibraryApplication.Services
             }
             catch (Exception ex)
             {
-                return new ResponseApiDTO<object>
+                return new ResponseApiDTO<CoreIVDTO>
                 {
                     StatusCode = 500,
                     Message = "Error en la operación de base de datos: " + ex.Message
@@ -56,33 +55,27 @@ namespace ClassLibraryApplication.Services
             }
         }
 
-        public async Task<ResponseApiDTO<object>> LoginAsync(CoreRequestDTO<object> request, CancellationToken cancellationToken)
+        public async Task<ResponseApiDTO<CoreIVDTO>> LoginAsync(CoreRequestDTO<object> request, CancellationToken cancellationToken)
         {
             try
             {
-                var editUser = new UserDTO
-                {
-                    Id = request.Id_Usuario,
-                    SqlToken = request.Sql_Token,
-                };
-
                 var result = await _connection.QueryFirstOrDefaultAsync<UserDTO>(
                     new CommandDefinition(
                         $"PM_Core_Login",
-                        new { editUser.SqlToken, editUser.Id },
+                        new { SqlToken = request.Sql_Token, request.Id_Usuario },
                         commandType: CommandType.StoredProcedure,
                         transaction: default,
                         cancellationToken: cancellationToken
                 ));
 
                 if (result == null)
-                    return new ResponseApiDTO<object>
+                    return new ResponseApiDTO<CoreIVDTO>
                     {
                         StatusCode = 404,
                         Message = "Registro No Encontrado."
                     };
 
-                return new ResponseApiDTO<object>
+                return new ResponseApiDTO<CoreIVDTO>
                 {
                     StatusCode = 200,
                     Message = "Autenticación Exitosa.",
@@ -91,7 +84,7 @@ namespace ClassLibraryApplication.Services
             }
             catch (Exception ex)
             {
-                return new ResponseApiDTO<object>
+                return new ResponseApiDTO<CoreIVDTO>
                 {
                     StatusCode = 500,
                     Message = "Error en la operación de base de datos: " + ex.Message
@@ -99,14 +92,14 @@ namespace ClassLibraryApplication.Services
             }
         }
 
-        public async Task<ResponseApiDTO<IEnumerable<CoreDTO>>> GetAllAsync(string sqlToken, string idUsuario, CancellationToken cancellationToken)
+        public async Task<ResponseApiDTO<IEnumerable<CoreDTO>>> GetAllAsync(CoreRequestDTO<object> request, CancellationToken cancellationToken)
         {
             try
             {
                 var result = await _connection.QueryAsync<CoreDTO>(
                     new CommandDefinition(
                         $"PM_Core_Get",
-                        new { SqlToken = sqlToken, Id_Usuario = idUsuario, Id = 0 },
+                        new { SqlToken = request.Sql_Token, request.Id_Usuario, Id = 0 },
                         commandType: CommandType.StoredProcedure,
                         transaction: default,
                         cancellationToken: cancellationToken
@@ -129,21 +122,14 @@ namespace ClassLibraryApplication.Services
             }
         }
 
-        public async Task<ResponseApiDTO<CoreDTO>> GetByIdAsync(string sqlToken, string idUsuario, int id, CancellationToken cancellationToken)
+        public async Task<ResponseApiDTO<CoreDTO>> GetByIdAsync(CoreRequestDTO<CoreDTO> request, CancellationToken cancellationToken)
         {
-            if (id <= 0)
-                return new ResponseApiDTO<CoreDTO>
-                {
-                    StatusCode = 400,
-                    Message = "Ingrese un Id mayor a 0."
-                };
-
             try
             {
                 var result = await _connection.QueryFirstOrDefaultAsync<CoreDTO>(
                     new CommandDefinition(
                         $"PM_Core_Get",
-                        new { SqlToken = sqlToken, Id_Usuario = idUsuario, Id = id },
+                        new { SqlToken = request.Sql_Token, request.Id_Usuario, request.CoreData.Id },
                         commandType: CommandType.StoredProcedure,
                         transaction: default,
                         cancellationToken: cancellationToken
@@ -173,26 +159,26 @@ namespace ClassLibraryApplication.Services
             }
         }
 
-        public async Task<ResponseApiDTO<CoreDTO>> InsertAsync(string sqlToken, CoreDTO secretDTO, CancellationToken cancellationToken)
+        public async Task<ResponseApiDTO<CoreDTO>> InsertAsync(CoreRequestDTO<CoreDTO> request, CancellationToken cancellationToken)
         {
             try
             {
                 var result = await _connection.QueryFirstOrDefaultAsync<ResponseSqlDTO>(
                     new CommandDefinition(
                         $"PM_Core_Insert",
-                        new { SqlToken = sqlToken, secretDTO.Data01, secretDTO.Data02, secretDTO.Data03, Id_Usuario = secretDTO.Id_User },
+                        new { SqlToken = request.Sql_Token, request.Id_Usuario, request.CoreData.Data01, request.CoreData.Data02, request.CoreData.Data03 },
                         commandType: CommandType.StoredProcedure,
                         transaction: default,
                         cancellationToken: cancellationToken
                 ));
 
-                secretDTO.Id = Int32.Parse(result.Id);
+                request.CoreData.Id = Int32.Parse(result.Id);
 
                 return new ResponseApiDTO<CoreDTO>
                 {
                     StatusCode = result.StatusCode,
                     Message = result.Msge,
-                    Data = secretDTO
+                    Data = request.CoreData,
                 };
             }
             catch (Exception ex)
@@ -205,14 +191,14 @@ namespace ClassLibraryApplication.Services
             }
         }
 
-        public async Task<ResponseApiDTO<CoreDTO>> UpdateAsync(string sqlToken, CoreDTO secretDTO, CancellationToken cancellationToken)
+        public async Task<ResponseApiDTO<CoreDTO>> UpdateAsync(CoreRequestDTO<CoreDTO> request, CancellationToken cancellationToken)
         {
             try
             {
                 var result = await _connection.QueryFirstOrDefaultAsync<ResponseSqlDTO>(
                     new CommandDefinition(
                         $"PM_Core_Update",
-                        new { SqlToken = sqlToken, secretDTO.Id, secretDTO.Data01, secretDTO.Data02, secretDTO.Data03, Id_Usuario = secretDTO.Id_User },
+                        new { SqlToken = request.Sql_Token, request.Id_Usuario, request.CoreData.Id, request.CoreData.Data01, request.CoreData.Data02, request.CoreData.Data03 },
                         commandType: CommandType.StoredProcedure,
                         transaction: default,
                         cancellationToken: cancellationToken
@@ -222,7 +208,7 @@ namespace ClassLibraryApplication.Services
                 {
                     StatusCode = result.StatusCode,
                     Message = result.Msge,
-                    Data = secretDTO
+                    Data = request.CoreData,
                 };
             }
             catch (Exception ex)
@@ -235,20 +221,20 @@ namespace ClassLibraryApplication.Services
             }
         }
 
-        public async Task<ResponseApiDTO<CoreDTO>> DeleteAsync(string sqlToken, string idUsuario, int id, CancellationToken cancellationToken)
+        public async Task<ResponseApiDTO<object>> DeleteAsync(CoreRequestDTO<CoreDTO> request, CancellationToken cancellationToken)
         {
             try
             {
                 var result = await _connection.QueryFirstOrDefaultAsync<ResponseSqlDTO>(
                     new CommandDefinition(
                         $"PM_Core_Delete",
-                        new { SqlToken = sqlToken, Id_Usuario = idUsuario, Id = id },
+                        new { SqlToken = request.Sql_Token, request.Id_Usuario, request.CoreData.Id },
                         commandType: CommandType.StoredProcedure,
                         transaction: default,
                         cancellationToken: cancellationToken
                 ));
 
-                return new ResponseApiDTO<CoreDTO>
+                return new ResponseApiDTO<object>
                 {
                     StatusCode = result.StatusCode,
                     Message = result.Msge,
@@ -257,7 +243,7 @@ namespace ClassLibraryApplication.Services
             }
             catch (Exception ex)
             {
-                return new ResponseApiDTO<CoreDTO>
+                return new ResponseApiDTO<object>
                 {
                     StatusCode = 500,
                     Message = "Error en la operación de base de datos: " + ex.Message
