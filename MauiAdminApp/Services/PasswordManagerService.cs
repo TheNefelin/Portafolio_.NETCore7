@@ -14,9 +14,37 @@ namespace MauiAdminApp.Services
             _httpClient = httpClient;
         }
 
+        public async Task<ResponseApiDTO<List<CoreDTO>>> GetAll()
+        {
+            return await RequestApiQuery<List<CoreDTO>>($"/api/core/get-all", null);
+        }
+
+        public async Task<ResponseApiDTO<CoreDTO>> Create(CoreDTO coreDTO)
+        {
+            coreDTO.Id = 0;
+            return await RequestApiQuery<CoreDTO>($"/api/core/insert", coreDTO);
+        }
+
+        public async Task<ResponseApiDTO<CoreDTO>> Edit(CoreDTO coreDTO)
+        {
+            return await RequestApiQuery<CoreDTO>($"/api/core/update", coreDTO);
+        }
+
+        public async Task<ResponseApiDTO<CoreDTO>> Delete(int id)
+        {
+            CoreDTO coreDTO = new() { 
+                Id = id,
+                Data01 = "na",
+                Data02 = "na",
+                Data03 = "na",
+            };
+            
+            return await RequestApiQuery<CoreDTO>($"/api/core/delete", coreDTO);
+        }
+
         private async Task<ResponseApiDTO<T>> RequestApiQuery<T>(string uri, CoreDTO coreDTO)
         {
-            try 
+            try
             {
                 // se obtiene los datos de sesion del usuario
                 LoggedinDTO loggedinDTO = await AuthService.GetUser();
@@ -29,7 +57,7 @@ namespace MauiAdminApp.Services
                 {
                     Sql_Token = loggedinDTO.SqlToken,
                     Id_Usuario = loggedinDTO.Id,
-                    Id = coreDTO != null ? coreDTO.Id : null,
+                    Password = "",
                     CoreData = coreDTO,
                 };
 
@@ -59,28 +87,6 @@ namespace MauiAdminApp.Services
             }
 
             return null;
-        }
-
-        public async Task<ResponseApiDTO<List<CoreDTO>>> GetAll()
-        {
-            return await RequestApiQuery<List<CoreDTO>>($"/api/core/get-all", null);
-        }
-
-        public async Task<ResponseApiDTO<CoreDTO>> Create(CoreDTO coreDTO)
-        {
-            coreDTO.Id = 0;
-            return await RequestApiQuery<CoreDTO>($"/api/core/insert", coreDTO);
-        }
-
-        public async Task<ResponseApiDTO<CoreDTO>> Edit(CoreDTO coreDTO)
-        {
-            return await RequestApiQuery<CoreDTO>($"/api/core/update", coreDTO);
-        }
-
-        public async Task<ResponseApiDTO<CoreDTO>> Delete(int id)
-        {
-            CoreDTO coreDTO = new() { Id = id };
-            return await RequestApiQuery<CoreDTO>($"/api/core/delete", coreDTO);
         }
     }
 }

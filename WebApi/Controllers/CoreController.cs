@@ -7,7 +7,7 @@ namespace WebApi.Controllers
 {
     [Route("api/core")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class CoreController : ControllerBase
     {
         private readonly ICoreService _coreService;
@@ -41,9 +41,6 @@ namespace WebApi.Controllers
         [HttpPatch("get-byid")]
         public async Task<ActionResult<ResponseApiDTO<CoreDTO>>> GetById(CoreRequestDTO<CoreDTO> request, CancellationToken cancellationToken)
         {
-            if (request.Id.HasValue)
-                return BadRequest("Id is required");
-
             var response = await _coreService.GetByIdAsync(request, cancellationToken);
             return StatusCode(response.StatusCode, response);
         }
@@ -51,9 +48,6 @@ namespace WebApi.Controllers
         [HttpPatch("insert")]
         public async Task<ActionResult<ResponseApiDTO<CoreDTO>>> Insert(CoreRequestDTO<CoreDTO> request, CancellationToken cancellationToken)
         {
-            if (request.CoreData == null)
-                return BadRequest("Core data is required");
-
             var response = await _coreService.InsertAsync(request, cancellationToken);
             return StatusCode(response.StatusCode, response);
         }
@@ -61,9 +55,6 @@ namespace WebApi.Controllers
         [HttpPatch("update")]
         public async Task<ActionResult<ResponseApiDTO<CoreDTO>>> Update(CoreRequestDTO<CoreDTO> request, CancellationToken cancellationToken)
         {
-            if (request.CoreData == null)
-                return BadRequest("Core data is required");
-
             var response = await _coreService.UpdateAsync(request, cancellationToken);
             return StatusCode(response.StatusCode, response);
         }
@@ -71,9 +62,6 @@ namespace WebApi.Controllers
         [HttpPatch("delete")]
         public async Task<ActionResult<ResponseApiDTO<object>>> Delete(CoreRequestDTO<CoreDTO> request, CancellationToken cancellationToken)
         {
-            if (request.Id.HasValue)
-                return BadRequest("Id is required");
-
             var response = await _coreService.DeleteAsync(request, cancellationToken);
             return StatusCode(response.StatusCode, response);
         }

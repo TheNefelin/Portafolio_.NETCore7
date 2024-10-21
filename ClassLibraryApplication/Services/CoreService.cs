@@ -25,7 +25,7 @@ namespace ClassLibraryApplication.Services
                 var result = await _connection.QueryFirstOrDefaultAsync<ResponseSqlDTO>(
                     new CommandDefinition(
                         $"PM_Core_Register",
-                        new { SqlToken = request.Sql_Token, Id_Usuario = request.Id_Usuario, hash2 = hash, salt2 = salt },
+                        new { SqlToken = request.Sql_Token, request.Id_Usuario, hash2 = hash, salt2 = salt },
                         commandType: CommandType.StoredProcedure,
                         transaction: default,
                         cancellationToken: cancellationToken
