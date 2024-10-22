@@ -71,8 +71,17 @@ namespace ClassLibraryApplication.Services
                 if (result == null)
                     return new ResponseApiDTO<CoreIVDTO>
                     {
-                        StatusCode = 404,
-                        Message = "Registro No Encontrado."
+                        StatusCode = 401,
+                        Message = "Usuario o Contraseña Icorrecta."
+                    };
+
+                bool passwordCorrect = _authPassword.VerifyPassword(request.Password, result.Hash1, result.Salt1);
+
+                if (!passwordCorrect)
+                    return new ResponseApiDTO<CoreIVDTO>
+                    {
+                        StatusCode = 401,
+                        Message = "Usuario o Contraseña Icorrecta."
                     };
 
                 return new ResponseApiDTO<CoreIVDTO>

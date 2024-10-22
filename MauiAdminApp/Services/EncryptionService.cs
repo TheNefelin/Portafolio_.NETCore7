@@ -6,30 +6,34 @@ namespace MauiAdminApp.Services
 {
     public class EncryptionService
     {
-        public static CoreDTO EncryptData(CoreDTO coreDTO)
+        public CoreDTO EncryptData(CoreDTO coreDTO, string pass, string iv)
         {
+            byte[] aesKey = GetAesKey(pass);
+
             return new CoreDTO
             {
-                Data01 = coreDTO.Data01,
-                Data02 = coreDTO.Data02,
-                Data03 = coreDTO.Data03,
+                Data01 = Encrypt(coreDTO.Data01, aesKey, iv),
+                Data02 = Encrypt(coreDTO.Data02, aesKey, iv),
+                Data03 = Encrypt(coreDTO.Data03, aesKey, iv),
             };
         }
 
-        public static CoreDTO DecryptData(CoreDTO coreDTO)
+        public CoreDTO DecryptData(CoreDTO coreDTO, string pass, string iv)
         {
+            byte[] aesKey = GetAesKey(pass);
+
             return new CoreDTO
             {
-                Data01 = coreDTO.Data01,
-                Data02 = coreDTO.Data02,
-                Data03 = coreDTO.Data03,
+                Data01 = Decrypt(coreDTO.Data01, aesKey, iv),
+                Data02 = Decrypt(coreDTO.Data02, aesKey, iv),
+                Data03 = Decrypt(coreDTO.Data03, aesKey, iv),
             };
         }
 
-        private string Encrypt(string plainText, string pass, string iv)
+        private string Encrypt(string plainText, byte[] key, string iv)
         {
             using var aes = Aes.Create();
-            aes.Key = GetAesKey(pass);
+            aes.Key = key;
             aes.IV = Convert.FromBase64String(iv);
 
             ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
@@ -46,12 +50,12 @@ namespace MauiAdminApp.Services
             return Convert.ToBase64String(encrypted);
         }
 
-        private string Decrypt(string encryptedText, string pass, string iv)
+        private string Decrypt(string encryptedText, byte[] key, string iv)
         {
             byte[] cipherBytes = Convert.FromBase64String(encryptedText);
 
             using var aes = Aes.Create();
-            aes.Key = GetAesKey(pass);
+            aes.Key = key;
             aes.IV = Convert.FromBase64String(iv);
 
             ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
@@ -63,9 +67,9 @@ namespace MauiAdminApp.Services
             return sr.ReadToEnd();
         }
 
-        private byte[] GetAesKey(string key)
+        private byte[] GetAesKey(string pass)
         {
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            byte[] keyBytes = Encoding.UTF8.GetBytes(pass);
 
             while (keyBytes.Length < 32)
                 keyBytes = keyBytes.Concat(keyBytes).ToArray(); // Concatenamos la clave

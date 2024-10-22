@@ -45,9 +45,9 @@ public partial class PasswordManagerPage : ContentPage
         loading.IsVisible = false;
     }
 
-    private async void OnEdit(CoreDTO secret)
+    private async void OnEdit(CoreDTO coreDTO)
     {
-        var page = new PasswordManagerFormPage(_passwordManagerService, secret);
+        var page = new PasswordManagerFormPage(_passwordManagerService, coreDTO);
         await Navigation.PushAsync(page);
         var result = await page.GetCompletionTask();
 
@@ -61,12 +61,12 @@ public partial class PasswordManagerPage : ContentPage
         loading.IsVisible = false;
     }
 
-    private async void OnDelete(CoreDTO secret)
+    private async void OnDelete(CoreDTO coreDTO)
     {
         loading.IsVisible = true;
 
-        var result = await _passwordManagerService.Delete(secret.Id);
-        CoreData.Remove(secret);
+        var result = await _passwordManagerService.Delete(coreDTO.Id);
+        CoreData.Remove(coreDTO);
 
         loading.IsVisible = false;
     }
@@ -77,13 +77,11 @@ public partial class PasswordManagerPage : ContentPage
         SecretsCollectionView.ItemsSource = null;
         CoreData.Clear();
 
-        var result = await _passwordManagerService.GetAll();
+        var (result, success) = await _passwordManagerService.GetAll();
         var sortData = result.Data.OrderBy(dt => dt.Data01).ToList();
 
         foreach (var data in sortData)
-        {
             CoreData.Add(data);
-        }
 
         SecretsCollectionView.ItemsSource = CoreData;
         loading.IsVisible = false;
@@ -91,14 +89,42 @@ public partial class PasswordManagerPage : ContentPage
 
     private async void OnDecryptData(object sender, EventArgs e)
     {
-        // Mostrar la página modal y esperar el resultado
-        var passwordPrompt = new PasswordPromptPage();
-        await Navigation.PushModalAsync(passwordPrompt);
-        var passwordResult = await passwordPrompt.GetPasswordAsync();
-
-        if (!string.IsNullOrEmpty(passwordResult))
-        {
-            await DisplayAlert("OK", passwordResult, "OK");
+        if (CoreData.Count == 0) {
+            await DisplayAlert("Error", "La Lista esta Vacía.", "Ok");
+            return;
         }
+
+        for (int i = 0; i < CoreData.Count; i++)
+            if (!IsBase64String(CoreData[i].Data01))
+            {
+                await DisplayAlert("Error", "La Lista ya está Descifrado.", "Ok");
+                return;
+            }
+
+        // Mostrar la página modal y esperar el resultado
+        var passwordPrompt = new PasswordPromptPage(_passwordManagerService);
+        await Navigation.PushModalAsync(passwordPrompt);
+        var (password, coreIV) = await passwordPrompt.GetPasswordAsync();
+
+        loading.IsVisible = true;
+
+        if (!string.IsNullOrEmpty(coreIV.IV))
+        {
+            EncryptionService encryptionService = new EncryptionService();
+
+            for (int i = 0; i < CoreData.Count; i++)
+                CoreData[i] = encryptionService.DecryptData(CoreData[i], password, coreIV.IV);
+        }
+
+        loading.IsVisible = false;
+    }
+
+    public bool IsBase64String(string base64String)
+    {
+        if (string.IsNullOrEmpty(base64String))
+            return false;
+
+        Span<byte> buffer = new Span<byte>(new byte[base64String.Length]);
+        return Convert.TryFromBase64String(base64String, buffer, out _);
     }
 }

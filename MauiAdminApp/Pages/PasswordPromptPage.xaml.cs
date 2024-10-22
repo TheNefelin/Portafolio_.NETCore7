@@ -1,19 +1,18 @@
+using ClassLibraryDTOs;
+using MauiAdminApp.Services;
+
 namespace MauiAdminApp.Pages;
 
 public partial class PasswordPromptPage : ContentPage
 {
-    private TaskCompletionSource<string> _taskCompletionSource;
+    private readonly PasswordManagerService _passwordManagerService;
+    private TaskCompletionSource<(string, CoreIVDTO)> _taskCompletionSource;
 
-    public PasswordPromptPage()
+    public PasswordPromptPage(PasswordManagerService passwordManagerService)
 	{
 		InitializeComponent();
-	}
-
-    // Método para mostrar el modal y esperar la contraseña
-    public Task<string> GetPasswordAsync()
-    {
-        _taskCompletionSource = new TaskCompletionSource<string>();
-        return _taskCompletionSource.Task;
+        _passwordManagerService = passwordManagerService;
+        _taskCompletionSource = new TaskCompletionSource<(string, CoreIVDTO)>();
     }
 
     // Evento cuando se hace clic en el botón "Aceptar"
@@ -26,27 +25,34 @@ public partial class PasswordPromptPage : ContentPage
         {
             ErrorLabel.Text = "La contraseña debe tener al menos 6 caracteres.";
             ErrorLabel.IsVisible = true;
+            return;
         }
-        else
+
+        // Ocultar la etiqueta de error si la validación es correcta
+        ErrorLabel.IsVisible = false;
+
+        var (result, susces) = await _passwordManagerService.Login(password);
+
+        if (!susces)
         {
-            // Ocultar la etiqueta de error si la validación es correcta
-            ErrorLabel.IsVisible = false;
-
-            // Devolver la contraseña
-            _taskCompletionSource.SetResult(password);
-
-            // Cerrar la página
-            await Navigation.PopModalAsync();
+            await DisplayAlert($"{result.StatusCode}", $"{result.Message}", "Ok");
+            return;
         }
+
+        _taskCompletionSource.SetResult((password, result.Data));
+        await Navigation.PopModalAsync();
     }
 
     // Evento cuando se hace clic en el botón "Cancelar"
     private async void OnCancelClicked(object sender, EventArgs e)
     {
-        // Devolver null si se cancela
-        _taskCompletionSource.SetResult(null);
-
-        // Simplemente regresa a la página anterior sin realizar acción
+        _taskCompletionSource.SetResult((null, new CoreIVDTO()));
         await Navigation.PopModalAsync();
+    }
+
+    // Método para mostrar el modal y esperar la contraseña
+    public Task<(string, CoreIVDTO)> GetPasswordAsync()
+    {
+        return _taskCompletionSource.Task;
     }
 }

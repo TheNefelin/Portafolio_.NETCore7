@@ -15,7 +15,7 @@ public partial class PasswordManagerFormPage : ContentPage
 
 		_passwordManagerService = passwordManagerService;
 		_coreDTO = coreDTO;
-        _tcs?.SetResult(false);
+        _tcs = new TaskCompletionSource<bool>();
 
         LoadPage();
 	}
@@ -31,6 +31,9 @@ public partial class PasswordManagerFormPage : ContentPage
 			Data02Entry.Text = _coreDTO.Data02;
 			Data03Entry.Text = _coreDTO.Data03;
             BtnClick.Text = "Modificar";
+
+            ErrorLabel.Text = "Procura que los datos a modificar están Desencriptado.";
+            ErrorFrame.IsVisible = true;
         }
 		else {
             IdEntry.Text = "0";
@@ -54,22 +57,33 @@ public partial class PasswordManagerFormPage : ContentPage
             Data03 = Data03Entry.Text,
         };
 
+        // Mostrar la página modal y esperar el resultado
+        var passwordPrompt = new PasswordPromptPage(_passwordManagerService);
+        await Navigation.PushModalAsync(passwordPrompt);
+        var (password, coreIV) = await passwordPrompt.GetPasswordAsync();
+
+        // Verificar si se ha cancelado
+        if (password == null || string.IsNullOrEmpty(coreIV.IV))
+        {
+            // El usuario canceló la operación
+            _tcs?.SetResult(false); // Asegúrate de marcar la tarea como completada
+            return; // Termina el método
+        }
+
+        EncryptionService encryptionService = new EncryptionService();
+        coreDTO = encryptionService.EncryptData(coreDTO, password, coreIV.IV);
+
         if (coreDTO.Id == 0)
-        {
-            var result = await _passwordManagerService.Create(coreDTO);
-        }
+            var (result, success) = await _passwordManagerService.Create(coreDTO);
         else
-        {
-            var result = await _passwordManagerService.Edit(coreDTO);
-        }
-         
+            var (result, success) = await _passwordManagerService.Edit(coreDTO);
+
         _tcs?.SetResult(true);
         await Navigation.PopAsync();
     }
 
     public Task<bool> GetCompletionTask()
     {
-        _tcs = new TaskCompletionSource<bool>();
         return _tcs.Task;
     }
 }
