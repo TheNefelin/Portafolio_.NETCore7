@@ -15,8 +15,6 @@ public partial class LoginPage : ContentPage
 
     private async void OnLoginButtonClicked(object sender, EventArgs e)
     {
-        Application.Current.MainPage = new LoadingPage();
-
         string email = UsernameEntry.Text;
         string password = PasswordEntry.Text;
 
@@ -26,12 +24,13 @@ public partial class LoginPage : ContentPage
             return;
         }
 
+        App.Current.MainPage = new LoadingPage();
+
         // Lógica para autenticación aquí (ejemplo: llamada a un servicio de API)
         ResponseApiDTO<LoggedinDTO> responseApi = await _authService.Login(UsernameEntry.Text, PasswordEntry.Text);
 
         if (responseApi != null)
         {
-
             // Cambiar la página principal a AppShell después de la autenticación exitosa
             Application.Current.MainPage = new AppShell();
         }

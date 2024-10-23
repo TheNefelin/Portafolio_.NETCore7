@@ -10,7 +10,7 @@
 
 
         <Grid>
-            <!--<toolkit:MediaElement
+            <toolkit:MediaElement
                  x:Name="MediaElement"
                  Aspect="AspectFill"
                  ShouldAutoPlay="True"
@@ -20,11 +20,11 @@
                  HorizontalOptions="FillAndExpand"
                  BackgroundColor="Transparent"
                  Source="embed://video01.mp4">
-             </toolkit:MediaElement>-->
+             </toolkit:MediaElement>
 
             <!-- Contenedor del formulario de login en un Frame -->
             <Frame
-                BackgroundColor="Transparent"
+                BackgroundColor="{StaticResource TransparentBlack}"
                 CornerRadius="20"
                 Padding="20"
                 Margin="0,50"

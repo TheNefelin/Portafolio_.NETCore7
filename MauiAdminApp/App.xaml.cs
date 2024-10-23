@@ -11,6 +11,9 @@ namespace MauiAdminApp
         {
             InitializeComponent();
 
+            // Forzar el tema oscuro
+            Application.Current.UserAppTheme = AppTheme.Dark;
+
             // Almacenar el servicio inyectado y el AuthService
             _serviceProvider = serviceProvider;
 
@@ -47,7 +50,7 @@ namespace MauiAdminApp
                 if (!string.IsNullOrEmpty(jwtToken))
                 {
                     Console.WriteLine("Token encontrado. Validando con el servidor...");
-                    var authService = new AuthService(new HttpClient { BaseAddress = new Uri("https://artema.bsite.net/") });
+                    var authService = _serviceProvider.GetService<AuthService>();
                     return await authService.ValidateToken(jwtToken);
                 }
 
