@@ -51,7 +51,6 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\bat.png" />
-	  <None Remove="Resources\Images\biblioteca.webp" />
 	  <None Remove="Resources\Images\chat.png" />
 	  <None Remove="Resources\Images\config.png" />
 	  <None Remove="Resources\Images\delete.png" />

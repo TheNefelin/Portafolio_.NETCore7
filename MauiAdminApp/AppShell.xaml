@@ -13,19 +13,19 @@
 
     <!-- Menú inferior tipo tab -->
     <TabBar>
-        <Tab Title="Inicio" Icon="dragon.png">
-            <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
-        </Tab>
-        <Tab Title="Secreto" Icon="shield.png">
+        <Tab Title="Secreto" Icon="eye_shield_512.png">
             <ShellContent ContentTemplate="{DataTemplate local:PasswordManagerPage}" />
         </Tab>
-        <Tab Title="Chat" Icon="chat.png">
+        <Tab Title="Inicio" Icon="dragon_512.png">
+            <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
+        </Tab>
+        <Tab Title="Chat" Icon="chat_512.png">
             <ShellContent ContentTemplate="{DataTemplate local:ChatPage}" />
         </Tab>
-        <Tab Title="Maestro" Icon="skull.png">
+        <Tab Title="Maestro" Icon="animal_skull_512.png">
             <ShellContent ContentTemplate="{DataTemplate local:MasterMenuPage}" />
         </Tab>
-        <Tab Title="Perfil" Icon="config.png">
+        <Tab Title="Perfil" Icon="config_512.png">
             <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" />
         </Tab>
     </TabBar>

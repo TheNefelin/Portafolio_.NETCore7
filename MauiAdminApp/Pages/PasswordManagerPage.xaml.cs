@@ -25,11 +25,20 @@ public partial class PasswordManagerPage : ContentPage
 
     private async void OnGetAll(object sender, EventArgs e)
     {
+        var frame = (Frame)sender;
+        // Animación para hacer "clic"
+        await frame.ScaleTo(0.90, 100); // Reducir tamaño
+        await frame.ScaleTo(1, 100); // Volver a tamaño original
+
         await OnDownloadData();
     }
 
     private async void OnCreate(object sender, EventArgs e)
     {
+        var frame = (Frame)sender;
+        // Animación para hacer "clic"
+        await frame.ScaleTo(0.90, 100); // Reducir tamaño
+        await frame.ScaleTo(1, 100); // Volver a tamaño original
 
         var page = new PasswordManagerFormPage(_passwordManagerService, null);
         await Navigation.PushAsync(page);
@@ -40,6 +49,44 @@ public partial class PasswordManagerPage : ContentPage
         if (result)
         {
             await OnDownloadData(); // Solo ejecutar si la operación fue completada (por ejemplo, después de guardar)
+        }
+
+        loading.IsVisible = false;
+    }
+
+    private async void OnDecryptData(object sender, EventArgs e)
+    {
+        var frame = (Frame)sender;
+        // Animación para hacer "clic"
+        await frame.ScaleTo(0.90, 100); // Reducir tamaño
+        await frame.ScaleTo(1, 100); // Volver a tamaño original
+
+        if (CoreData.Count == 0)
+        {
+            await DisplayAlert("Error", "La Lista esta Vacía.", "Ok");
+            return;
+        }
+
+        for (int i = 0; i < CoreData.Count; i++)
+            if (!IsBase64String(CoreData[i].Data01))
+            {
+                await DisplayAlert("Error", "La Lista ya está Descifrado.", "Ok");
+                return;
+            }
+
+        // Mostrar la página modal y esperar el resultado
+        var passwordPrompt = new PasswordPromptPage(_passwordManagerService);
+        await Navigation.PushModalAsync(passwordPrompt);
+        var (password, coreIV) = await passwordPrompt.GetPasswordAsync();
+
+        loading.IsVisible = true;
+
+        if (!string.IsNullOrEmpty(coreIV.IV))
+        {
+            EncryptionService encryptionService = new EncryptionService();
+
+            for (int i = 0; i < CoreData.Count; i++)
+                CoreData[i] = encryptionService.DecryptData(CoreData[i], password, coreIV.IV);
         }
 
         loading.IsVisible = false;
@@ -84,38 +131,6 @@ public partial class PasswordManagerPage : ContentPage
             CoreData.Add(data);
 
         SecretsCollectionView.ItemsSource = CoreData;
-        loading.IsVisible = false;
-    }
-
-    private async void OnDecryptData(object sender, EventArgs e)
-    {
-        if (CoreData.Count == 0) {
-            await DisplayAlert("Error", "La Lista esta Vacía.", "Ok");
-            return;
-        }
-
-        for (int i = 0; i < CoreData.Count; i++)
-            if (!IsBase64String(CoreData[i].Data01))
-            {
-                await DisplayAlert("Error", "La Lista ya está Descifrado.", "Ok");
-                return;
-            }
-
-        // Mostrar la página modal y esperar el resultado
-        var passwordPrompt = new PasswordPromptPage(_passwordManagerService);
-        await Navigation.PushModalAsync(passwordPrompt);
-        var (password, coreIV) = await passwordPrompt.GetPasswordAsync();
-
-        loading.IsVisible = true;
-
-        if (!string.IsNullOrEmpty(coreIV.IV))
-        {
-            EncryptionService encryptionService = new EncryptionService();
-
-            for (int i = 0; i < CoreData.Count; i++)
-                CoreData[i] = encryptionService.DecryptData(CoreData[i], password, coreIV.IV);
-        }
-
         loading.IsVisible = false;
     }
 

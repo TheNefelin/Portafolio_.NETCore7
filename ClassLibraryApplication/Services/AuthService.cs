@@ -84,7 +84,7 @@ namespace ClassLibraryApplication.Services
                     return new ResponseApiDTO<LoggedinDTO>
                     {
                         StatusCode = 401,
-                        Message = "Usuario o Contraseña Icorrecta."
+                        Message = "Usuario o Contraseña Incorrecta."
                     };
 
                 bool passwordCorrect = _authPassword.VerifyPassword(loginDTO.Password, result.Hash1, result.Salt1);
@@ -93,7 +93,7 @@ namespace ClassLibraryApplication.Services
                     return new ResponseApiDTO<LoggedinDTO>
                     {
                         StatusCode = 401,
-                        Message = "Usuario o Contraseña Icorrecta."
+                        Message = "Usuario o Contraseña Incorrecta."
                     };
 
                 UserDTO userDTO = MapToDTO(result);

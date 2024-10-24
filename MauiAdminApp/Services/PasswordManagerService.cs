@@ -78,11 +78,16 @@ namespace MauiAdminApp.Services
                 var jsonResponse = await response.Content.ReadAsStringAsync();
                 var objResponse = JsonConvert.DeserializeObject<ResponseApiDTO<T>>(jsonResponse);
 
-                return (objResponse, success);
+                if (objResponse.StatusCode == 401)
+                {
+                    objResponse.Message = "La Sesion a Finalizado";
 
-                //if (response.IsSuccessStatusCode)
-                //{
-                //}
+                    // Llamar al logout automáticamente
+                    var shell = Application.Current.MainPage as AppShell;
+                    shell?.PerformLogout(); // Invoca el logout desde AppShell
+                }
+
+                return (objResponse, success);
             }
             catch (Exception ex)
             {

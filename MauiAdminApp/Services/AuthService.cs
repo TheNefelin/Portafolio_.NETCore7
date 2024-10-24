@@ -61,17 +61,14 @@ namespace MauiAdminApp.Services
             return null;
         }
 
-        public async Task<bool> ValidateToken(string jwtToken)
+        public async Task<bool> CheckIfUserIsAuthenticated()
         {
-            //string endpoint = "/api/auth/validate";  // Ruta relativa del endpoint de validación de token
-            string endpoint = "/api/youtube";
-
-            // Agregar el token en el encabezado de la petición
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
-
             try
             {
-                var response = await _httpClient.GetAsync(endpoint);
+                var jwtToken = await SecureStorage.GetAsync("jwt_token");
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+                var response = await _httpClient.GetAsync("/api/youtube");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -81,21 +78,14 @@ namespace MauiAdminApp.Services
                 else
                 {
                     Console.WriteLine($"Error: Token inválido o expirado. {response.StatusCode}");
+                    return false;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error validando el token: {ex.Message}");
+                return false;
             }
-
-            return false;
-        }
-
-        public static void RemoveToken()
-        {
-            SecureStorage.RemoveAll();
-            //await SecureStorage.SetAsync("jwt_token", string.Empty); // O puedes usar SecureStorage.RemoveAsync("jwt_token");
-            //await SecureStorage.SetAsync("sql_token", string.Empty); // Si deseas limpiar también este token
         }
 
         public async static Task<LoggedinDTO> GetUser()

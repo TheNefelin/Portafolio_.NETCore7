@@ -5,104 +5,47 @@
              Title="ProfilePage">
 
     <ScrollView>
-        <Grid Padding="20"
-          RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, *"
-          ColumnDefinitions="Auto, *">
+        <Grid>
+            <!-- Imagen de fondo -->
+            <Image Source="fondo.webp" Aspect="AspectFill"/>
 
-            <!-- Encabezado de Usuario -->
-            <Image Source="shield.png"
-                Grid.Row="0" Grid.Column="0"
-                HeightRequest="30" WidthRequest="30"
-                VerticalOptions="Center" />
-            <Label Text="ID del Usuario:" 
-                Grid.Row="0" Grid.Column="1"
-                FontSize="Medium" 
-                FontAttributes="Bold"
-                VerticalOptions="Center" />
-            <Label x:Name="UserIdLabel" 
-                Grid.Row="1" Grid.Column="1"
-                VerticalOptions="Center" />
+            <StackLayout Padding="5" Spacing="5">
+                <StackLayout Padding="10">
+                    <Label Text="ID del Usuario:" FontSize="Medium" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Label x:Name="UserIdLabel" VerticalOptions="Center"/>
+                </StackLayout>
 
-            <!-- Rol del Usuario -->
-            <Image Source="shield.png"
-                Grid.Row="2" Grid.Column="0"
-                HeightRequest="30" WidthRequest="30"
-                VerticalOptions="Center" />
-            <Label Text="Rol:" 
-                Grid.Row="2" Grid.Column="1"
-                FontSize="Medium" 
-                FontAttributes="Bold"
-                VerticalOptions="Center" />
-            <Label x:Name="UserRoleLabel" 
-                Grid.Row="3" Grid.Column="1"
-                VerticalOptions="Center" />
+                <StackLayout Padding="10">
+                    <Label Text="Rol:" FontSize="Medium" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Label x:Name="UserRoleLabel" VerticalOptions="Center"/>
+                </StackLayout>
 
-            <!-- Fecha de Login -->
-            <Image Source="shield.png"
-                Grid.Row="4" Grid.Column="0"
-                HeightRequest="30" WidthRequest="30"
-                VerticalOptions="Center" />
-            <Label Text="Fecha de Login:" 
-                Grid.Row="4" Grid.Column="1"
-                FontSize="Medium" 
-                FontAttributes="Bold"
-                VerticalOptions="Center" />
-            <Label x:Name="LoginDateLabel" 
-                Grid.Row="5" Grid.Column="1"
-                VerticalOptions="Center" />
+                <StackLayout Padding="10">
+                    <Label Text="Fecha de Login:" FontSize="Medium" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Label x:Name="LoginDateLabel" VerticalOptions="Center"/>
+                </StackLayout>
 
-            <!-- Tiempo restante de Token -->
-            <Image Source="shield.png"
-                Grid.Row="6" Grid.Column="0"
-                HeightRequest="30" WidthRequest="30"
-                VerticalOptions="Center" />
-            <Label Text="Tiempo de Expiración:" 
-                Grid.Row="6" Grid.Column="1"
-                FontSize="Medium" 
-                FontAttributes="Bold"
-                VerticalOptions="Center" />
-            <Label x:Name="ExpireMinLabel" 
-                Grid.Row="7" Grid.Column="1"
-                VerticalOptions="Center" />
+                <StackLayout Padding="10">
+                    <Label Text="Tiempo de Expiración:" FontSize="Medium" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Label x:Name="ExpireMinLabel" VerticalOptions="Center"/>
+                </StackLayout>
 
-            <!-- Temporizador de expiración -->
-            <Image Source="shield.png"
-                Grid.Row="8" Grid.Column="0"
-                HeightRequest="30" WidthRequest="30"
-                VerticalOptions="Center" />
-            <Label Text="Expira en:" 
-                Grid.Row="8" Grid.Column="1"
-                FontSize="Medium" 
-                FontAttributes="Bold"/>
-            <Label x:Name="CountdownLabel" 
-                Grid.Row="9" Grid.Column="1"/>
+                <StackLayout Padding="10">
+                    <Label Text="Expira en:" FontSize="Medium" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Label x:Name="CountdownLabel" VerticalOptions="Center"/>
+                </StackLayout>
 
-            <Image Source="shield.png"
-                Grid.Row="10" Grid.Column="0"
-                HeightRequest="30" WidthRequest="30"
-                VerticalOptions="Center" />
-            <Label Text="SQL Token:" 
-                Grid.Row="10" Grid.Column="1"
-                FontSize="Medium" 
-                FontAttributes="Bold"
-                VerticalOptions="Center" />
-            <Label x:Name="SqlTokenLabel" 
-                Grid.Row="11" Grid.Column="1"
-                VerticalOptions="Center" />
+                <StackLayout Padding="10">
+                    <Label Text="SQL Token:" FontSize="Medium" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Label x:Name="SqlTokenLabel" VerticalOptions="Center"/>
+                </StackLayout>
 
-            <Image Source="shield.png"
-                Grid.Row="12" Grid.Column="0"
-                HeightRequest="30" WidthRequest="30"
-                VerticalOptions="Center" />
-            <Label Text="JWT Token:" 
-                Grid.Row="12" Grid.Column="1"
-                FontSize="Medium" 
-                FontAttributes="Bold"
-                VerticalOptions="Center" />
-            <Label x:Name="JwtTokenLabel" 
-                Grid.Row="13" Grid.Column="1"
-               VerticalOptions="Center" />
+                <StackLayout Padding="10">
+                    <Label Text="JWT Token:" FontSize="Medium" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Label x:Name="JwtTokenLabel" VerticalOptions="Center"/>
+                </StackLayout>
+            </StackLayout>
         </Grid>
-    </ScrollView>     
-    
+    </ScrollView>
+   
 </ContentPage>

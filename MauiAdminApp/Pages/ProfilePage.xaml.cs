@@ -61,6 +61,10 @@ public partial class ProfilePage : ContentPage
                 // Token ha expirado
                 CountdownLabel.Text = "Token expirado.";
                 isCountdownRunning = false; // Detener el temporizador
+
+                // Llamar al logout automáticamente
+                var shell = Application.Current.MainPage as AppShell;
+                shell?.PerformLogout(); // Invoca el logout desde AppShell
             }
 
             return isCountdownRunning; // Mantener el temporizador corriendo hasta que el token expire
