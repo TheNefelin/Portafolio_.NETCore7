@@ -24,10 +24,13 @@ public partial class LoginPage : ContentPage
             return;
         }
 
-        App.Current.MainPage = new LoadingPage();
+        //App.Current.MainPage = new LoadingPage();
+        await Navigation.PushModalAsync(new LoadingPage());
 
         // Lógica para autenticación aquí (ejemplo: llamada a un servicio de API)
         ResponseApiDTO<LoggedinDTO> responseApi = await _authService.Login(UsernameEntry.Text, PasswordEntry.Text);
+
+        await Navigation.PopModalAsync();
 
         if (responseApi != null)
         {
